@@ -1,0 +1,9 @@
+do{ my $x = {
+  'recommends' => {},
+  'conflicts' => {},
+  'requires' => {},
+  'build_requires' => {
+    'ExtUtils::CBuilder' => 0
+  }
+};
+$x; }

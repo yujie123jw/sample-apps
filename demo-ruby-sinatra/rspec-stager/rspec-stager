@@ -1,0 +1,41 @@
+#!/bin/bash
+
+set -e
+
+export TMPDIR=/tmp
+
+# download the package to stage
+echo "Downloading to /app"
+curl $STAGER_URL/data > $TMPDIR/raw.tar.gz 2>/dev/null
+cd /app
+tar xzf $TMPDIR/raw.tar.gz --strip-components=1 app
+
+# make sure we have rspec tests
+if [ ! -d spec ]; then
+  echo "No spec folder found. Not a valid project."
+  curl -X POST $STAGER_URL/failed
+  exit 1
+fi
+
+# run bundler to install test dependencies
+echo "-----> Running bundle install for test dependencies"
+bundle install --without development --path vendor/bundle \
+  --binstubs vendor/bundle/bin --deployment
+
+# run tests
+echo "-----> Running tests"
+set +e
+bundle exec rspec
+rspec_exit=$?
+set -e
+
+# check the exit code
+if [[ $rspec_exit != 0 ]]; then
+  echo "-----> Rspec failed!"
+  curl -X POST $STAGER_URL/failed >/dev/null 2>&1
+  exit $rspec_exit
+fi
+
+# success, mark stager done
+echo "-----> Rspec tests passed."
+curl -X POST $STAGER_URL/done >/dev/null 2>&1

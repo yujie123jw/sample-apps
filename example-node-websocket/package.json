@@ -1,0 +1,11 @@
+{
+  "name": "example-node-websocket",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "node ./chat-server.js"
+  },
+  "dependencies": {
+    "websocket": "*"
+  },
+  "engines": { "node" : "0.8" }
+}

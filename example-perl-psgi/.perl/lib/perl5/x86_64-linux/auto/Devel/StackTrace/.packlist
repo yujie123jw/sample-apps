@@ -1,0 +1,4 @@
+/app/.perl/lib/perl5/Devel/StackTrace.pm
+/app/.perl/lib/perl5/Devel/StackTrace/Frame.pm
+/app/.perl/man/man3/Devel::StackTrace.0
+/app/.perl/man/man3/Devel::StackTrace::Frame.0

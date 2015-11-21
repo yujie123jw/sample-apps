@@ -1,0 +1,16 @@
+<h1>Locations</h1>
+<p>
+  <%= render partial: "location", collection: @locations %>
+</p>
+
+<p>
+<%= form_tag('/seed') do -%>
+  <div><%= submit_tag 'Seed Data' %></div>
+<% end -%>
+</p>
+
+<p>
+<%= form_tag('/clear') do -%>
+  <div><%= submit_tag 'Clear Data' %></div>
+<% end -%>
+</p>

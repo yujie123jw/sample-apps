@@ -1,0 +1,46 @@
+<html>
+  <head>
+    <title>Sinatra Sample</title>
+  </head>
+  <body>
+    <h1>Sinatra Sample</h1>
+
+    <pre>
+<strong><%= defined?(RUBY_DESCRIPTION) ? RUBY_DESCRIPTION : "ruby #{RUBY_VERSION} (#{RUBY_RELEASE_DATE} patchlevel #{RUBY_PATCHLEVEL}) [#{RUBY_PLATFORM}]" %>
+<%= "rubygems #{Gem::VERSION}" %></strong>
+
+<strong>$ env</strong>
+<%= ENV.collect { |k, v| "#{k}=#{v}" }.join("\n") %>
+
+
+<strong>$ gem list</strong>
+<%= `gem list`.strip %>
+
+
+<strong>$ uptime</strong>
+<%= `uptime` %>
+
+<strong>$ mount</strong>
+<%= `mount` %>
+
+<strong>$ ps -A -F --forest</strong>
+<%= CGI.escapeHTML(`ps -A -F --forest`) %>
+
+<strong>$ ifconfig</strong>
+<%= `/sbin/ifconfig` %>
+
+<strong>$ netstat -lp</strong>
+<%= `/bin/netstat -lp` %>
+
+    </pre>
+
+    <p>
+      <ul>
+        <li><a href="/">Index</a></li>
+        <li><a href="/db">Database</a></li>
+      </ul>
+    </p>
+
+  </body>
+
+</html>

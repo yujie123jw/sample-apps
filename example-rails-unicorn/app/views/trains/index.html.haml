@@ -1,0 +1,10 @@
+%h1 Trains
+
+- if @trains["root"] && @trains["root"]["station"] && @trains["root"]["station"]["etd"]
+  - for train in [@trains["root"]["station"]["etd"]].flatten
+    .train
+      %h3= train["destination"]
+      .estimate
+        = [train["estimate"]].flatten.collect { |e| "#{e['minutes']} mins" }.join(", ")
+- else
+  %h3 No train information available. API endpoint is down.

@@ -1,0 +1,5 @@
+/app/.perl/lib/perl5/File/ShareDir.pm
+/app/.perl/lib/perl5/auto/share/dist/File-ShareDir/sample.txt
+/app/.perl/lib/perl5/auto/share/dist/File-ShareDir/subdir/sample.txt
+/app/.perl/lib/perl5/auto/share/module/File-ShareDir/test_file.txt
+/app/.perl/man/man3/File::ShareDir.0

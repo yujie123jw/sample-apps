@@ -1,0 +1,1 @@
+{"version":"2.05","provides":{"Test::TCP::CheckPort":{"file":"Test/TCP/CheckPort.pm"},"Test::TCP":{"version":"2.05","file":"Test/TCP.pm"},"Net::EmptyPort":{"file":"Net/EmptyPort.pm"}},"name":"Test::TCP","target":"Test::TCP","dist":"Test-TCP-2.05","pathname":"T/TO/TOKUHIROM/Test-TCP-2.05.tar.gz"}

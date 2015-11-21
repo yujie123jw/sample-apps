@@ -1,0 +1,8 @@
+do{ my $x = {
+  'blib' => 1,
+  'lib/DateTime.o' => 1,
+  'blib/arch/auto/DateTime/DateTime.so' => 1,
+  'blib/arch/auto/DateTime/DateTime.bs' => 1,
+  'lib/DateTime.c' => 1
+};
+$x; }

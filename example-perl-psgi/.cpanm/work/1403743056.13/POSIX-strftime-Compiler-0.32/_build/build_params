@@ -1,0 +1,125 @@
+do{ my $x = [
+  {
+    'ARGV' => []
+  },
+  {},
+  {
+    'dist_version_from' => 'lib/POSIX/strftime/Compiler.pm',
+    'config' => undef,
+    'use_tap_harness' => 0,
+    'needs_compiler' => 1,
+    'recursive_test_files' => 1,
+    'build_requires' => {
+      'ExtUtils::CBuilder' => 0
+    },
+    '_added_to_INC' => [
+      '/app/.cpanm/work/1403743056.13/POSIX-strftime-Compiler-0.32/_build/lib',
+      '/app/.perl/lib/perl5/x86_64-linux',
+      '/app/.perl/lib/perl5'
+    ],
+    'destdir' => undef,
+    'verbose' => undef,
+    'dist_name' => 'POSIX-strftime-Compiler',
+    'allow_pureperl' => 0,
+    'create_license' => undef,
+    'install_base' => '/app/.perl',
+    'requires' => {},
+    'install_path' => {},
+    'installdirs' => 'site',
+    'dist_version' => '0.32',
+    'orig_dir' => '/app/.cpanm/work/1403743056.13/POSIX-strftime-Compiler-0.32',
+    'prereq_action_types' => [
+      'requires',
+      'build_requires',
+      'conflicts',
+      'recommends'
+    ],
+    'mymetafile2' => 'MYMETA.json',
+    '_have_c_compiler' => 1,
+    'quiet' => undef,
+    'build_class' => 'MyBuilder',
+    'prefix_relpaths' => {},
+    'create_makefile_pl' => undef,
+    'prefix' => undef,
+    'has_config_data' => undef,
+    'recommends' => {},
+    'xs_files' => undef,
+    'meta_merge' => {},
+    'blib' => 'blib',
+    'base_dir' => '/app/.cpanm/work/1403743056.13/POSIX-strftime-Compiler-0.32',
+    'build_elements' => [
+      'PL',
+      'support',
+      'pm',
+      'xs',
+      'share_dir',
+      'pod',
+      'script'
+    ],
+    'build_bat' => 0,
+    'mb_version' => '0.4003',
+    'mymetafile' => 'MYMETA.yml',
+    'use_rcfile' => 1,
+    'pollute' => undef,
+    'conflicts' => {},
+    'metafile2' => 'META.json',
+    'pod_files' => undef,
+    'test_files' => 't/',
+    'scripts' => undef,
+    'license' => 'perl',
+    'release_status' => 'stable',
+    'create_readme' => undef,
+    'pm_files' => undef,
+    'cpan_client' => 'cpan',
+    'dynamic_config' => 0,
+    'program_name' => undef,
+    'recurse_into' => [],
+    'share_dir' => undef,
+    'script_files' => [],
+    'name' => 'POSIX-strftime-Compiler',
+    'auto_configure_requires' => 1,
+    'metafile' => 'META.yml',
+    'PL_files' => {},
+    'dist_author' => undef,
+    'libdoc_dirs' => [
+      'blib/lib',
+      'blib/arch'
+    ],
+    'c_source' => [],
+    'meta_add' => {},
+    'allow_mb_mismatch' => 0,
+    'test_file_exts' => [
+      '.t'
+    ],
+    'extra_linker_flags' => [],
+    'build_script' => 'Build',
+    'config_dir' => '_build',
+    'bindoc_dirs' => [
+      'blib/script'
+    ],
+    'debugger' => undef,
+    'include_dirs' => [],
+    'create_packlist' => 1,
+    'bundle_inc_preload' => [],
+    'tap_harness_args' => {},
+    'original_prefix' => {},
+    'perl' => '/opt/apcera/perl-5.18.2/bin/perl',
+    'install_sets' => {},
+    'extra_compiler_flags' => [],
+    'debug' => undef,
+    'module_name' => 'POSIX::strftime::Compiler',
+    'bundle_inc' => [],
+    'magic_number' => undef,
+    'install_base_relpaths' => {},
+    'autosplit' => undef,
+    'get_options' => {},
+    'sign' => undef,
+    'configure_requires' => {
+      'Module::Build' => '0.38'
+    },
+    'dist_suffix' => undef,
+    'html_css' => '',
+    'dist_abstract' => undef
+  }
+];
+$x; }

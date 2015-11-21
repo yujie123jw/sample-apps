@@ -1,0 +1,12 @@
+{
+"name": "apidemo",
+"version": "0.0.1",
+  "dependencies": {
+    "express": "",
+    "line-reader": "",
+    "exec": "",
+    "request-debug": "",
+    "sys": "",
+    "request": ""
+  }
+}

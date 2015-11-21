@@ -1,0 +1,6 @@
+production:
+  url: <%= ENV['MYSQL_URI'].sub('mysql://', 'mysql2://') %>
+development:
+  url: <%= ENV['MYSQL_URI'].sub('mysql://', 'mysql2://') %>
+test:
+  url: <%= ENV['MYSQL_URI'].sub('mysql://', 'mysql2://') %>

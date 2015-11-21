@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html ng-app="sinatrapg">
+<head>
+	<title>Sinatra Demo app</title>
+	<!-- load jquery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<!-- load angular -->
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular-resource.js"></script>
+	<!-- load bootstrap -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+	<!-- load main script -->
+	<script src="scripts/main.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- load less processor -->
+	<link rel="stylesheet/less" type="text/css" href="style/main.less" />
+	<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/1.6.2/less.min.js"></script>
+</head>
+<body>
+
+	<div class="container-fluid">
+		<div class="page-header" ng-controller="HeaderCtrl">
+			<h1>Continuum Service Credentials
+				<small>{{InstanceId}}<br></small>
+			</h1>
+			<h3>{{Host}}</h3>
+		</div>
+		<div class="row" ng-controller="BindingCtrl" ng-show="Bound">
+			<div class="col-md-4">
+				<a href="" ng-click="ShowIt = !ShowIt">
+					<h3>Binding Info
+						<span ng-show="!ShowIt" class="glyphicon glyphicon-chevron-down"></span>
+						<span ng-show="ShowIt" class="glyphicon glyphicon-chevron-up"></span>
+					</h3>
+				</a>	
+				<ul class="list-group" ng-show="ShowIt">
+					<li class="list-group-item">
+						<h4><strong>State: </strong>
+							<span ng-show="Active" class="label label-success">
+								<span class="glyphicon glyphicon glyphicon-ok-circle"></span>
+							</span>						
+							<span ng-hide="Active" class="label label-danger">
+								<span class="glyphicon glyphicon-exclamation-sign"></span>
+							</span>	
+						</h4>
+					</li>
+					<li class="list-group-item">
+						<h4><strong>Scheme:</strong> {{ConnInfo.scheme}}</h4>
+					</li>
+					<li class="list-group-item">
+						<h4><strong>Host:</strong> {{ConnInfo.host}}</h4>
+					</li>
+					<li class="list-group-item" ng-show='ConnInfo.port'>
+						<h4><strong>Port:</strong> {{ConnInfo.port}}</h4>
+					</li>
+					<li class="list-group-item" ng-show='ConnInfo.user'>
+						<h4><strong>Username:</strong> {{ConnInfo.user}}</h4>
+					</li>
+					<li class="list-group-item" ng-show='ConnInfo.password'>
+						<h4><strong>Password:</strong> {{ConnInfo.password}}</h4>
+					</li>
+					<li class="list-group-item" ng-show='ConnInfo.path'>
+						<h4><strong>Database:</strong> {{ConnInfo.path | limitTo: -1*(ConnInfo.path.length-1)}}</h4>
+					</li>
+				</ul>
+			</div>
+			<div class="col-md-4">
+				<a href="" ng-click="ShowItRight = !ShowItRight">
+					<h3>Update Credentials		
+						<span ng-show="!ShowItRight" class="glyphicon glyphicon-chevron-down"></span>
+						<span ng-show="ShowItRight" class="glyphicon glyphicon-chevron-up"></span>
+					</h3>
+				</a>	
+				<ul class="list-group" ng-show="ShowItRight">
+					<li class="list-group-item">
+						<form class="form" role="form">
+							<div class="form-group">
+								<label for="inputEmail3"><strong>Username</strong></label>
+								<input type="text" ng-model="ConnInfo.NewUser" class="form-control" id="inputEmail3" placeholder="New username">
+							</div>
+							<div class="form-group">
+								<label for="inputPassword3"><strong>Password</strong></label>
+								<input type="text" class="form-control" ng-model="ConnInfo.NewPassword" id="inputPassword3" placeholder="New password">
+							</div>
+							<div class="form-group">
+								<button  class="btn btn-primary updateBtn" ng-click="setCreds()">Populate</button>
+								<button type="submit" class="btn btn-primary updateBtn" ng-click="tryCreds()">Connect</button>
+							</div>
+							<div class="form-group" ng-show="ConnInfo.ShowError">
+								<div class="alert alert-danger">
+									<button type="button" class="close" aria-hidden="true"
+									ng-click="ConnInfo.ShowError=!ConnInfo.ShowError">&times;</button>
+									<strong>{{ConnInfo.ErrorMsg}}</strong>
+								</div>
+							</div>
+							<div class="form-group" ng-show="ConnInfo.ShowSuccess">
+								<div class="alert alert-success">
+									<button type="button" class="close" aria-hidden="true"
+									ng-click="ConnInfo.ShowSuccess=!ConnInfo.ShowSuccess">&times;</button>
+									<strong>{{ConnInfo.SuccessMsg}}</strong>
+								</div>
+							</div>
+						</form>
+					</li>
+				</ul>
+			</div>
+			<div class="col-md-4" ng-controller="SqlCtrl">
+				<a href="" ng-click="ShowSql = !ShowSql">
+					<h3>SQL Commands 				
+						<span ng-show="!ShowSql" class="glyphicon glyphicon-chevron-down"></span>
+						<span ng-show="ShowSql" class="glyphicon glyphicon-chevron-up"></span>
+					</h3>
+				</a>
+				<ul class="list-group" ng-show="ShowSql">
+					<li class="list-group-item">
+						<form role="form">
+							<div class="form-group">
+								<label for="inputCount3"><strong>Count</strong></label>
+								<input type="text" class="form-control" ng-model="Count" id="inputCount3" placeholder="unknown">
+							</div>
+							<div class="form-group">
+								<button class="btn btn-primary" ng-click="AddOne()">
+									<i class="glyphicon glyphicon-plus"></i>
+								</button>
+								<button class="btn btn-primary" ng-click="DeleteOne()">
+									<i class="glyphicon glyphicon-minus"></i>
+								</button>
+							</div>
+							<div class="form-group">
+								<div class="alert alert-danger" ng-show="ShowError">
+									<button type="button" class="close" aria-hidden="true"
+									ng-click="ShowError=!ShowError">&times;</button>
+									<strong>{{ErrorMsg}}</strong>
+								</div>
+							</div>
+						</form>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-md-4" ng-controller="InstanceCtrl">
+				<a href="" ng-click="ShowIt = !ShowIt">
+					<h3>Instance Information 				
+						<span ng-show="!ShowIt" class="glyphicon glyphicon-chevron-down"></span>
+						<span ng-show="ShowIt" class="glyphicon glyphicon-chevron-up"></span>
+					</h3>
+				</a>
+				<ul class="list-group" ng-show="ShowIt">
+					<li class="list-group-item" ng-repeat="(key, value) in InstanceInfo">
+						<h4><strong>{{key}}</strong></h4> 
+						<p style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{value | date: 'h:mm a'}}</p>
+					</li>
+				</ul>
+			</div>
+			<div class="col-md-8" ng-controller="EnvironmentCtrl">
+				<a href="" ng-click="ShowIt = !ShowIt">
+					<h3>Environment Variables 				
+						<span ng-show="!ShowIt" class="glyphicon glyphicon-chevron-down"></span>
+						<span ng-show="ShowIt" class="glyphicon glyphicon-chevron-up"></span>
+					</h3>
+				</a>
+				<ul class="list-group" ng-show="ShowIt">
+					<li class="list-group-item" ng-repeat="(key, value) in Values">
+						<h4><strong>{{key}}</strong></h4>
+						<p style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{value}}</p>
+					</li>
+				</ul>	
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,15 @@
+// Place all the styles related to the trains controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+$blue: #3bbfce;
+$red: #ce3bbf;
+$margin: 16px;
+
+.train {
+  color: darken($blue, 19%);
+
+  .estimate {
+    margin-left: $margin;
+    color: darken($red, 19%);
+  }
+}

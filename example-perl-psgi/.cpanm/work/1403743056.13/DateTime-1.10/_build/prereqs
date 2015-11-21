@@ -1,0 +1,33 @@
+do{ my $x = {
+  'requires' => {
+    'vars' => 0,
+    'base' => 0,
+    'DateTime::TimeZone' => '1.09',
+    'constant' => 0,
+    'warnings' => 0,
+    'warnings::register' => 0,
+    'POSIX' => 0,
+    'strict' => 0,
+    'overload' => 0,
+    'Carp' => 0,
+    'integer' => 0,
+    'Scalar::Util' => 0,
+    'DateTime::Locale' => '0.41',
+    'perl' => '5.008001',
+    'Try::Tiny' => 0,
+    'Params::Validate' => '0.76',
+    'XSLoader' => 0
+  },
+  'build_requires' => {
+    'Storable' => 0,
+    'utf8' => 0,
+    'Test::Warnings' => '0.005',
+    'ExtUtils::CBuilder' => 0,
+    'Test::More' => '0.88',
+    'Module::Build' => '0.3601',
+    'Test::Fatal' => 0
+  },
+  'conflicts' => {},
+  'recommends' => {}
+};
+$x; }
