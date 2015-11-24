@@ -4,6 +4,7 @@ var request = require('request');
 require('request-debug')(request);
 var address = process.env.CLUSTER;
 var auth_address = address.replace("api","auth");
+var docker_address = address.replace("api.","");
 var port = process.env.PORT;
 var accesstoken = process.env.TOKEN;
 var lineReader = require('line-reader');
@@ -51,6 +52,103 @@ var get_request = http.get(options, function(response){
 	
 	});
         });
+});
+
+app.get('/createdocker', function(req, res) {
+var responseString = "";
+var dockername = req.query['dockername'];
+var dockerimage = req.query['dockerimage'];
+var sandbox = req.query['sandbox'];
+var uuid = "";
+//var exposedport = req.query['exposedport'];
+var startcommand = req.query['startcommand'];
+var body =  {
+            "allow_egress": true, 
+            "env": {},
+            "exposed_ports": [],
+            "image_url":"https://index.docker.io/" + dockerimage + ":latest",
+           "job_fqn": "job::" + sandbox + "::" + dockername,
+           "resources": {
+            "cpu":0,
+            "disk":1073741824,
+            "memory":268435456,
+            "netmax":0,
+            "network":5000000
+          },
+          "restart_config":{
+            "maximum_attempts":0,
+            "restart_mode":"no"
+          },
+          "routes": {},
+          "start":true,
+          "start_command":[
+            startcommand
+          ]
+};
+
+res.write(defaultHTML);
+res.write('Creating Docker Job.............');
+
+        var options = {  url: 'http://'+address + '/v1/jobs/docker', method: 'POST', headers: { 'Authorization': 'Bearer ' + accesstoken, 'Content-Type': 'application/json'}, body: JSON.stringify(body) }
+        request(options, function(error, response, body) {
+            if(error){
+                res.write("<br><br>Error:" + error);
+            } else {
+                var location = JSON.parse(body);
+                var parse1 = location.location;
+                uuid = parse1.replace("http://" + address, "");
+             
+                res.end(    
+                       '<form action="/viewtask" method="get">'
+                     + '<input type="hidden" name="app" value="' + dockername + '">'
+                     + '<input type="hidden" name="uuid" value="' + uuid + '">'
+                     + '<br><br>'
+                     + 'Click View to check application atatus. '      
+                     + '<br><br>'
+                     + '<input type="submit" value="View"'
+                     + ' name="Submit" id="frm1_view" />'
+                     + '</form>');
+            }
+        });
+});
+
+app.get('/viewtask', function(req, res){
+var dockername = req.query['app'];
+var responseString = "";
+var uuid = req.query['uuid'];
+var options = {  host: address,port: 80, path: uuid, headers: { 'Authorization': 'Bearer ' + accesstoken } }
+var stop = 1;
+
+var request = http.get(options, function(response){
+        response.on('data', function(data) {
+                responseString += data;
+                });
+        response.on('end', function(data){
+               var jobs = JSON.parse(responseString);
+                if(jobs.state == "complete"){
+                res.write(defaultHTML);
+                  res.end(    
+                         '<form action="/viewjob" method="get">'
+                        + '<input type="hidden" name="app" value="' + dockername + '">'
+                        + 'Application is running. Click View to check application status. <br><br> '  
+                        + '<input type="submit" value="View"'
+                        + ' name="Submit" id="frm1_view" />'
+                        + '</form>');
+                } else {
+                    res.write(defaultHTML);
+                     res.end(    
+                       '<form action="/viewtask" method="get">'
+                     + '<input type="hidden" name="app" value="' + dockername + '">'
+                     + '<input type="hidden" name="uuid" value="' + uuid + '">'
+                     + '<br><br>'
+                     + 'Your Application is not ready yet. Click View again to check application status. '      
+                     + '<br><br>'
+                     + '<input type="submit" value="View"'
+                     + ' name="Submit" id="frm1_view" />'
+                     + '</form>');
+                }
+                });
+            });
 });
 
 app.get('/start', function(req, res) {
@@ -222,26 +320,57 @@ var options = {  host: auth_address,port: 80, path: '/v1/oauth2/device/google/ge
 });
 });
 
+app.get('/docker', function(req, res){
+var responseString = "";
+    res.write(defaultHTML); 
+    res.end(
+        '<p><b>Docker Container Wizard</b></p><br>'
+        + '<form action="/createdocker" method="get">'
+        + 'Name for Application: '      
+        + '<input type="text" name="dockername" value="mysqltest">'
+        + '<br><br>'
+        + 'Sandbox to run Application: '      
+        + '<input type="text" name="sandbox" value="/sandbox/admin">'
+        + '<br><br>'
+        + 'Docker Hub image to run: '      
+        + '<input type="text" name="dockerimage" value="rusher81572/mysql">'
+        + '<br><br>'
+  //      + 'Exposed Port: '      
+//        + '<input type="text" name="exposedport" value="3306">'
+ //       + '<br><br>'
+        + 'Start Command: '      
+        + '<input type="text" name="startcommand" value="/start.sh">'
+      + '<br><br>'
+        + '<input type="submit" value="Create"'
+        + '<name="Create" id="frm1_view" />'
+        + '</form>'
+    + '</body></html>');
+            });
+
 app.get('/', function(req, res){
 var responseString = "";
 	res.write(defaultHTML);	
 	res.end(
         '<form action="/viewjob" method="get">'
-	+ 'Application Name: '      
+	    + 'Application Name: '      
         + '<input type="text" name="app" value="">'
         + '<input type="submit" value="View"'
         + ' name="Submit" id="frm1_view" />'
         + '</form>'
-        + '<br><br><form action="/getjobs" method="get" target="_blank">'
+        + '<br><br><form action="/getjobs" method="get">'
         + '<input type="submit" value="List all jobs"'
 	+ ' name="Submit" id="frm1_jobs" />'
 	+ '</form>'
-        + '<form action="/version" target="_blank">'
+        + '<form action="/version">'
         + '<input type="submit" value="Cluster Version"/>'
         + '</form>'
-//	+ '<form action="/oauth2" target="_blank">'
-//        + '<input type="submit" value="Google Auth"/>'
-//        + '</form>'
+        + '</form>'
+        + '<form action="/docker">'
+        + '<input type="submit" value="Run a Docker Container"/>'
+        + '</form>'
+	//+ '<form action="/oauth2" target="_blank">'
+    //    + '<input type="submit" value="Google Auth"/>'
+    //    + '</form>'
 	+ '</body></html>');
 	        });
 
