@@ -55,7 +55,6 @@ var get_request = http.get(options, function(response){
 });
 
 app.get('/createdocker', function(req, res) {
-var responseString = "";
 var dockername = req.query['dockername'];
 var dockerimage = req.query['dockerimage'];
 var sandbox = req.query['sandbox'];
@@ -91,10 +90,13 @@ res.write('Creating Docker Job.............');
 
         var options = {  url: 'http://'+address + '/v1/jobs/docker', method: 'POST', headers: { 'Authorization': 'Bearer ' + accesstoken, 'Content-Type': 'application/json'}, body: JSON.stringify(body) }
         request(options, function(error, response, body) {
-            if(error){
-                res.write("<br><br>Error:" + error);
-            } else {
-                var location = JSON.parse(body);
+               if(response.statusCode != "200") {
+               res.end("<br><br>An error has occurred. ");
+                } else {
+               var location = JSON.parse(body);
+               if(!location.location) {
+                 res.end("<br><br>An error has occurred.");
+              } else {
                 var parse1 = location.location;
                 uuid = parse1.replace("http://" + address, "");
              
@@ -108,7 +110,9 @@ res.write('Creating Docker Job.............');
                      + '<input type="submit" value="View"'
                      + ' name="Submit" id="frm1_view" />'
                      + '</form>');
-            }
+           }
+               }
+    
         });
 });
 
