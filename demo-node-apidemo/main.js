@@ -1,7 +1,7 @@
 var http = require('http');
 var express = require('express');  
 var request = require('request');
-require('request-debug')(request);
+//require('request-debug')(request);
 var address = process.env.CLUSTER;
 var auth_address = address.replace("api","auth");
 var docker_address = address.replace("api.","");
@@ -292,13 +292,21 @@ app.get('/version', function(req, res) {
 var responseString = "";
 var options = {  host: address,port: 80, path: '/v1/version', headers: { 'Authorization': 'Bearer ' + accesstoken } }
 var request = http.get(options, function(response){
+
 response.on('data', function(data) {
-		responseString += data;
-		var build_number = JSON.parse(responseString);
-		res.write(defaultHTML);	
-		res.write("<p align=left>Apcera Version: ");
-		res.write(build_number.build_number);
-		res.end("</p>");
+   responseString += data;
+  });
+
+response.on('end', function(error,data) {
+  res.write(defaultHTML); 
+ if(responseString.length == 17) {
+    res.end('<br><br>An error occurred when trying to get the version number.<br><br>');
+  } else {
+    var build_number = JSON.parse(responseString);
+    res.write("<p align=left>Apcera Version: ");
+    res.write(build_number.build_number);
+    res.end("</p>");
+  }		
 	});
 	});
 
