@@ -1,7 +1,7 @@
 var http = require('http');
 var express = require('express');  
 var request = require('request');
-//require('request-debug')(request);
+require('request-debug')(request);
 var address = process.env.CLUSTER;
 var auth_address = address.replace("api","auth");
 var docker_address = address.replace("api.","");
@@ -129,7 +129,8 @@ var request = http.get(options, function(response){
                 });
         response.on('end', function(data){
                var jobs = JSON.parse(responseString);
-                if(jobs.state == "complete"){
+               console.log("\nDebug: " + JSON.stringify(jobs));
+                if(jobs.state == "complete" || jobs.state == "stopped"){
                 res.write(defaultHTML);
                   res.end(    
                          '<form action="/viewjob" method="get">'
