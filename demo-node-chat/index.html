@@ -1,0 +1,140 @@
+<html>
+<title>Apcera Chat</title>
+<head>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script>
+var nickname = "Nobody";
+
+function setUser(name){
+nickname = name;
+}
+
+function getUser(){
+return nickname;
+}
+
+$(document).ready(function(){
+    $("#hide").click(function(){
+        $("p").hide();
+    });
+    $("#show").click(function(){
+        $("p").show();
+    });
+});
+
+$(function() {
+$( "#start" ).dialog();
+});
+
+function hide_start_button(){
+setUser($('#nick').val());
+toggle_visibility('body');
+toggle_visibility('start');
+loadmessagearea();
+$("#start").dialog('close');
+document.forms["form"].submit();
+}
+
+function toggle_visibility(id) {
+ var e = document.getElementById(id);
+	 if(e.style.display == 'block')
+          e.style.display = 'none';
+         else
+         e.style.display = 'block';
+}
+
+function loadmessagearea(){
+var socket = io();
+socket.emit('chat message', getUser() + ': joined the room.');
+$('#m').val('');
+return false;
+}
+
+function truncate(){
+var socket = io();
+//$('#messages').empty();
+socket.emit('truncate table', $('#m').val());
+$('#m').val('');
+return false;
+}
+
+function createdatabase(){
+var socket = io();
+$('#messages').empty();
+socket.emit('create database', $('#m').val());
+$('#m').val('');
+return false;
+}
+
+function messageops(){
+var socket = io();
+$('form').submit(function(){
+	$('#messages').empty();
+	socket.emit('chat message', getUser() + ": " + $('#m').val());
+	$('#m').val('');
+	return false;
+});
+  
+socket.on('show all', function(msg){
+		if( $('#messages li').length >= 18){
+		$('#messages').empty();
+		}
+	$('#messages').append($('<li>').text(msg));
+	});
+}
+</script>
+</head>
+
+<body>
+<div id="body" title="Body">
+<style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; }
+      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+      form button { width: 9%; background: rgb(65, 11, 245); border: none; padding: 10px; }
+      #messages { list-style-type: none; margin: 5:; padding: 0; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #eee; }
+    </style>
+
+<p align=center><font color="#0000FF" size=10"><img src="/logo.png"></font></p>
+<input id="truncatedatabase" type="button" value="Truncate Database" onclick="truncate()" /> 
+</p>
+
+<ul id="messages"></ul>
+    <form action="">
+      <input id="m" autocomplete="off" /><button><font size=2> <b>Send</b></font></button>
+    </form>
+<script src="/socket.io.js"></script>
+<script>
+messageops();
+</script>
+</div>
+
+<div id="start" title="Welcome to Apcera Chat!">
+<p>Apcera Chat - By Apcera Technical Product Management</p>
+<br>
+<br>
+<p>License: GPL v3</p>
+<br>
+<p>This application communicates with a MySQL server to display the chats.</p>
+<br>
+<p>Enter a name to use for chatting in the field below and then click "Start Chat".</p>
+<br>
+<input type="text" id="nick" name="nick">
+<br>
+<br>
+<input id="startchatting" type="button" value="Start Chat" onclick="hide_start_button()" />
+<div id="body"></div>
+</div>
+
+<script Language="JavaScript">
+toggle_visibility('body');
+toggle_visibility('body');
+</script>
+ 
+</body>
+</html>
