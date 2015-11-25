@@ -11,7 +11,6 @@ Apcera Chat, is a simple chat program that reads and writes chat data from MySQL
 # Run Apcera Chat from the Apcera Platform
 ```
 apc docker run mysqldatabase -i rusher81572/mysql-dev --port 3306
-apc provider register mysqldatabase-provider --job mysqldatabase -u mysql://root:sql@mysqldatabase --batch
 apc app create nodechat -e USERNAME="root" -e PASSWORD="sql" --batch 
 apc job link nodechat -t mysqldatabase -n dblink -p 3306
 apc app start nodechat
