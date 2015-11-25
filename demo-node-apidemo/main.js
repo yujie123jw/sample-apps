@@ -307,17 +307,50 @@ response.on('data', function(data) {
 app.get('/oauth2', function(req,res){
 var responseString = "";
 var options = {  host: auth_address,port: 80, path: '/v1/oauth2/device/google/getcode'  }
-	var request = http.get(options, function(response){
-
-	response.on('data', function(data){
+var request = http.get(options, function(response){
+    response.on('data', function(data){
 	responseString += data;
 	});
 		response.on('end', function(data){
 		var authResponse = JSON.parse(responseString);
 		res.write(defaultHTML);	
-		res.end('Please enter code: <b>' + authResponse.user_code + '</b> to authenticate with <a href="' + authResponse.verification_url + '">Google</a>');
+		res.end('Please enter code: <b>' + authResponse.user_code + '</b> to authenticate with <a target="_blank" href="' + authResponse.verification_url + '">Google</a>'
+            + '<br><br>'
+            + '<form action="/transfertoken">'
+            + '<input type="hidden" name="devicecode" value="' + authResponse.device_code + '">'
+            + '<br><br>'
+            + '<input type="submit" value="Finish"/>'
+            + '</form>');
 		});
 });
+});
+
+app.get('/transfertoken', function(req, res) {
+var devicecode = req.query['devicecode'];
+var startcommand = req.query['startcommand'];
+var refresh_token = "";
+var responseString = "";
+var body =  {
+            "device_code": devicecode 
+};
+
+res.write(defaultHTML);
+var options = {  url: 'http://'+ auth_address + '/v1/oauth2/device/google/redeemed', method: 'POST', headers: { 'Content-Type': 'application/json'}, body: JSON.stringify(body) }
+
+request(options, function(error, response, body) {
+    var get_token = JSON.parse(body);
+    var redeem_body = {
+                        "refresh_token": get_token.refresh_token,
+                        "token_type": "GOOGLE_REFRESH"    
+                        }
+    var options = {  url: 'http://'+ auth_address + '/v1/oauth2/device/google/refresh', method: 'POST', headers: { 'Content-Type': 'application/json'}, body: JSON.stringify(redeem_body) }                
+    var redeem_token = request(options, function(error, response, body) {
+         var get_bearer = JSON.parse(body);
+         accesstoken = get_bearer.access_token;
+        res.end("Login Complete");
+    });
+});
+
 });
 
 app.get('/docker', function(req, res){
@@ -368,9 +401,9 @@ var responseString = "";
         + '<form action="/docker">'
         + '<input type="submit" value="Run a Docker Container"/>'
         + '</form>'
-	//+ '<form action="/oauth2" target="_blank">'
-    //    + '<input type="submit" value="Google Auth"/>'
-    //    + '</form>'
+	+ '<form action="/oauth2">'
+        + '<input type="submit" value="Google Auth"/>'
+        + '</form>'
 	+ '</body></html>');
 	        });
 
