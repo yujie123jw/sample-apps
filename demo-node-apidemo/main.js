@@ -299,12 +299,10 @@ response.on('data', function(data) {
 
 response.on('end', function(error,data) {
   res.write(defaultHTML); 
-  console.log("Debug: " + responseString.length + "\n" + JSON.stringify(responseString));
     var build_number = JSON.parse(responseString);
     if(!build_number.build_number) {
     res.end('<br><br>An error occurred when trying to get the version number.<br><br>');
     } else {
-    console.log("Debug Len: " + build_number.build_number.length);
     res.write("<p align=left>Apcera Version: ");
     res.write(build_number.build_number);
     res.end("</p>");
