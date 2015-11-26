@@ -226,7 +226,7 @@ var request = http.get(options, function(response){
 	response.on('end', function(data){
 	       var jobs = JSON.parse(responseString);	
 		 for (var i = 0; i < jobs.length; i++){
-                 res.write('<p align=left><b>Job Name: </b>' + jobs[i].name + ' <b>| UUID: </b>' + jobs[i].uuid + ' | <b> Status: </b>' + jobs[i].state + '</p>');
+                 res.write('<p align=left><b>Job Name: </b><a href="/viewjob?app=' + jobs[i].name + '&Submit=View' + '">' + jobs[i].name + '</a> <b>| UUID: </b>' + jobs[i].uuid + ' | <b> Status: </b>' + jobs[i].state + '</p>');
                  }	
 	});
         });
