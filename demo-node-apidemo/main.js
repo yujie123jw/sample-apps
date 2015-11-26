@@ -27,6 +27,12 @@ var request = http.get(options, function(response){
 var defaultHTML =  ('<html><title>API Control Panel</title><head>'
                  + '<p align=center><a href="/"><img src="/logo.png"></a></p>'
                  + '</head><body>'
+                 + '<br>'
+                 + '<form action="/" method="get">'
+                 + '<input type="submit" value="Home"'
+                 + ' name="Submit" id="frm1_view" />'
+                 + '</form>'
+                 + '<br>'
                  );
 
 app.get('/stop', function(req, res) {
@@ -216,7 +222,7 @@ res.end('Deleted Package and Job');
 
 app.get('/getjobs', function(req, res) {
 res.write(defaultHTML);
-res.write("<br><br><p align=center><b>All Running Jobs</b><br><br></p>" );
+res.write("<p align=center><b>All Running Jobs</b><br><br></p>" );
 var responseString = "";
 var options = {  host: address,port: 80, path: '/v1/jobs', headers: { 'Authorization': 'Bearer ' + accesstoken } }
 var request = http.get(options, function(response){
@@ -266,7 +272,7 @@ if(uuid.length < 10) {
         + '<input type="submit" value="View"'
         + ' name="Submit" id="frm1_view" />'
         + '</form>'
-        + '<br><br><br><br><b>Application Details:</b>'
+        + '<br><br><b>Application Details:</b>'
 	+ '<br><br>Job Name: '  + app + ' <br><br>Job UUID: ' + uuid + '<br><br>FQN: ' + fqn + '<br><br>Application State: ' + state
         + '<p align=left>'
         + '<br><br><b>Application Options</b><br><br>'
