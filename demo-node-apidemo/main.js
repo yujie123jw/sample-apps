@@ -266,27 +266,21 @@ if(uuid.length < 10) {
 	res.end("Error, Application not found!");
 	} else {
         res.end(
-        '<form action="/viewjob" method="get">'
-	+ '<br><br>Application Name: '      
-        + '<input type="text" name="app" value="">'
-        + '<input type="submit" value="View"'
-        + ' name="Submit" id="frm1_view" />'
-        + '</form>'
-        + '<br><br><b>Application Details:</b>'
-	+ '<br><br>Job Name: '  + app + ' <br><br>Job UUID: ' + uuid + '<br><br>FQN: ' + fqn + '<br><br>Application State: ' + state
+          '<b>Application Details:</b>'
+	      + '<br><br>Job Name: '  + app + ' <br><br>Job UUID: ' + uuid + '<br><br>FQN: ' + fqn + '<br><br>Application State: ' + state
         + '<p align=left>'
         + '<br><br><b>Application Options</b><br><br>'
-        + '<form action="/start" target="_blank">'
+        + '<form action="/start">'
         + '<input type="hidden" name="uuid" value="' + uuid + '"/>'
         + '<input type="hidden" name="fqn" value="' + fqn + '"/>'
         + '<input type="submit" value="Start Job"/>'
         + '</form>'
-        + '<form action="/stop" target="_blank">'
+        + '<form action="/stop">'
         + '<input type="hidden" name="uuid" value="' + uuid + '"/>'
         + '<input type="hidden" name="fqn" value="' + fqn + '"/>'
         + '<input type="submit" value="Stop Job"/>'
         + '</form>'
-        + '<form action="/delete" target="_blank">'
+        + '<form action="/delete">'
         + '<input type="hidden" name="uuid" value="' + uuid + '"/>'
         + '<input type="hidden" name="app" value="' + app + '"/>'
         + '<input type="hidden" name="fqn" value="' + fqn + '"/>'
