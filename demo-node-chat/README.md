@@ -6,7 +6,7 @@ Apcera Chat, is a simple chat program that reads and writes chat data from MySQL
 
 #Screenshot
 
-![Graph](https://www.linux-toys.com/nodechat1.png)
+![Graph](https://linux-toys.com/apcera-nodechat.png)
 
 # Run Apcera Chat from the Apcera Platform
 ```
