@@ -78,11 +78,12 @@ $('form').submit(function(){
 });
   
 socket.on('show all', function(msg){
-		if( $('#messages li').length >= 18){
-		$('#messages').empty();
-		}
-	$('#messages').append($('<li>').text(msg));
-	});
+	if(msg == 'clear'){
+  $('#messages').empty();
+} else {
+  $('#messages').append($('<li>').text(msg));
+}
+  	});
 }
 </script>
 </head>

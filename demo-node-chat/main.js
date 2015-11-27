@@ -41,7 +41,8 @@ function truncate () {
 }
 
 function showall_async(data){
-	data.reverse();
+			data.reverse();
+			io.emit('show all', 'clear');
 			for(var i=0;i != data.length;i++){
 			io.emit('show all', data[i].item);
 			}
