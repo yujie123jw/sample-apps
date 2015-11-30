@@ -111,7 +111,7 @@ res.write('Creating Docker Job.............');
                      + '<input type="hidden" name="app" value="' + dockername + '">'
                      + '<input type="hidden" name="uuid" value="' + uuid + '">'
                      + '<br><br>'
-                     + 'Click View to check application atatus. '      
+                     + 'Click View to check application status. '      
                      + '<br><br>'
                      + '<input type="submit" value="View"'
                      + ' name="Submit" id="frm1_view" />'
