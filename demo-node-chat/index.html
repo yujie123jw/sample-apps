@@ -54,7 +54,7 @@ return false;
 
 function truncate(){
 var socket = io();
-//$('#messages').empty();
+$('#messages').empty();
 socket.emit('truncate table', $('#m').val());
 $('#m').val('');
 return false;
