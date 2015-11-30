@@ -235,7 +235,8 @@ var request = http.get(options, function(response){
 		 for (var i = 0; i < jobs.length; i++){
                  res.write('<li><b>Job Name: </b><a href="/viewjob?app=' + jobs[i].name + '&Submit=View' + '">' + jobs[i].name + '</a> <b> Status: </b>' + jobs[i].state + '</li>');
                  }
-                   res.write('</ul>');	
+                   res.end('</ul>');	
+                   request.end();
 	});
         });
 });
