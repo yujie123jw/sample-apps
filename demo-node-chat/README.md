@@ -18,7 +18,7 @@ apc service create mysqldatabase-service --provider mysqldatabase-provider -j no
 apc app start nodechat --batch
 ```
 
-# Run Apcera Chat from the Apcera Platform from a job binding
+# Run Apcera Chat from the Apcera Platform with a job binding
 ```
 apc docker run mysqldatabase -i rusher81572/mysql-dev --port 3306
 (Wait 30 seconds for database to initialize)
