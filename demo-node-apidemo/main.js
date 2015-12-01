@@ -119,7 +119,9 @@ res.write('Creating Docker Job.............');
            }
                }
     
-        });
+        }).on('error', function(e) {
+  console.log("Got error 2 : " + e.message);
+});;;
 });
 
 app.get('/viewtask', function(req, res){
@@ -159,7 +161,9 @@ var request = http.get(options, function(response){
                      + '</form>');
                 }
                 });
-            });
+            }).on('error', function(e) {
+  console.log("Got error: " + e.message);
+});;
 });
 
 app.get('/start', function(req, res) {
