@@ -4,7 +4,9 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script src="/socket.io.js"></script>
 <script>
+var socket = io();
 var nickname = "Nobody";
 
 function setUser(name){
@@ -34,7 +36,6 @@ toggle_visibility('body');
 toggle_visibility('start');
 loadmessagearea();
 $("#start").dialog('close');
-document.forms["form"].submit();
 }
 
 function toggle_visibility(id) {
@@ -46,14 +47,12 @@ function toggle_visibility(id) {
 }
 
 function loadmessagearea(){
-var socket = io();
 socket.emit('chat message', getUser() + ': joined the room.');
 $('#m').val('');
 return false;
 }
 
 function truncate(){
-var socket = io();
 $('#messages').empty();
 socket.emit('truncate table', $('#m').val());
 $('#m').val('');
@@ -61,7 +60,6 @@ return false;
 }
 
 function createdatabase(){
-var socket = io();
 $('#messages').empty();
 socket.emit('create database', $('#m').val());
 $('#m').val('');
@@ -69,7 +67,6 @@ return false;
 }
 
 function messageops(){
-var socket = io();
 $('form').submit(function(){
 	$('#messages').empty();
 	socket.emit('chat message', getUser() + ": " + $('#m').val());
@@ -109,7 +106,6 @@ socket.on('show all', function(msg){
     <form action="">
       <input id="m" autocomplete="off" /><button><font size=2> <b>Send</b></font></button>
     </form>
-<script src="/socket.io.js"></script>
 <script>
 messageops();
 </script>
