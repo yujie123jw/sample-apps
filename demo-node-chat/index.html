@@ -12,7 +12,13 @@ var nickname = "Nobody";
 function setUser(name){
 nickname = name;
 }
-
+function time() {
+var currentdate = new Date(); 
+var datetime =   currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds();
+return datetime;
+}
 function getUser(){
 return nickname;
 }
@@ -47,7 +53,7 @@ function toggle_visibility(id) {
 }
 
 function loadmessagearea(){
-socket.emit('chat message', getUser() + ': joined the room.');
+socket.emit('chat message', '[' + time() + ']  '  + getUser() + ': joined the room.');
 $('#m').val('');
 return false;
 }
@@ -69,7 +75,7 @@ return false;
 function messageops(){
 $('form').submit(function(){
 	$('#messages').empty();
-	socket.emit('chat message', getUser() + ": " + $('#m').val());
+	socket.emit('chat message', '[' + time() + ']  ' +  getUser() + ": " + $('#m').val());
 	$('#m').val('');
 	return false;
 });
