@@ -61,8 +61,13 @@ function showall_async(data){
 }
 
 function sendMessage(mdata) {
+	var chat_data = mdata;
 	connection.getConnection(function(err,connection) {
-	connection.query("insert into chat (item) values('" + mdata +"');", function(err,rows) {
+	if(mdata.indexOf('\'') != -1){
+	chat_data = mdata.replace(/\'/g,"\\\'");
+	}
+
+	connection.query("insert into chat (item) values('" + chat_data +"');", function(err,rows) {
 		if(err) {
 			console.log('Error sending chat data', err);
 		}
