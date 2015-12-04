@@ -126,8 +126,12 @@ io.on('connection', function(socket){
 console.log('A user connected');
 });
 
-io.on('disconnect', function(socket){
-console.log('A user left');
+io.on('connection', function(socket){
+socket.on('disconnect', function(socket){
+sendMessage('A user disconnected.');
+showAll(showall_async); 
+console.log('A user disconnected.');
+});
 });
 
 io.on('connection', function(socket){
