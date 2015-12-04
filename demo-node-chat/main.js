@@ -119,7 +119,7 @@ function createdb(callback){
 
 function createtable(callback){
 	connection.getConnection(function(err, connection){
-		connection.query("CREATE TABLE chat (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,item VARCHAR(100));", function(err, rows) {
+		connection.query("CREATE TABLE chat (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,item VARCHAR(1000));", function(err, rows) {
                 if(err) {
                 console.log('Error creating table',err);
                 }
