@@ -52,7 +52,7 @@ setTimeout(function () {
     	});
 	});
     look_for_tweets();
-}, 60000);
+}, 300000);
 }
 
 if(consumer_key && consumer_secret && access_token_key && access_token_secret && twitter_topic){
