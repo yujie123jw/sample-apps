@@ -43,7 +43,7 @@ function look_for_tweets() {
 setTimeout(function () {
    	client.stream('statuses/filter', {track: twitter_topic}, function(stream) {
    		stream.on('data', function(tweet) {
-   			console.log('\n[From Twitter about ' + twitter_topic + '] ' tweet.text);
+   			console.log('\n[From Twitter about ' + twitter_topic + '] ' + tweet.text);
    			sendMessage('From Twitter: ' + tweet.text);
    			showAll(showall_async); 
   		});
