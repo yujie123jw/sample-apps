@@ -39,24 +39,17 @@ var connection_create = mysql.createPool(uri);
 createtable(createtable_async);	
 }
 
-function look_for_tweets() {
-setTimeout(function () {
-   	client.stream('statuses/filter', {track: twitter_topic}, function(stream) {
-   		stream.on('data', function(tweet) {
-   			console.log('\n[From Twitter about ' + twitter_topic + '] ' + tweet.text);
-   			sendMessage('From Twitter: ' + tweet.text);
-   			showAll(showall_async); 
-  		});
-  		stream.on('error', function(error) {
-    		console.log(error);
-    	});
-	});
-    look_for_tweets();
-}, 300000);
-}
-
 if(consumer_key && consumer_secret && access_token_key && access_token_secret && twitter_topic){
-look_for_tweets();
+client.stream('statuses/filter', {track: twitter_topic}, function(stream) {
+  stream.on('data', function(tweet) {
+    sendMessage('[Twitter on ' + twitter_topic + '] ' + tweet.text);
+	showAll(showall_async);
+  });
+ 
+  stream.on('error', function(error) {
+   console.log(error)
+  }); 
+});
 } else {
 console.log('\n[Twitter Support disabled]\n');	
 }
