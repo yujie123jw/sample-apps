@@ -32,15 +32,7 @@ function getVersion(){
 }
 
 var defaultHTML = (
-        '<html><title>API Control Panel</title><head>'
-        + '<p align=center><a href="/"><img src="/logo.png"></a></p>'
-        + '</head><body>'
-        + '<br>'
-        + '<form action="/" method="get">'
-        + '<input type="submit" value="Home"'
-        + ' name="Submit" id="frm1_view" />'
-        + '</form>'
-        + '<br>'
+        '<html>'
 );
 
 app.get('/stop', function(req, res) {
@@ -287,7 +279,7 @@ app.get('/delete', function(req, res) {
 
 app.get('/getjobs', function(req, res) {
         res.write(defaultHTML);
-        res.write("<p align=center><b>All Running Jobs</b><br><br></p>");
+        res.write("<p align=left><b>All Running Jobs</b><br><br></p>");
         var responseString = "";
         var options = {
                 host: address,
@@ -514,30 +506,12 @@ app.get('/docker', function(req, res){
 
 app.get('/', function(req, res){
         var responseString = "";
-	res.write(defaultHTML);
-	res.end(
-                '<form action="/viewjob" method="get">'
-	        + 'Application Name: '
-                + '<input type="text" name="app" value="">'
-                + '<input type="submit" value="View"'
-                + ' name="Submit" id="frm1_view" />'
-                + '</form>'
-                + '<br><br><form action="/getjobs" method="get">'
-                + '<input type="submit" value="List all jobs"'
-	        + ' name="Submit" id="frm1_jobs" />'
-	        + '</form>'
-                + '<form action="/version">'
-                + '<input type="submit" value="Cluster Version"/>'
-                + '</form>'
-                + '</form>'
-                + '<form action="/docker">'
-                + '<input type="submit" value="Run a Docker Container"/>'
-                + '</form>'
-	        + '<form action="/oauth2">'
-                + '<input type="submit" value="Google Auth"/>'
-                + '</form>'
-	        + '</body></html>'
-        );
+	 res.sendFile(__dirname + '/index.html');
+});
+
+app.get('/body', function(req, res){
+        var responseString = "";
+        res.end(defaultHTML);
 });
 
 app.get('/logo.png', function(req, res){
