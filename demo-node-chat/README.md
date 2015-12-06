@@ -30,3 +30,9 @@ apc app start nodechat
 ```
 
 Now you should be able to access it in your web browser with the URL located from "apc app show nodechat".
+
+# Enable the Twitter bot to listen for tweets on a particular topic.
+To have Apcera Chat listen for Tweets, the following environment variables need to be set before the application launches: consumer_key, consumer_secret, access_token_key, access_token_secret, and twitter_topic. If any of these variables are not specificed, Twitter support will be disabled. They keys are available from your apps.twitter.com account. The variable "twitter_topic" sets what Apcera Chat will look for from the Twitter live stream and paste the Tweet into the chat room. 
+```
+apc app update nodechat -e consumer_key="***" -e consumer_secret="***" -e access_token_key="***" -e access_token_secret="***" -e twitter_topic="***"
+```
