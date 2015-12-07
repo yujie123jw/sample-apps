@@ -1,6 +1,3 @@
-# License
-This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.
-
 # Description 
 Apcera Twitter, is a simple twitter feed program that stores tweets in a MySQL Database. To have Apcera Twitter listen for Tweets, the following environment variables need to be set before the application launches: consumer_key, consumer_secret, access_token_key, access_token_secret, and twitter_topic. If any of these variables are not specified, Twitter  will be disabled. They keys are available from your apps.twitter.com account. The variable "twitter_topic" sets what Apcera Twitter will look for from the Twitter live stream and paste the Tweet into the page.
 
