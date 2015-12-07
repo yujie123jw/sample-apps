@@ -7,13 +7,13 @@ This demonstration shows how to interact with the API from a NodeJS web applicat
 
 # How to run - Apcera
 
-$TOKEN should be your Bearer token. $CLUSTER should be the address of the API server. 
-You can find this info in `.apc` file under $APC_HOME directory. 
+$CLUSTER should be the address of the API server. The $username and $password variables are for you to set the credentials for the web interface.
+ 
 
 ```
 cd demo-node-apidemo
 apc app create node-apidemo-app --stager /apcera::nodejs -ae --batch 
-apc app update node-apidemo-app  -e username="*" -e password="*" -e TOKEN="$TOKEN" -e CLUSTER="$CLUSTER" --restart --batch
+apc app update node-apidemo-app  -e username="*" -e password="*" -e CLUSTER="$CLUSTER" --restart --batch
 apc app start node-apidemo-app 
 ```
 
