@@ -8,7 +8,7 @@ var mysql_bind = process.env.MYSQL_URI;
 var username = process.env.USERNAME;
 var password = process.env.PASSWORD;
 var port = process.env.PORT;
-var database = 'chat';
+var database = 'twitter';
 var Twitter = require('twitter');
 var consumer_key = process.env.consumer_key;
 var consumer_secret = process.env.consumer_secret;
@@ -57,7 +57,7 @@ console.log('\n[Twitter Support disabled]\n');
 function showAll (callback) {
 	data = "";
 	connection.getConnection(function(err,connection) {
- 	connection.query("select * from chat order by id desc limit 18;", function(err, rows) {	
+ 	connection.query("select * from twitter order by id desc limit 18;", function(err, rows) {	
 		if (!err)  {
 			data = rows;
 		 }else {
@@ -74,7 +74,7 @@ function showAll (callback) {
 function truncate () {
     data = "";
     connection.getConnection(function(err,connection) {
-		connection.query("truncate chat;", function(err, rows) {
+		connection.query("truncate twitter;", function(err, rows) {
 			connection.release();
         });
      });
@@ -95,9 +95,9 @@ function sendMessage(mdata) {
 			chat_data = mdata.replace(/\'/g,"\\\'");
 		}
 
-		connection.query("insert into chat (item) values('" + chat_data +"');", function(err,rows) {
+		connection.query("insert into twitter (item) values('" + chat_data +"');", function(err,rows) {
 			if(err) {
-				console.log('Error sending chat data', err);
+				console.log('Error sending Twitter data', err);
 			}
 		connection.release();
 		});
@@ -119,7 +119,7 @@ function createdb(callback){
 
 function createtable(callback){
 	connection.getConnection(function(err, connection){
-		connection.query("CREATE TABLE chat (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,item VARCHAR(1000));", function(err, rows) {
+		connection.query("CREATE TABLE twitter (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,item VARCHAR(1000));", function(err, rows) {
                 if(err) {
                 console.log('Error creating table',err);
                 }
