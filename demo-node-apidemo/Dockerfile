@@ -5,5 +5,7 @@ EXPOSE 8080
 ENV PORT 8080 
 ENV CLUSTER api.demo.apcera.net
 ENV TOKEN "myToken"
+ENV username "admin"
+ENV password "admin"
 ADD * /
 CMD cd /;npm install;node main.js
