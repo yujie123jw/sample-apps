@@ -13,7 +13,7 @@ You can find this info in `.apc` file under $APC_HOME directory.
 ```
 cd demo-node-apidemo
 apc app create node-apidemo-app --stager /apcera::nodejs -ae --batch 
-apc app update node-apidemo-app  -e TOKEN="$TOKEN" -e CLUSTER="$CLUSTER" --restart --batch
+apc app update node-apidemo-app  -e username="*" -e password="*" -e TOKEN="$TOKEN" -e CLUSTER="$CLUSTER" --restart --batch
 apc app start node-apidemo-app 
 ```
 
@@ -26,7 +26,7 @@ Navigate to the URL provided from the app staging process to view the output pag
 cd demo-node-apidemo
 ```
 
-Edit "Dockerfile" and replace "myToken" with the Bearer token and api.cluster.net with the correct address
+Edit "Dockerfile" and replace "myToken" with the Bearer token and api.cluster.net with the correct address. Finally, modify the username and password entries for the web interface.
 
 Save and exit the file and build a container:
 ```
