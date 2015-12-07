@@ -3,6 +3,8 @@ var express = require('express');
 var request = require('request');
 require('request-debug')(request);
 var address = process.env.CLUSTER;
+var user = process.env.username;
+var password = process.env.password;
 var auth_address = address.replace("api","auth");
 var docker_address = address.replace("api.","");
 var port = process.env.PORT;
@@ -11,6 +13,7 @@ var lineReader = require('line-reader');
 var app = express();
 var server = require("http").createServer(app);
 var version = '0';
+
 
 function getVersion(){
         var responseString = "";
@@ -475,6 +478,62 @@ app.get('/transfertoken', function(req, res) {
                 });
         });
 });
+
+app.get('/login', function(req, res){
+var get_user = req.query['username'];
+var get_pass = req.query['password'];
+if (get_user == user)  {
+        if (get_pass == password){
+  res.end('<html>'
+        + '<title>Apcera Platform API Demonstration</title>'
+        + '<head>'
+        + '<link rel="icon"' 
+        + 'type="image/png"'
+        + 'href="https://www.apcera.com/sites/default/files/favicon-32x32.png">'
+        + '<p align=center><a href="/"><img src="/logo.png"></a></p>'
+        + '</head>'
+        + '<body>'
+        + '<p align=center>'
+        + '<b>The Apcera Platform API Demonstration in Node JS<b><br><br>'
+        + '<table style="width:10%">'
+        + '<tr>'
+        + '<td><form action="/getjobs" method="get" target="iframe_a">'
+        + '<input type="submit" value="List all jobs" name="Submit" id="frm1_jobs"/>'
+        + '</form></td>'
+        + '<td><form action="/version" target="iframe_a">'
+        + '<input type="submit" value="Cluster Version"/>'
+        + '</form></td>'
+        + '<td><form action="/docker" target="iframe_a">'
+        + '<input type="submit" value="Run Docker"/>'
+        + '</form></td>'
+        + '<td><form action="/oauth2" target="iframe_a">'
+        + '<input type="submit" value="Google Auth"/>'
+        + '</form></td></tr></table>'
+        + '<IFRAME SRC="/body" name="iframe_a" WIDTH=900 HEIGHT=500></html>');
+        } else {
+        res.end('<html>'
+        + '<title>Access Denied</title>'
+        + '<head>'
+        + '<link rel="icon"' 
+        + 'type="image/png"'
+        + 'href="https://www.apcera.com/sites/default/files/favicon-32x32.png">'
+        + '<p align=center><a href="/"><img src="/logo.png"></a></p>'
+        + '</head>'
+        + '<body><p align=center> Invalid Login!</p></body</html>');
+        }
+} else {
+         res.end('<html>'
+        + '<title>Access Denied</title>'
+        + '<head>'
+        + '<link rel="icon"' 
+        + 'type="image/png"'
+        + 'href="https://www.apcera.com/sites/default/files/favicon-32x32.png">'
+        + '<p align=center><a href="/"><img src="/logo.png"></a></p>'
+        + '</head>'
+        + '<body><p align=center> Invalid Login!</p></body</html>');
+}
+});
+
 
 app.get('/docker', function(req, res){
         var responseString = "";

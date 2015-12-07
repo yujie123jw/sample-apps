@@ -1,31 +1,32 @@
 <html>
-<title>Apcera Platform API Demonstration</title>
+<title>Apcera Node JS API Demonstration</title>
 <head>
-<link rel="icon" 
-      type="image/png" 
-      href="https://www.apcera.com/sites/default/files/favicon-32x32.png">
-<p align=center><a href="/"><img src="/logo.png"></a></p>
+<link rel="icon"' type="image/png" href="https://www.apcera.com/sites/default/files/favicon-32x32.png">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script>
+  $(function() {
+    $( "#start" ).dialog();
+  });
+
+function login(){
+window.location = "/login"
+}
+</script>
 </head>
 <body>
-<p align=center>
-<b>The Apcera Platform API Demonstration in Node JS<b>
-<br><br>
-<table style="width:10%">
-  <tr>	
-    <td><form action="/getjobs" method="get" target="iframe_a">
-	<input type="submit" value="List all jobs" name="Submit" id="frm1_jobs"/>
-	</form></td>
-	<td><form action="/version" target="iframe_a">
-	<input type="submit" value="Cluster Version"/>
-	</form></td>
-	<td><form action="/docker" target="iframe_a">
-	<input type="submit" value="Run Docker"/>
-	</form></td>
-	<td><form action="/oauth2" target="iframe_a">
-	<input type="submit" value="Google Auth"/>
-	</form></td>
-	</tr>
-  </table>
 
-<IFRAME SRC="/body" name="iframe_a" WIDTH=900 HEIGHT=500>
+<div id="start" title="Apcera API Demo">
+<p> <img src="/logo.png"> </p>
+<p>Please login to continue</p>
+<br>
+<form method="get" action="/login">
+    <input type="text" name="username">
+    <input type="text" name="password">
+    <input type="submit" onclick="login()">
+<br>
+</form>
+</body>
 </html>
