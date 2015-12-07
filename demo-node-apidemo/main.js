@@ -486,7 +486,7 @@ app.get('/docker', function(req, res){
                 + '<input type="text" name="dockername" value="mysqltest">'
                 + '<br><br>'
                 + 'Sandbox to run Application: '
-                + '<input type="text" name="sandbox" value="/sandbox/admin">'
+                + '<input type="text" name="sandbox" value="/sandbox/apidemo">'
                 + '<br><br>'
                 + 'Docker Hub image to run: '
                 + '<input type="text" name="dockerimage" value="rusher81572/mysql">'
