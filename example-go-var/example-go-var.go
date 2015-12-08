@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"io"
 	"log"
@@ -9,6 +10,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 /*
@@ -26,6 +28,23 @@ func HandleHello(w http.ResponseWriter, r *http.Request) {
 	io.WriteString(w, reply)
 }
 
+func HandleTimeout(w http.ResponseWriter, r *http.Request) {
+	_ = r.ParseForm()
+	seconds, _ := strconv.Atoi(r.Form.Get("seconds"))
+	time.Sleep(time.Duration(seconds) * time.Second)
+	io.WriteString(w, reply)
+}
+
+func HandleInvalidHeader(w http.ResponseWriter, r *http.Request) {
+	// generate a string that is >16Kb long
+	buf := bytes.Buffer{}
+	for i := 0; i < (1024 + 1); i++ {
+		_, _ = buf.WriteString("sixteencharacter")
+	}
+	w.Header().Add("X-Invalid-Header", buf.String())
+	io.WriteString(w, "test invalid header response")
+}
+
 func HandleError(w http.ResponseWriter, r *http.Request) {
 	_ = r.ParseForm()
 	code, _ := strconv.Atoi(r.Form.Get("code"))
@@ -34,8 +53,8 @@ func HandleError(w http.ResponseWriter, r *http.Request) {
 }
 
 func HandleEcho(w http.ResponseWriter, r *http.Request) {
-	bytes, _ := httputil.DumpRequest(r, true)
-	w.Write(bytes)
+	bb, _ := httputil.DumpRequest(r, true)
+	w.Write(bb)
 }
 
 func HandleEnv(w http.ResponseWriter, req *http.Request) {
@@ -64,6 +83,8 @@ func main() {
 	http.HandleFunc("/env", HandleEnv)
 	http.HandleFunc("/rand", HandleRandCgo)
 	http.HandleFunc("/error/", HandleError)
+	http.HandleFunc("/invalidheader/", HandleInvalidHeader)
+	http.HandleFunc("/timeout/", HandleTimeout)
 	http.HandleFunc("/echo/", HandleEcho)
 
 	err := http.ListenAndServe(":"+os.Getenv("PORT"), nil)
