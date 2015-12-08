@@ -57,7 +57,7 @@ console.log('\n[Twitter Support disabled]\n');
 function showAll (callback) {
 	data = "";
 	connection.getConnection(function(err,connection) {
- 	connection.query("select * from twitter order by id desc limit 18;", function(err, rows) {	
+ 	connection.query("select * from twitter order by id desc limit 25;", function(err, rows) {	
 		if (!err)  {
 			data = rows;
 		 }else {
