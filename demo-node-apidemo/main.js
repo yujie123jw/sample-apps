@@ -28,15 +28,15 @@ function getVersion(){
         var request = http.get(options, function(response){
                 response.on('data', function(data) {
                         responseString += data;
-	                var build_number = JSON.parse(responseString);
-	                return(build_number.build_number);
-	        });
+                        var build_number = JSON.parse(responseString);
+                        return(build_number.build_number);
+                });
         });
 }
 
 var defaultHTML = (
         '<html>'
-);
+        );
 
 app.get('/stop', function(req, res) {
         var responseString = "";
@@ -52,8 +52,8 @@ app.get('/stop', function(req, res) {
                 response.on('end', function(data){
                         responseString.state = '';
                         var change_state = JSON.parse(responseString)
-	                change_state.state = 'stopped';
-	                var options = {
+                        change_state.state = 'stopped';
+                        var options = {
                                 url: 'http://' + address + '/v1/jobs/' + uuid,
                                 headers: {
                                         'Authorization': 'Bearer ' + accesstoken
@@ -61,10 +61,10 @@ app.get('/stop', function(req, res) {
                                 body: JSON.stringify(change_state)
                         }
 
-	                var stop = request.put(options, function(error, response, body) {
-	                        res.end('Stopped Job');
-	                });
-	        });
+                        var stop = request.put(options, function(error, response, body) {
+                               res.end('Stopped Job');
+                       });
+                });
         });
 });
 
@@ -95,7 +95,7 @@ app.get('/createdocker', function(req, res) {
                 "routes": {},
                 "start":true,
                 "start_command":[
-                        startcommand
+                startcommand
                 ]
         };
 
@@ -133,7 +133,7 @@ app.get('/createdocker', function(req, res) {
                                         + '<input type="submit" value="View"'
                                         + ' name="Submit" id="frm1_view" />'
                                         + '</form>'
-                                );
+                                        );
                         }
                 }
 
@@ -172,7 +172,7 @@ app.get('/viewtask', function(req, res){
                                         + '<input type="submit" value="View"'
                                         + ' name="Submit" id="frm1_view" />'
                                         + '</form>'
-                                );
+                                        );
                         } else {
                                 res.write(defaultHTML);
                                 res.end(
@@ -185,12 +185,12 @@ app.get('/viewtask', function(req, res){
                                         + '<input type="submit" value="View"'
                                         + ' name="Submit" id="frm1_view" />'
                                         + '</form>'
-                                );
+                                        );
                         }
                 });
-        }).on('error', function(e) {
-                console.log("Got error: " + e.message);
-        });
+}).on('error', function(e) {
+        console.log("Got error: " + e.message);
+});
 });
 
 app.get('/start', function(req, res) {
@@ -269,15 +269,15 @@ app.get('/delete', function(req, res) {
                 });
         });
 
-        options = {
-                uri: 'http://' + address + '/v1/jobs/' + uuid,
-                headers: {
-                        'Authorization': 'Bearer ' + accesstoken
-                }
+options = {
+        uri: 'http://' + address + '/v1/jobs/' + uuid,
+        headers: {
+                'Authorization': 'Bearer ' + accesstoken
         }
-        var deleteJob = request.del(options, function(error, response, body) {});
-        res.write(defaultHTML);
-        res.end('Deleted Package and Job');
+}
+var deleteJob = request.del(options, function(error, response, body) {});
+res.write(defaultHTML);
+res.end('Deleted Package and Job');
 });
 
 app.get('/getjobs', function(req, res) {
@@ -296,21 +296,21 @@ app.get('/getjobs', function(req, res) {
                 response.on('data', function(data) {
                         responseString += data;
                 });
-	        response.on('end', function(data){
-	                var jobs = JSON.parse(responseString);
-                        res.write('<ul>');
-		        for (var i = 0; i < jobs.length; i++){
-                                res.write(
-                                        '<li><b>Job Name: </b><a href="/viewjob?app='
-                                        + jobs[i].name
-                                        + '&Submit=View">'
-                                        + jobs[i].name
-                                        + '</a> <b> Status: </b>' + jobs[i].state + '</li>'
+                response.on('end', function(data){
+                       var jobs = JSON.parse(responseString);
+                       res.write('<ul>');
+                       for (var i = 0; i < jobs.length; i++){
+                        res.write(
+                                '<li><b>Job Name: </b><a href="/viewjob?app='
+                                + jobs[i].name
+                                + '&Submit=View">'
+                                + jobs[i].name
+                                + '</a> <b> Status: </b>' + jobs[i].state + '</li>'
                                 );
-                        }
-                        res.end('</ul>');
-                        request.end();
-	        });
+                }
+                res.end('</ul>');
+                request.end();
+        });
         });
 });
 
@@ -336,47 +336,47 @@ app.get('/viewjob', function(req, res){
                 response.on('end', function(data){
                         var jobs = JSON.parse(responseString);
                         for (var i = 0; i < jobs.length; i++){
-			        if(jobs[i].name == app) {
-			                uuid = jobs[i].uuid;
-			                fqn = jobs[i].fqn;
-			                state = jobs[i].state;
-			        }
-                        }
+                             if(jobs[i].name == app) {
+                                     uuid = jobs[i].uuid;
+                                     fqn = jobs[i].fqn;
+                                     state = jobs[i].state;
+                             }
+                     }
 
-	                res.write(defaultHTML);
+                     res.write(defaultHTML);
 
-                        if(uuid.length < 10) {
-                                res.end("Error, Application not found!");
-                        } else {
-                                res.end(
-                                        '<b>Application Details:</b>'
-                                        + '<br><br>Job Name: ' + app
-                                        + ' <br><br>Job UUID: ' + uuid
-                                        + '<br><br>FQN: ' + fqn
-                                        + '<br><br>Application State: ' + state
-                                        + '<p align=left>'
-                                        + '<br><br><b>Application Options</b><br><br>'
-                                        + '<form action="/start">'
-                                        + '<input type="hidden" name="uuid" value="' + uuid + '"/>'
-                                        + '<input type="hidden" name="fqn" value="' + fqn + '"/>'
-                                        + '<input type="submit" value="Start Job"/>'
-                                        + '</form>'
-                                        + '<form action="/stop">'
-                                        + '<input type="hidden" name="uuid" value="' + uuid + '"/>'
-                                        + '<input type="hidden" name="fqn" value="' + fqn + '"/>'
-                                        + '<input type="submit" value="Stop Job"/>'
-                                        + '</form>'
-                                        + '<form action="/delete">'
-                                        + '<input type="hidden" name="uuid" value="' + uuid + '"/>'
-                                        + '<input type="hidden" name="app" value="' + app + '"/>'
-                                        + '<input type="hidden" name="fqn" value="' + fqn + '"/>'
-                                        + '<input type="submit" value="Delete Job"/>'
-                                        + '</form>'
-                                        + '</body></html>'
+                     if(uuid.length < 10) {
+                        res.end("Error, Application not found!");
+                } else {
+                        res.end(
+                                '<b>Application Details:</b>'
+                                + '<br><br>Job Name: ' + app
+                                + ' <br><br>Job UUID: ' + uuid
+                                + '<br><br>FQN: ' + fqn
+                                + '<br><br>Application State: ' + state
+                                + '<p align=left>'
+                                + '<br><br><b>Application Options</b><br><br>'
+                                + '<form action="/start">'
+                                + '<input type="hidden" name="uuid" value="' + uuid + '"/>'
+                                + '<input type="hidden" name="fqn" value="' + fqn + '"/>'
+                                + '<input type="submit" value="Start Job"/>'
+                                + '</form>'
+                                + '<form action="/stop">'
+                                + '<input type="hidden" name="uuid" value="' + uuid + '"/>'
+                                + '<input type="hidden" name="fqn" value="' + fqn + '"/>'
+                                + '<input type="submit" value="Stop Job"/>'
+                                + '</form>'
+                                + '<form action="/delete">'
+                                + '<input type="hidden" name="uuid" value="' + uuid + '"/>'
+                                + '<input type="hidden" name="app" value="' + app + '"/>'
+                                + '<input type="hidden" name="fqn" value="' + fqn + '"/>'
+                                + '<input type="submit" value="Delete Job"/>'
+                                + '</form>'
+                                + '</body></html>'
                                 );
-                        }
-                });
-        });
+}
+});
+});
 });
 
 
@@ -405,8 +405,8 @@ app.get('/version', function(req, res) {
                                 res.write(build_number.build_number);
                                 res.end("</p>");
                         }
-	        });
-	});
+                });
+        });
 });
 
 app.get('/oauth2', function(req,res){
@@ -418,23 +418,23 @@ app.get('/oauth2', function(req,res){
         }
         var request = http.get(options, function(response){
                 response.on('data', function(data){
-	                responseString += data;
-	        });
-		response.on('end', function(data){
-		        var authResponse = JSON.parse(responseString);
-		        res.write(defaultHTML);
-		        res.end(
-                                'Please enter code: <b>' + authResponse.user_code
-                                + '</b> to authenticate with <a target="_blank" href="'
-                                + authResponse.verification_url + '">Google</a>'
-                                + '<br><br>'
-                                + '<form action="/transfertoken">'
-                                + '<input type="hidden" name="devicecode" value="' + authResponse.device_code + '">'
-                                + '<br><br>'
-                                + '<input type="submit" value="Finish"/>'
-                                + '</form>'
+                       responseString += data;
+               });
+                response.on('end', function(data){
+                      var authResponse = JSON.parse(responseString);
+                      res.write(defaultHTML);
+                      res.end(
+                        'Please enter code: <b>' + authResponse.user_code
+                        + '</b> to authenticate with <a target="_blank" href="'
+                        + authResponse.verification_url + '">Google</a>'
+                        + '<br><br>'
+                        + '<form action="/transfertoken">'
+                        + '<input type="hidden" name="devicecode" value="' + authResponse.device_code + '">'
+                        + '<br><br>'
+                        + '<input type="submit" value="Finish"/>'
+                        + '</form>'
                         );
-		});
+              });
         });
 });
 
@@ -480,49 +480,49 @@ app.get('/transfertoken', function(req, res) {
 });
 
 app.get('/login', function(req, res){
-var get_user = req.query['username'];
-var get_pass = req.query['password'];
-if (get_user == user)  {
-        if (get_pass == password){
-  res.end('<html>'
-        + '<title>Apcera Platform API Demonstration</title>'
-        + '<head>'
-        + '<link rel="icon"' 
-        + 'type="image/png"'
-        + 'href="https://www.apcera.com/sites/default/files/favicon-32x32.png">'
-        + '<p align=center><a href="/"><img src="/logo.png"></a></p>'
-        + '</head>'
-        + '<body>'
-        + '<p align=center>'
-        + '<b>The Apcera Platform API Demonstration in Node JS<b><br><br>'
-        + '<table style="width:10%">'
-        + '<tr>'
-        + '<td><form action="/getjobs" method="get" target="iframe_a">'
-        + '<input type="submit" value="List all jobs" name="Submit" id="frm1_jobs"/>'
-        + '</form></td>'
-        + '<td><form action="/version" target="iframe_a">'
-        + '<input type="submit" value="Cluster Version"/>'
-        + '</form></td>'
-        + '<td><form action="/docker" target="iframe_a">'
-        + '<input type="submit" value="Run Docker"/>'
-        + '</form></td>'
-        + '<td><form action="/oauth2" target="iframe_a">'
-        + '<input type="submit" value="Google Auth"/>'
-        + '</form></td></tr></table>'
-        + '<IFRAME SRC="/body" name="iframe_a" WIDTH=900 HEIGHT=500></html>');
-        } else {
-        res.end('<html>'
-        + '<title>Access Denied</title>'
-        + '<head>'
-        + '<link rel="icon"' 
-        + 'type="image/png"'
-        + 'href="https://www.apcera.com/sites/default/files/favicon-32x32.png">'
-        + '<p align=center><a href="/"><img src="/logo.png"></a></p>'
-        + '</head>'
-        + '<body><p align=center> Invalid Login!</p></body</html>');
-        }
+        var get_user = req.query['username'];
+        var get_pass = req.query['password'];
+        if (get_user == user)  {
+                if (get_pass == password){
+                      res.end('<html>'
+                        + '<title>Apcera Platform API Demonstration</title>'
+                        + '<head>'
+                        + '<link rel="icon"' 
+                        + 'type="image/png"'
+                        + 'href="https://www.apcera.com/sites/default/files/favicon-32x32.png">'
+                        + '<p align=center><a href="/"><img src="/logo.png"></a></p>'
+                        + '</head>'
+                        + '<body>'
+                        + '<p align=center>'
+                        + '<b>The Apcera Platform API Demonstration in Node JS<b><br><br>'
+                        + '<table style="width:10%">'
+                        + '<tr>'
+                        + '<td><form action="/getjobs" method="get" target="iframe_a">'
+                        + '<input type="submit" value="List all jobs" name="Submit" id="frm1_jobs"/>'
+                        + '</form></td>'
+                        + '<td><form action="/version" target="iframe_a">'
+                        + '<input type="submit" value="Cluster Version"/>'
+                        + '</form></td>'
+                        + '<td><form action="/docker" target="iframe_a">'
+                        + '<input type="submit" value="Run Docker"/>'
+                        + '</form></td>'
+                        + '<td><form action="/oauth2" target="iframe_a">'
+                        + '<input type="submit" value="Google Auth"/>'
+                        + '</form></td></tr></table>'
+                        + '<IFRAME SRC="/body" name="iframe_a" WIDTH=900 HEIGHT=500></html>');
 } else {
-         res.end('<html>'
+        res.end('<html>'
+                + '<title>Access Denied</title>'
+                + '<head>'
+                + '<link rel="icon"' 
+                + 'type="image/png"'
+                + 'href="https://www.apcera.com/sites/default/files/favicon-32x32.png">'
+                + '<p align=center><a href="/"><img src="/logo.png"></a></p>'
+                + '</head>'
+                + '<body><p align=center> Invalid Login!</p></body</html>');
+}
+} else {
+       res.end('<html>'
         + '<title>Access Denied</title>'
         + '<head>'
         + '<link rel="icon"' 
@@ -560,12 +560,12 @@ app.get('/docker', function(req, res){
                 + '<name="Create" id="frm1_view" />'
                 + '</form>'
                 + '</body></html>'
-        );
+                );
 });
 
 app.get('/', function(req, res){
         var responseString = "";
-	 res.sendFile(__dirname + '/index.html');
+        res.sendFile(__dirname + '/index.html');
 });
 
 app.get('/body', function(req, res){

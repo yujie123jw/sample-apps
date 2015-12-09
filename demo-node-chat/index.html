@@ -1,103 +1,103 @@
 <html>
 <title>Apcera Chat</title>
 <head profile="http://www.w3.org/2005/10/profile">
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-<script src="/socket.io.js"></script>
-<script>
-var socket = io();
-var nickname = "Nobody";
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <script src="/socket.io.js"></script>
+  <script>
+    var socket = io();
+    var nickname = "Nobody";
 
-function setUser(name){
-nickname = name;
-}
-function time() {
-var currentdate = new Date(); 
-var datetime =   currentdate.getHours() + ":"  
-                + currentdate.getMinutes() + ":" 
-                + currentdate.getSeconds();
-return datetime;
-}
-function getUser(){
-return nickname;
-}
+    function setUser(name){
+      nickname = name;
+    }
+    function time() {
+      var currentdate = new Date(); 
+      var datetime =   currentdate.getHours() + ":"  
+      + currentdate.getMinutes() + ":" 
+      + currentdate.getSeconds();
+      return datetime;
+    }
+    function getUser(){
+      return nickname;
+    }
 
-$(document).ready(function(){
-    $("#hide").click(function(){
+    $(document).ready(function(){
+      $("#hide").click(function(){
         $("p").hide();
-    });
-    $("#show").click(function(){
+      });
+      $("#show").click(function(){
         $("p").show();
+      });
     });
-});
 
-$(function() {
-$( "#start" ).dialog();
-});
+    $(function() {
+      $( "#start" ).dialog();
+    });
 
-function hide_start_button(){
-setUser($('#nick').val());
-toggle_visibility('body');
-toggle_visibility('start');
-loadmessagearea();
-$("#start").dialog('close');
-}
+    function hide_start_button(){
+      setUser($('#nick').val());
+      toggle_visibility('body');
+      toggle_visibility('start');
+      loadmessagearea();
+      $("#start").dialog('close');
+    }
 
-function toggle_visibility(id) {
- var e = document.getElementById(id);
-	 if(e.style.display == 'block')
-          e.style.display = 'none';
-         else
-         e.style.display = 'block';
-}
+    function toggle_visibility(id) {
+     var e = document.getElementById(id);
+     if(e.style.display == 'block')
+      e.style.display = 'none';
+    else
+     e.style.display = 'block';
+ }
 
-function loadmessagearea(){
-socket.emit('chat message', '[' + time() + ']  '  + getUser() + ': joined the room.');
-$('#m').val('');
-return false;
+ function loadmessagearea(){
+  socket.emit('chat message', '[' + time() + ']  '  + getUser() + ': joined the room.');
+  $('#m').val('');
+  return false;
 }
 
 function truncate(){
-$('#messages').empty();
-socket.emit('truncate table', $('#m').val());
-$('#m').val('');
-return false;
+  $('#messages').empty();
+  socket.emit('truncate table', $('#m').val());
+  $('#m').val('');
+  return false;
 }
 
 function createdatabase(){
-$('#messages').empty();
-socket.emit('create database', $('#m').val());
-$('#m').val('');
-return false;
+  $('#messages').empty();
+  socket.emit('create database', $('#m').val());
+  $('#m').val('');
+  return false;
 }
 
 function messageops(){
-$('form').submit(function(){
-	$('#messages').empty();
-	socket.emit('chat message', '[' + time() + ']  ' +  getUser() + ": " + $('#m').val());
-	$('#m').val('');
-	return false;
-});
+  $('form').submit(function(){
+   $('#messages').empty();
+   socket.emit('chat message', '[' + time() + ']  ' +  getUser() + ": " + $('#m').val());
+   $('#m').val('');
+   return false;
+ });
   
-socket.on('show all', function(msg){
-	if(msg == 'clear'){
-  $('#messages').empty();
-} else {
-  $('#messages').append($('<li>').text(msg));
-}
-  	});
+  socket.on('show all', function(msg){
+   if(msg == 'clear'){
+    $('#messages').empty();
+  } else {
+    $('#messages').append($('<li>').text(msg));
+  }
+});
 }
 </script>
 
 <link rel="icon" 
-      type="image/png" 
-      href="https://www.apcera.com/sites/default/files/favicon-32x32.png">
+type="image/png" 
+href="https://www.apcera.com/sites/default/files/favicon-32x32.png">
 </head>
 
 <body>
-<div id="body" title="Body">
-<style>
+  <div id="body" title="Body">
+    <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
       body { font: 13px Helvetica, Arial; }
       form { background: #3366ff; padding: 3px; position: fixed; bottom: 0; width: 100%; }
@@ -108,37 +108,37 @@ socket.on('show all', function(msg){
       #messages li:nth-child(odd) { background: #eee; }
     </style>
 
-<p align=center><img src="/logo.png"></p>
-<font color="#0000FF" size="4">
-<input id="truncatedatabase" type="button" value="Clear Chat" onclick="truncate()" /> 
-<br><br>
-<ul id="messages"></ul>
-    <form action="">
-      <input id="m" autocomplete="off" /><button><font size=2> <b>Send</b></font></button>
-    </form>
-<script>
-messageops();
-</script>
-</div>
+    <p align=center><img src="/logo.png"></p>
+    <font color="#0000FF" size="4">
+      <input id="truncatedatabase" type="button" value="Clear Chat" onclick="truncate()" /> 
+      <br><br>
+      <ul id="messages"></ul>
+      <form action="">
+        <input id="m" autocomplete="off" /><button><font size=2> <b>Send</b></font></button>
+      </form>
+      <script>
+        messageops();
+      </script>
+    </div>
 
-<div id="start" title="Welcome to Apcera Chat!">
-<p>Apcera Chat - By Apcera Technical Product Management</p>
-<br>
-<p>This application communicates with a MySQL server to display the chats.</p>
-<br>
-<p>Enter a name to use for chatting in the field below and then click "Start Chat".</p>
-<br>
-<input type="text" id="nick" name="nick">
-<br>
-<br>
-<input id="startchatting" type="button" value="Start Chat" onclick="hide_start_button()" />
-<div id="body"></div>
-</div>
+    <div id="start" title="Welcome to Apcera Chat!">
+      <p>Apcera Chat - By Apcera Technical Product Management</p>
+      <br>
+      <p>This application communicates with a MySQL server to display the chats.</p>
+      <br>
+      <p>Enter a name to use for chatting in the field below and then click "Start Chat".</p>
+      <br>
+      <input type="text" id="nick" name="nick">
+      <br>
+      <br>
+      <input id="startchatting" type="button" value="Start Chat" onclick="hide_start_button()" />
+      <div id="body"></div>
+    </div>
 
-<script Language="JavaScript">
-toggle_visibility('body');
-toggle_visibility('body');
-</script>
- 
-</body>
-</html>
+    <script Language="JavaScript">
+      toggle_visibility('body');
+      toggle_visibility('body');
+    </script>
+    
+  </body>
+  </html>

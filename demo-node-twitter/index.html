@@ -1,70 +1,70 @@
 <html>
 <title>Apcera Twitter</title>
 <head profile="http://www.w3.org/2005/10/profile">
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-<script src="/socket.io.js"></script>
-<script>
-var socket = io();
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <script src="/socket.io.js"></script>
+  <script>
+    var socket = io();
 
-$(document).ready(function(){
-    $("#hide").click(function(){
+    $(document).ready(function(){
+      $("#hide").click(function(){
         $("p").hide();
-    });
-    $("#show").click(function(){
+      });
+      $("#show").click(function(){
         $("p").show();
+      });
     });
-});
 
-$(function() {
-$( "#start" ).dialog();
-});
+    $(function() {
+      $( "#start" ).dialog();
+    });
 
-function toggle_visibility(id) {
- var e = document.getElementById(id);
-   if(e.style.display == 'block')
-          e.style.display = 'none';
-         else
-         e.style.display = 'block';
-}
+    function toggle_visibility(id) {
+     var e = document.getElementById(id);
+     if(e.style.display == 'block')
+      e.style.display = 'none';
+    else
+     e.style.display = 'block';
+ }
 
-function loadmessagearea(){
-socket.emit('chat message', '[Loading Twitter Feed]');
-return false;
+ function loadmessagearea(){
+  socket.emit('chat message', '[Loading Twitter Feed]');
+  return false;
 }
 
 function truncate(){
-$('#messages').empty();
-socket.emit('truncate table', $('#m').val());
-return false;
+  $('#messages').empty();
+  socket.emit('truncate table', $('#m').val());
+  return false;
 }
 
 function createdatabase(){
-$('#messages').empty();
-socket.emit('create database', $('#m').val());
-return false;
+  $('#messages').empty();
+  socket.emit('create database', $('#m').val());
+  return false;
 }
 
-  
+
 socket.on('show all', function(msg){
   if(msg == 'clear'){
-  $('#messages').empty();
-} else {
-  $('#messages').append($('<li>').text(msg));
-}
-    });
+    $('#messages').empty();
+  } else {
+    $('#messages').append($('<li>').text(msg));
+  }
+});
 
 </script>
 
 <link rel="icon" 
-      type="image/png" 
-      href="https://www.apcera.com/sites/default/files/favicon-32x32.png">
+type="image/png" 
+href="https://www.apcera.com/sites/default/files/favicon-32x32.png">
 </head>
 
 <body>
-<div id="body" title="Body">
-<style>
+  <div id="body" title="Body">
+    <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
       body { font: 13px Helvetica, Arial; }
       form { background: #3366ff; padding: 3px; position: fixed; bottom: 0; width: 100%; }
@@ -75,18 +75,18 @@ socket.on('show all', function(msg){
       #messages li:nth-child(odd) { background: #eee; }
     </style>
 
-<p align=center><font color="#0000FF" size="4">
-<table style="width:10%">
-<tr>
-<td><img src="/logo.png"></td>
-<td><img src="/twitter.png"></td>
-</tr>
-</table>
-<p align=left></p><br>
-<ul id="messages"></ul>
-<script>
-loadmessagearea();
-</script>
-</div>
-</body>
-</html>
+    <p align=center><font color="#0000FF" size="4">
+      <table style="width:10%">
+        <tr>
+          <td><img src="/logo.png"></td>
+          <td><img src="/twitter.png"></td>
+        </tr>
+      </table>
+      <p align=left></p><br>
+      <ul id="messages"></ul>
+      <script>
+        loadmessagearea();
+      </script>
+    </div>
+  </body>
+  </html>
