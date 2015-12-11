@@ -57,7 +57,7 @@ if(consumer_key && consumer_secret && access_token_key && access_token_secret &&
 function showAll (callback) {
 	data = "";
 	connection.getConnection(function(err,connection) {
-		connection.query("select * from twitter order by id desc limit 25;", function(err, rows) {	
+		connection.query("select * from twitter order by id desc limit 30;", function(err, rows) {	
 			if (!err)  {
 				data = rows;
 			}else {
