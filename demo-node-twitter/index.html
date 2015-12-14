@@ -51,8 +51,25 @@ socket.on('show all', function(msg){
   if(msg == 'clear'){
     $('#messages').empty();
   } else {
-    $('#messages').append($('<li>').text(msg));
+    if(msg.indexOf('http') != -1) {
+      if(msg.indexOf('https') != -1) {
+        var split = msg.split('https://');
+        msg = msg.replace("https://","");
+        msg = msg.replace(split[split.length - 1], "");
+        if(split[split.length - 1].indexOf('\)') != -1) {
+         split[split.length - 1]  = split[split.length - 1].replace('\)','');
+       }
+       $('#messages').append('<br>' + msg + '<a href="https://' + split[split.length - 1] + '"> <button type="button">View Tweet</button></a>');
+     } else {
+      var split = msg.split('http://');
+      msg = msg.replace("http://","");
+      msg = msg.replace(split[split.length - 1], "");
+      $('#messages').append('<br>' + msg + '<a href="http://' + split[split.length - 1] + '""> <button type="button">View Tweet</button></a>');
+    }
+  } else {
+    $('#messages').append('<br>' + msg);
   }
+}
 });
 
 </script>
