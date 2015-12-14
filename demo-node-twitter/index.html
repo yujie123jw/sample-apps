@@ -64,7 +64,7 @@ socket.on('show all', function(msg){
       var split = msg.split('http://');
       msg = msg.replace("http://","");
       msg = msg.replace(split[split.length - 1], "");
-      $('#messages').append('<br>' + msg + '<a href="http://' + split[split.length - 1] + '""> <button type="button">View Tweet</button></a>');
+      $('#messages').append('<br>' + msg + '<a href="http://' + split[split.length - 1] + '"> <button type="button">View Tweet</button></a>');
     }
   } else {
     $('#messages').append('<br>' + msg);
