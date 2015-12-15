@@ -52,17 +52,25 @@ socket.on('show all', function(msg){
     $('#messages').empty();
   } else {
     if(msg.indexOf('https') != -1) {
-        var split = msg.split('https://');
-        msg = msg.replace("https://","");
-        msg = msg.replace(split[split.length - 1], "");
-        if(split[split.length - 1].indexOf('\)') != -1) {
-         split[split.length - 1]  = split[split.length - 1].replace('\)','');
-       }
-       if(split[split.length - 1].length == 15) {
-          $('#messages').append('<br>' + msg + '<a href="https://' + split[split.length - 1] + '" target="_blank"> <button type="button">View Tweet</button></a>');
-       } else {
-       $('#messages').append('<br>' + msg);
+      var counter = 1;
+      
+      if(msg.indexOf('https') == 2) {
+        counter = 2;
+      }
+      var split = msg.split('https://');
+      msg = msg.replace('https://' + split[split.length - counter], "");
+      if(counter == 2){
+        msg = msg.replace('https://' + split[split.length - 1], ""); 
+      }
+      if(split[split.length - counter].indexOf('\)') != counter) {
+       split[split.length - counter]  = split[split.length - counter].replace('\)','');
      }
+     if(split[split.length - counter].length == 15) {
+      $('#messages').append('<br>' + msg + '<a href="https://' + split[split.length - counter] + '" target="_blank"> <button type="button">View Tweet</button></a>');
+    } else {
+      msg = msg.replace("https://","");
+      $('#messages').append('<br>' + msg);
+    }
   } else {
     $('#messages').append('<br>' + msg);
   }
