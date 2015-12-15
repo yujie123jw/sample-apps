@@ -55,7 +55,7 @@ socket.on('show all', function(msg){
 
       var split = msg.split('https://');
       msg = msg.replace('https://' + split[split.length - 1], "");
-    
+
       if(split.length == 3) {
         msg = msg.replace('https://' + split[split.length - 2], "");
       }
@@ -66,12 +66,16 @@ socket.on('show all', function(msg){
      if(split[split.length - 1].length == 15) {
       $('#messages').append('<br>' + msg + '<a href="https://' + split[split.length - 1] + '" target="_blank"> <button type="button">View Tweet</button></a>');
     } else {
+     if(split[split.length - 1].length < 15) {
+       $('#messages').append('<br>' + msg);
+     } else  {
       msg = msg.replace("https://","");
-       $('#messages').append('<br>' + msg + '<a href="https://' + split[split.length - 1].substring(0,15) + '" target="_blank"> <button type="button">View Tweet</button></a>');
+      $('#messages').append('<br>' + msg + '<a href="https://' + split[split.length - 1].substring(0,15) + '" target="_blank"> <button type="button">View Tweet</button></a>');
     }
-  } else {
-    $('#messages').append('<br>' + msg);
   }
+} else {
+  $('#messages').append('<br>' + msg);
+}
 }
 });
 
@@ -102,7 +106,7 @@ href="https://www.apcera.com/sites/default/files/favicon-32x32.png">
           <td><img src="/twitter.png"></td>
         </tr>
       </table>
-      <p align=left></p><br>
+      <p align=left></p>
       <ul id="messages"></ul>
       <script>
         loadmessagearea();
