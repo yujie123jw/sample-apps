@@ -7,7 +7,6 @@
   <script src="/socket.io.js"></script>
   <script>
     var socket = io();
-
     $(document).ready(function(){
       $("#hide").click(function(){
         $("p").hide();
@@ -16,11 +15,9 @@
         $("p").show();
       });
     });
-
     $(function() {
       $( "#start" ).dialog();
     });
-
     function toggle_visibility(id) {
      var e = document.getElementById(id);
      if(e.style.display == 'block')
@@ -28,38 +25,30 @@
     else
      e.style.display = 'block';
  }
-
  function loadmessagearea(){
   socket.emit('chat message', '[Loading Twitter Feed]');
   return false;
 }
-
 function truncate(){
   $('#messages').empty();
   socket.emit('truncate table', $('#m').val());
   return false;
 }
-
 function createdatabase(){
   $('#messages').empty();
   socket.emit('create database', $('#m').val());
   return false;
 }
-
-
 socket.on('show all', function(msg){
   if(msg == 'clear'){
     $('#messages').empty();
   } else {
     if(msg.indexOf('https') != -1) {
-
       var split = msg.split('https://');
       msg = msg.replace('https://' + split[split.length - 1], "");
-
       if(split.length == 3) {
         msg = msg.replace('https://' + split[split.length - 2], "");
       }
-
       if(split[split.length - 1].indexOf('\)') != 1) {
        split[split.length - 1]  = split[split.length - 1].replace('\)','');
      }
@@ -78,7 +67,6 @@ socket.on('show all', function(msg){
 }
 }
 });
-
 </script>
 
 <link rel="icon" 
