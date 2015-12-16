@@ -75,6 +75,23 @@ function truncate () {
 	data = "";
 	connection.getConnection(function(err,connection) {
 		connection.query("truncate chat;", function(err, rows) {
+			if(err){
+				sendMessage('Error: Unable to clear chat. Reason: table truncate cmds denied by policy.');
+				showAll(showall_async);
+			}
+			connection.release();
+		});
+	});
+}
+
+function drop () {
+	data = "";
+	connection.getConnection(function(err,connection) {
+		connection.query("drop table chat;", function(err, rows) {
+			if(err){
+				sendMessage('Error: Unable to drop table. Reason: table drop cmds denied by policy.');
+				showAll(showall_async);
+			}
 			connection.release();
 		});
 	});
@@ -172,9 +189,18 @@ io.on('connection', function(socket){
 	socket.on('truncate table', function(msg){
 		console.log('Starting to truncate table.........');
 		truncate();
-		console.log('Finished truncating database.');
+		console.log('Finished truncating table.');
 	});
 });
+
+io.on('connection', function(socket){
+	socket.on('drop table', function(msg){
+		console.log('Starting to drop table.........');
+		drop();
+		console.log('Finished dropping table.');
+	});
+});
+
 
 io.on('connection', function(socket){
 	socket.on('chat message', function(msg){

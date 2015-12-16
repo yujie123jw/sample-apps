@@ -65,6 +65,14 @@ function truncate(){
   return false;
 }
 
+function drop(){
+  $('#messages').empty();
+  socket.emit('drop table', $('#m').val());
+  $('#m').val('');
+  return false;
+}
+
+
 function createdatabase(){
   $('#messages').empty();
   socket.emit('create database', $('#m').val());
@@ -111,6 +119,7 @@ href="https://www.apcera.com/sites/default/files/favicon-32x32.png">
     <p align=center><img src="/logo.png"></p>
     <font color="#0000FF" size="4">
       <input id="truncatedatabase" type="button" value="Clear Chat" onclick="truncate()" /> 
+       <input id="drop" type="button" value="Drop Table" onclick="drop()" /> 
       <br><br>
       <ul id="messages"></ul>
       <form action="">
