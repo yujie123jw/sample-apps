@@ -116,6 +116,7 @@ function sendMessage(mdata) {
 			if(err) {
 				console.log('Error sending chat data', err);
 			}
+					showAll(showall_async);
 			connection.release();
 		});
 	});
@@ -205,7 +206,6 @@ io.on('connection', function(socket){
 io.on('connection', function(socket){
 	socket.on('chat message', function(msg){
 		sendMessage(msg);
-		showAll(showall_async);
 		console.log('chat message: ' + msg);
 	});
 });
