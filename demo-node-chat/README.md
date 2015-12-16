@@ -33,3 +33,10 @@ To have Apcera Chat listen for Tweets, the following environment variables need 
 ```
 apc app update nodechat -e consumer_key="***" -e consumer_secret="***" -e access_token_key="***" -e access_token_secret="***" -e twitter_topic="***"
 ```
+
+# Apply service gateway rules to prevent "Clear Chat" and "Drop Table" buttons from working.
+To prevent these buttons from working with a service gateway, run the following commands:
+
+```
+apc rule create simpleDeny --service mysqldatabase-service -t hook --commands drop,truncate
+```
