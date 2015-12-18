@@ -43,7 +43,6 @@ if(consumer_key && consumer_secret && access_token_key && access_token_secret &&
 	client.stream('statuses/filter', {track: twitter_topic}, function(stream) {
 		stream.on('data', function(tweet) {
 			sendMessage(tweet.text);
-			showAll(showall_async);
 		});
 		
 		stream.on('error', function(error) {
@@ -101,6 +100,7 @@ function sendMessage(mdata) {
 			}
 			connection.release();
 		});
+		showAll(showall_async);
 	});
 }
 
