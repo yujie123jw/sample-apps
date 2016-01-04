@@ -40,3 +40,25 @@ To prevent these buttons from working with a service gateway, run the following 
 ```
 apc rule create simpleDeny --service mysqldatabase-service -t hook --commands drop,truncate
 ```
+
+# Monitoring with New Relic
+1. Create newrelic.js in the application directory with your license key.
+```
+exports.config = {
+  app_name: ['Chat'],
+  license_key: 'XXXX',
+  logging: {
+    level: 'info'
+  }
+}
+```
+2. Modify package.json with the newrelic dependency.
+```
+  "dependencies": {
+    "express": "latest",
+    "newrelic": "latest",
+```
+3. Modify main.js and make this the first line. 
+```
+require('newrelic');
+```
