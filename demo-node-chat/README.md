@@ -42,7 +42,7 @@ apc rule create simpleDeny --service mysqldatabase-service -t hook --commands dr
 ```
 
 # Monitoring with New Relic
-1. Create newrelic.js in the application directory with your license key.
+Create newrelic.js in the application directory with your license key.
 ```
 exports.config = {
   app_name: ['Chat'],
@@ -52,13 +52,13 @@ exports.config = {
   }
 }
 ```
-2. Modify package.json with the newrelic dependency.
+Modify package.json with the newrelic dependency.
 ```
   "dependencies": {
     "express": "latest",
     "newrelic": "latest",
 ```
-3. Modify main.js and make this the first line. 
+Modify main.js and make this the first line. 
 ```
 require('newrelic');
 ```
