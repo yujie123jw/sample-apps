@@ -62,3 +62,4 @@ Modify main.js and make this the first line.
 ```
 require('newrelic');
 ```
+Finally, redeploy/create the application with egress. 
