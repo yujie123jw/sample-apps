@@ -7,7 +7,7 @@ Uses 'NATS_URI' environment variable to discover a NATS server.
 Before deploying a NATS Serve that please make sure that your policy allows you to deploy Docker Jobs.
  If not, you can take a look at [here](http://docs.apcera.com/policy/examples/docker/).
 
-Lets deploy our nats server as a docker image. 
+Lets deploy our nats server as a docker image.
 
 ```apc docker run nats-server -i nats --restart always```
 
@@ -28,6 +28,8 @@ Navigate to the URL (APP_URL) provided from the app staging process to view the 
 
 Test the app by sending some messages that hits `/echo` endpoint.
 
-```http://APP_URL/echo?msg=test```
+```
+http://APP_URL/echo?msg=test
+```
 
 Confirm that you see the word `test` on the page.
