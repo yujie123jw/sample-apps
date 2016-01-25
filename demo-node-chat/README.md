@@ -3,10 +3,10 @@ Apcera Chat, is a simple chat program that reads and writes chat data from MySQL
 
 #Screenshot
 
-![Graph](http://i.imgur.com/02mNj5m.png)
+![Graph](https://raw.githubusercontent.com/apcera/sample-apps/master/demo-node-chat/nodechat.png)
 
 # Run Apcera Chat from the Apcera Platform with a service gateway
-![Graph](https://www.linux-toys.com/apcerachat_sg.png)
+![Graph](https://raw.githubusercontent.com/apcera/sample-apps/master/demo-node-chat/servicegateway.png)
 ```
 apc docker run mysqldatabase -i rusher81572/mysql --port 3306 --batch
 (Wait 30 seconds for database to initialize)
@@ -17,7 +17,7 @@ apc app start nodechat --batch
 ```
 
 # Run Apcera Chat from the Apcera Platform with a job binding
-![Graph](https://www.linux-toys.com/apcerachat_job.png)
+![Graph](https://raw.githubusercontent.com/apcera/sample-apps/master/demo-node-chat/joblink.png)
 ```
 apc docker run mysqldatabase -i rusher81572/mysql --port 3306
 (Wait 30 seconds for database to initialize)
