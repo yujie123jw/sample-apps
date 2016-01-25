@@ -1,5 +1,5 @@
 # Description 
-Apcera Chat, is a simple chat program written in Node.js that reads and writes chat data from MySQL. [Check out the blog post here] (https://www.apcera.com/blog/showcasing-apcera-cloud-platform-nodejs-and-socketio) 
+Apcera Chat, is a simple chat program written in Node.js that reads and writes chat data from MySQL. [Check out the blog post here.] (https://www.apcera.com/blog/showcasing-apcera-cloud-platform-nodejs-and-socketio) 
 
 #Screenshot
 
