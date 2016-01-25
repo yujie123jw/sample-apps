@@ -3,7 +3,7 @@ Apcera Chat, is a simple chat program written in Node.js that reads and writes c
 
 #Screenshot
 
-[Graph](https://raw.githubusercontent.com/apcera/sample-apps/master/demo-node-chat/nodechat.png)
+![Graph](https://raw.githubusercontent.com/apcera/sample-apps/master/demo-node-chat/nodechat.png)
 
 # Run Apcera Chat from the Apcera Platform with a service gateway
 ![Graph](https://raw.githubusercontent.com/apcera/sample-apps/master/demo-node-chat/servicegateway.png)
