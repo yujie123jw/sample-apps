@@ -71,9 +71,9 @@ app.get('/hardtag', function(req, res) {
 
             var options = {  uri: 'http://127.0.0.1:' + port + '/start?uuid=' + uuid + '&fqn=' + fqn};
             var start_app = request.get(options, function(error, response, body) {
-               console.log('Response:' + error + '\n' + response + '\n\n' + body);
-               res.end('<br>Started Job');
-           });
+             console.log('Response:' + error + '\n' + response + '\n\n' + body);
+             res.end('<br>Started Job');
+         });
 
 
         });
@@ -106,8 +106,8 @@ app.get('/stop', function(req, res) {
             }
 
             var stop = request.put(options, function(error, response, body) {
-               res.end('Stopped Job');
-           });
+             res.end('Stopped Job');
+         });
         });
     });
 });
@@ -340,9 +340,9 @@ app.get('/getjobs', function(req, res) {
             responseString += data;
         });
         response.on('end', function(data){
-           var jobs = JSON.parse(responseString);
-           res.write('<ul>');
-           for (var i = 0; i < jobs.length; i++){
+         var jobs = JSON.parse(responseString);
+         res.write('<ul>');
+         for (var i = 0; i < jobs.length; i++){
             res.write(
                 '<li><b>Job Name: </b><a href="/viewjob?app='
                 + jobs[i].name
@@ -362,6 +362,7 @@ app.get('/viewjob', function(req, res){
     var responseString = "";
     var uuid = "";
     var tag = "";
+    var url = "";
     var fqn = "";
     var responseString = "";
     var state = "";
@@ -381,11 +382,16 @@ app.get('/viewjob', function(req, res){
         response.on('end', function(data){
             var jobs = JSON.parse(responseString);
             for (var i = 0; i < jobs.length; i++){
-             if(jobs[i].name == app) {
-                 uuid = jobs[i].uuid;
-                 fqn = jobs[i].fqn;
-                 state = jobs[i].state;
-                 if(jobs[i].scheduling_tags) {
+               if(jobs[i].name == app) {
+                   uuid = jobs[i].uuid;
+                   fqn = jobs[i].fqn;
+                   state = jobs[i].state;
+                   if(jobs[i].ports) {
+                    if(   url = jobs[i].ports[0].routes){
+                        url = jobs[i].ports[0].routes[0].endpoint;
+                    }
+                }
+                if(jobs[i].scheduling_tags) {
                     tag = jobs[i].scheduling_tags[0].tag;
                 }
             }
@@ -402,6 +408,7 @@ app.get('/viewjob', function(req, res){
                 + ' <br><br>Job UUID: ' + uuid
                 + '<br><br>FQN: ' + fqn
                 + '<br><br>Application State: ' + state
+                + '<br><br>URL: <a href="http://' + url + '" target="_blank">Connect </a>'
                 + '<br><br>Tag: ' + tag
                 + '<br><br>Set a hard tag: ' 
                 + '<form action="/hardtag">'
@@ -475,8 +482,8 @@ app.get('/oauth2', function(req,res){
     }
     var request = http.get(options, function(response){
         response.on('data', function(data){
-           responseString += data;
-       });
+         responseString += data;
+     });
         response.on('end', function(data){
           var authResponse = JSON.parse(responseString);
           res.write(defaultHTML);
@@ -579,7 +586,7 @@ app.get('/login', function(req, res){
         + '<body><p align=center> Invalid Login!</p></body</html>');
 }
 } else {
-   res.end('<html>'
+ res.end('<html>'
     + '<title>Access Denied</title>'
     + '<head>'
     + '<link rel="icon"' 
