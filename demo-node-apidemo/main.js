@@ -388,7 +388,7 @@ app.get('/viewjob', function(req, res){
                    fqn = jobs[i].fqn;
                    state = jobs[i].state;
                    if(jobs[i].scheduling_tags) {
-                      tag = jobs[i].scheduling_tags.tag;
+                    tag = jobs[i].scheduling_tags[0].tag;
                   }
               }
           }
