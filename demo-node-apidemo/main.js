@@ -363,9 +363,11 @@ app.get('/viewjob', function(req, res){
     var app = req.query['app'];
     var responseString = "";
     var uuid = "";
+    var tag = "";
     var fqn = "";
     var responseString = "";
     var state = "";
+    var responseString = "";
     var options = {
         host: address,
         port: 80,
@@ -385,12 +387,15 @@ app.get('/viewjob', function(req, res){
                    uuid = jobs[i].uuid;
                    fqn = jobs[i].fqn;
                    state = jobs[i].state;
-               }
-           }
+                   if(jobs[i].scheduling_tags) {
+                      tag = jobs[i].scheduling_tags.tag;
+                  }
+              }
+          }
 
-           res.write(defaultHTML);
+          res.write(defaultHTML);
 
-           if(uuid.length < 10) {
+          if(uuid.length < 10) {
             res.end("Error, Application not found!");
         } else {
             res.end(
@@ -399,6 +404,7 @@ app.get('/viewjob', function(req, res){
                 + ' <br><br>Job UUID: ' + uuid
                 + '<br><br>FQN: ' + fqn
                 + '<br><br>Application State: ' + state
+                + '<br><br>Tag: ' + tag
                 + '<br><br>Set a hard tag: ' 
                 + '<form action="/hardtag">'
                 + '<input type="hidden" name="uuid" value="' + uuid + '"/>'
