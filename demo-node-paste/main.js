@@ -161,7 +161,7 @@ app.get('/paste/edit', function(req, res){
             if (!err)  {
                 data = rows;
                 if(data.length > 0) {
-                    res.write(mini_begin_share_message + '<h3 class="ui-widget-header"> Edit Paste: ' + rows[0].id
+                    res.end(mini_begin_share_message + '<h3 class="ui-widget-header"> Edit Paste: ' + rows[0].id
                         + '<form action="/paste/submitedit" id="usrform">'
                         + '<p align=center>'
                         + '<b>Paste here: </b><br><br>'
