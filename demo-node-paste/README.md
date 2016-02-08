@@ -16,7 +16,7 @@ apc provider register mysqldatabase-provider -j mysqldatabase --u mysql://root:s
 After this repository is cloned, create the application and bind it to a MySQL service. 
 The $SITE_NAME envrionment variable must be appended with /paste.
 ```
-cd paste
+cd demo-node-paste
 apc app create paste -e SITE_NAME='http://paste.demo.apcera.net/paste' -r http://paste.demo.apcera.net --batch
 apc service create mysqldatabase-paste -p mysqldatabase-provider -j paste --batch
 apc app start paste
