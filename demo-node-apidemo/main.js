@@ -71,9 +71,9 @@ app.get('/hardtag', function(req, res) {
 
             var options = {  uri: 'http://127.0.0.1:' + port + '/start?uuid=' + uuid + '&fqn=' + fqn};
             var start_app = request.get(options, function(error, response, body) {
-             console.log('Response:' + error + '\n' + response + '\n\n' + body);
-             res.end('<br>Started Job');
-         });
+               console.log('Response:' + error + '\n' + response + '\n\n' + body);
+               res.end('<br>Started Job');
+           });
 
 
         });
@@ -106,8 +106,8 @@ app.get('/stop', function(req, res) {
             }
 
             var stop = request.put(options, function(error, response, body) {
-             res.end('Stopped Job');
-         });
+               res.end('Stopped Job');
+           });
         });
     });
 });
@@ -340,9 +340,9 @@ app.get('/getjobs', function(req, res) {
             responseString += data;
         });
         response.on('end', function(data){
-         var jobs = JSON.parse(responseString);
-         res.write('<ul>');
-         for (var i = 0; i < jobs.length; i++){
+           var jobs = JSON.parse(responseString);
+           res.write('<ul>');
+           for (var i = 0; i < jobs.length; i++){
             res.write(
                 '<li><b>Job Name: </b><a href="/viewjob?app='
                 + jobs[i].name
@@ -355,6 +355,57 @@ app.get('/getjobs', function(req, res) {
         request.end();
     });
     });
+});
+
+app.get('/migrate', function(req, res){
+   var app = req.query['app'];
+   var tag = req.query['tag'];
+   var responseString = "";
+   var uuid = "";
+   var url = "";
+   var fqn = "";
+
+   var options = {
+    host: address,
+    port: 80,
+    path: '/v1/jobs',
+    headers: {
+        'Authorization': 'Bearer ' + accesstoken
+    }
+}
+
+
+var get_request = http.get(options, function(response){
+    response.on('data', function(data) {
+        responseString += data;
+    });
+    response.on('end', function(data){
+        var jobs = JSON.parse(responseString);
+        for (var i = 0; i < jobs.length; i++){
+         if(jobs[i].name == app) {
+             uuid = jobs[i].uuid;
+             fqn = jobs[i].fqn;
+             state = jobs[i].state;
+             if(jobs[i].ports) {
+                if(   url = jobs[i].ports[0].routes){
+                    url = jobs[i].ports[0].routes[0].endpoint;
+                }
+            }
+        }
+    }
+
+    res.write(defaultHTML);
+
+    if(uuid.length < 10) {
+        res.end("Error, Application not found!");
+    } else {
+     var options = {  uri: 'http://127.0.0.1:' + port + '/hardtag?uuid=' + uuid + '&fqn=' + fqn + '&tag=' + tag};
+     var start_app = request.get(options, function(error, response, body) {
+         console.log('Migration request complete');
+     });
+ }
+});
+});
 });
 
 app.get('/viewjob', function(req, res){
@@ -382,11 +433,11 @@ app.get('/viewjob', function(req, res){
         response.on('end', function(data){
             var jobs = JSON.parse(responseString);
             for (var i = 0; i < jobs.length; i++){
-               if(jobs[i].name == app) {
-                   uuid = jobs[i].uuid;
-                   fqn = jobs[i].fqn;
-                   state = jobs[i].state;
-                   if(jobs[i].ports) {
+             if(jobs[i].name == app) {
+                 uuid = jobs[i].uuid;
+                 fqn = jobs[i].fqn;
+                 state = jobs[i].state;
+                 if(jobs[i].ports) {
                     if(   url = jobs[i].ports[0].routes){
                         url = jobs[i].ports[0].routes[0].endpoint;
                     }
@@ -482,8 +533,8 @@ app.get('/oauth2', function(req,res){
     }
     var request = http.get(options, function(response){
         response.on('data', function(data){
-         responseString += data;
-     });
+           responseString += data;
+       });
         response.on('end', function(data){
           var authResponse = JSON.parse(responseString);
           res.write(defaultHTML);
@@ -586,7 +637,7 @@ app.get('/login', function(req, res){
         + '<body><p align=center> Invalid Login!</p></body</html>');
 }
 } else {
- res.end('<html>'
+   res.end('<html>'
     + '<title>Access Denied</title>'
     + '<head>'
     + '<link rel="icon"' 
