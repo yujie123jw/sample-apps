@@ -624,7 +624,7 @@ app.get('/login', function(req, res){
             + '<td><form action="/oauth2" target="iframe_a">'
             + '<input type="submit" value="Google Auth"/>'
             + '</form></td></tr></table>'
-            + '<IFRAME SRC="/body" name="iframe_a" WIDTH=900 HEIGHT=500></html>');
+            + '<IFRAME SRC="/body" name="iframe_a" WIDTH=1200 HEIGHT=1000></html>');
 } else {
     res.end('<html>'
         + '<title>Access Denied</title>'
