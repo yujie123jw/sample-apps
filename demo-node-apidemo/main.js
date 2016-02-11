@@ -616,8 +616,7 @@ if(type == "GET") {
         responseString += data;
     });
     response.on('end', function(data){
-       console.log('Debug: ' + responseString.length);
-       res.end(JSON.stringify(responseString));
+       res.end(responseString);
    });
 });
 }
@@ -630,12 +629,23 @@ if(type == "DELETE"){
     var options = {
         uri: 'http://' + address + path,
         headers: {
-            'Authorization': 'Bearer ' + accesstoken
+
         }
     }
-    var delete_request = request.del(options, function(error, response, body) {
-     res.end(JSON.stringify(response));
-    });
+    request({
+        url: 'http://' + address + path,
+    method: 'DELETE', 
+    headers: { 
+     'Authorization': 'Bearer ' + accesstoken
+ }
+}, function(error, response, body){
+    if(error) {
+        res.end(error);
+   } else {
+       res.end(response.statusCode, body);
+   }
+});
+
 }
 
 if(type == "PUT") {
@@ -682,7 +692,7 @@ app.get('/login', function(req, res){
             + '</head>'
             + '<body>'
             + '<p align=center>'
-            + '<b>The Apcera Platform API Demonstration in Node JS<b><br><br>'
+            + '<b>The Apcera Platform API Demonstration in Node.js<b><br><br>'
             + '<table style="width:10%">'
             + '<tr>'
             + '<td><form action="/getjobs" method="get" target="iframe_a">'
