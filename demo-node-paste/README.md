@@ -44,7 +44,7 @@ output=`cat file.txt`;  curl -X POST "http://paste.demo.apcera.net/paste/newpast
 
 # Paste output of a command with curl 
 ```
-output=`hostname`;  curl -G "http://paste.demo.apcera.net/paste/newpaste" --data-urlencode "text=$output"
+output=`hostname`;  curl -X POST "http://paste.demo.apcera.net/paste/newpaste" --data-urlencode "text=$output"
 ```
 
 
