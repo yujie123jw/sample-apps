@@ -25,7 +25,7 @@ When complete, you can login with your browser to the application location.
 
 # Pasting with curl 
 ```
-curl -G "http://paste.demo.apcera.net/paste/newpaste" --data-urlencode "text=hello world"
+curl -X POST "http://docker-machine-ip/paste/newpaste" --data-urlencode "text=hello world"
 ```
 
 # View a paste with curl using a paste id
