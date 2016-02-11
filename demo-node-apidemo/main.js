@@ -626,7 +626,7 @@ if(type == "POST") {
 }
 
 if(type == "DELETE"){
-    var opts = {
+    var options = {
         host: endpoint,
         port: 80,
         method: 'DELETE',
@@ -642,6 +642,7 @@ if(type == "DELETE"){
            res.end(responseString);
        });
     });
+    request.end();
 } 
 
 
@@ -667,8 +668,8 @@ app.get('/sandbox', function(req, res){
     + '<td><form action="/runsandbox">'
     + '<b>API Endpoint:</b><br><input type="text" size="50" name="endpoint" value="http://api.demo.apcera.net"><br>'
   //  + 'API Port:<br><input type="text" name="port" value="80"><br>'
-  + '<b>Request Path:</b><br><input type="text" size="50" name="path" value="/v1/packages/55f13893-5b28-4072-9a4c-0198151679db"><br>'
-  + '<b>Request Type:</b><br><input type="text" size="50" name="type" value="DELETE"><br><br>'
+  + '<b>Request Path:</b><br><input type="text" size="50" name="path" value="/v1/packages"><br>'
+  + '<b>Request Type:</b><br><input type="text" size="50" name="type" value="GET"><br><br>'
   + '<b>JSON Payload:</b><br><textarea rows="30" cols="100" name="payload" form="usrform"></textarea><br><br>'
   + '<input type="submit" value="Submit"/>'
   + '</form></td></tr></table></html>');
