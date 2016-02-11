@@ -6,6 +6,7 @@
     "line-reader": "",
     "exec": "",
     "request-debug": "",
+    "body-parser": "latest",
     "sys": "",
     "request": ""
   }
