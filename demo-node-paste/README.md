@@ -39,7 +39,7 @@ curl http://paste.demo.apcera.net/paste/delete?id=XXXXXXXXXX
 
 # Paste a file with curl 
 ```
-output=`cat file.txt`;  curl -G "http://paste.demo.apcera.net/paste/newpaste" --data-urlencode "text=$output"
+output=`cat file.txt`;  curl -X POST "http://paste.demo.apcera.net/paste/newpaste" --data-urlencode "text=$output"
 ```
 
 # Paste output of a command with curl 
