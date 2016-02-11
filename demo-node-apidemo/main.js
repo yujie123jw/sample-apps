@@ -1,6 +1,9 @@
 var http = require('http');
 var express = require('express');
 var request = require('request');
+var app = express();
+var bodyParser = require('body-parser');
+app.use(bodyParser());
 require('request-debug')(request);
 var address = process.env.CLUSTER;
 var user = process.env.username;
@@ -10,7 +13,7 @@ var docker_address = address.replace("api.","");
 var port = process.env.PORT;
 var accesstoken = process.env.TOKEN;
 var lineReader = require('line-reader');
-var app = express();
+
 var server = require("http").createServer(app);
 var version = '0';
 
@@ -71,9 +74,9 @@ app.get('/hardtag', function(req, res) {
 
             var options = {  uri: 'http://127.0.0.1:' + port + '/start?uuid=' + uuid + '&fqn=' + fqn};
             var start_app = request.get(options, function(error, response, body) {
-             console.log('Response:' + error + '\n' + response + '\n\n' + body);
-             res.end('<br>Started Job');
-         });
+               console.log('Response:' + error + '\n' + response + '\n\n' + body);
+               res.end('<br>Started Job');
+           });
 
 
         });
@@ -106,8 +109,8 @@ app.get('/stop', function(req, res) {
             }
 
             var stop = request.put(options, function(error, response, body) {
-             res.end('Stopped Job');
-         });
+               res.end('Stopped Job');
+           });
         });
     });
 });
@@ -117,74 +120,74 @@ app.get('/createdocker', function(req, res) {
     var dockerimage = req.query['dockerimage'];
     var sandbox = req.query['sandbox'];
     var uuid = "";
-        //var exposedport = req.query['exposedport'];
-        var startcommand = req.query['startcommand'];
-        var body =  {
-            "allow_egress": true,
-            "env": {},
-            "exposed_ports": [],
-            "image_url":"https://index.docker.io/" + dockerimage + ":latest",
-            "job_fqn": "job::" + sandbox + "::" + dockername,
-            "resources": {
-                "cpu":0,
-                "disk":1073741824,
-                "memory":268435456,
-                "netmax":0,
-                "network":5000000
-            },
-            "restart_config":{
-                "maximum_attempts":0,
-                "restart_mode":"no"
-            },
-            "routes": {},
-            "start":true,
-            "start_command":[
-            startcommand
-            ]
-        };
+    //var exposedport = req.query['exposedport'];
+    var startcommand = req.query['startcommand'];
+    var body =  {
+        "allow_egress": true,
+        "env": {},
+        "exposed_ports": [],
+        "image_url":"https://index.docker.io/" + dockerimage + ":latest",
+        "job_fqn": "job::" + sandbox + "::" + dockername,
+        "resources": {
+            "cpu":0,
+            "disk":1073741824,
+            "memory":268435456,
+            "netmax":0,
+            "network":5000000
+        },
+        "restart_config":{
+            "maximum_attempts":0,
+            "restart_mode":"no"
+        },
+        "routes": {},
+        "start":true,
+        "start_command":[
+        startcommand
+        ]
+    };
 
-        res.write(defaultHTML);
-        res.write('Creating Docker Job.............');
+    res.write(defaultHTML);
+    res.write('Creating Docker Job.............');
 
-        var options = {
-            url: 'http://' + address + '/v1/jobs/docker',
-            method: 'POST',
-            headers: {
-                'Authorization': 'Bearer ' + accesstoken,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(body)
+    var options = {
+        url: 'http://' + address + '/v1/jobs/docker',
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + accesstoken,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+    }
+
+    request(options, function(error, response, body) {
+        if (response.statusCode != "200") {
+            res.end("<br><br>An error has occurred. ");
+        } else {
+            var location = JSON.parse(body);
+            if (!location.location) {
+                res.end("<br><br>An error has occurred.");
+            } else {
+                var parse1 = location.location;
+                uuid = parse1.replace("http://" + address, "");
+
+                res.end(
+                    '<form action="/viewtask" method="get">'
+                    + '<input type="hidden" name="app" value="' + dockername + '">'
+                    + '<input type="hidden" name="uuid" value="' + uuid + '">'
+                    + '<br><br>'
+                    + 'Click View to check application status. '
+                    + '<br><br>'
+                    + '<input type="submit" value="View"'
+                    + ' name="Submit" id="frm1_view" />'
+                    + '</form>'
+                    );
+            }
         }
 
-        request(options, function(error, response, body) {
-            if (response.statusCode != "200") {
-                res.end("<br><br>An error has occurred. ");
-            } else {
-                var location = JSON.parse(body);
-                if (!location.location) {
-                    res.end("<br><br>An error has occurred.");
-                } else {
-                    var parse1 = location.location;
-                    uuid = parse1.replace("http://" + address, "");
-
-                    res.end(
-                        '<form action="/viewtask" method="get">'
-                        + '<input type="hidden" name="app" value="' + dockername + '">'
-                        + '<input type="hidden" name="uuid" value="' + uuid + '">'
-                        + '<br><br>'
-                        + 'Click View to check application status. '
-                        + '<br><br>'
-                        + '<input type="submit" value="View"'
-                        + ' name="Submit" id="frm1_view" />'
-                        + '</form>'
-                        );
-                }
-            }
-
-        }).on('error', function(e) {
-            console.log("Got error 2 : " + e.message);
-        });
+    }).on('error', function(e) {
+        console.log("Got error 2 : " + e.message);
     });
+});
 
 app.get('/viewtask', function(req, res){
     var dockername = req.query['app'];
@@ -340,9 +343,9 @@ app.get('/getjobs', function(req, res) {
             responseString += data;
         });
         response.on('end', function(data){
-         var jobs = JSON.parse(responseString);
-         res.write('<ul>');
-         for (var i = 0; i < jobs.length; i++){
+           var jobs = JSON.parse(responseString);
+           res.write('<ul>');
+           for (var i = 0; i < jobs.length; i++){
             res.write(
                 '<li><b>Job Name: </b><a href="/viewjob?app='
                 + jobs[i].name
@@ -358,54 +361,54 @@ app.get('/getjobs', function(req, res) {
 });
 
 app.get('/migrate', function(req, res){
- var app = req.query['app'];
- var tag = req.query['tag'];
- var responseString = "";
- var uuid = "";
- var url = "";
- var fqn = "";
+    var app = req.query['app'];
+    var tag = req.query['tag'];
+    var responseString = "";
+    var uuid = "";
+    var url = "";
+    var fqn = "";
 
- var options = {
-    host: address,
-    port: 80,
-    path: '/v1/jobs',
-    headers: {
-        'Authorization': 'Bearer ' + accesstoken
-    }
-}
-
-
-var get_request = http.get(options, function(response){
-    response.on('data', function(data) {
-        responseString += data;
-    });
-    response.on('end', function(data){
-        var jobs = JSON.parse(responseString);
-        for (var i = 0; i < jobs.length; i++){
-           if(jobs[i].name == app) {
-               uuid = jobs[i].uuid;
-               fqn = jobs[i].fqn;
-               state = jobs[i].state;
-               if(jobs[i].ports) {
-                if(   url = jobs[i].ports[0].routes){
-                    url = jobs[i].ports[0].routes[0].endpoint;
-                }
-            }
+    var options = {
+        host: address,
+        port: 80,
+        path: '/v1/jobs',
+        headers: {
+            'Authorization': 'Bearer ' + accesstoken
         }
     }
 
-    res.write(defaultHTML);
 
-    if(uuid.length < 10) {
-        res.end("Error, Application not found!");
-    } else {
-       var options = {  uri: 'http://127.0.0.1:' + port + '/hardtag?uuid=' + uuid + '&fqn=' + fqn + '&tag=' + tag};
-       var start_app = request.get(options, function(error, response, body) {
-           console.log('Migration request complete');
-       });
-   }
-});
-});
+    var get_request = http.get(options, function(response){
+        response.on('data', function(data) {
+            responseString += data;
+        });
+        response.on('end', function(data){
+            var jobs = JSON.parse(responseString);
+            for (var i = 0; i < jobs.length; i++){
+             if(jobs[i].name == app) {
+                 uuid = jobs[i].uuid;
+                 fqn = jobs[i].fqn;
+                 state = jobs[i].state;
+                 if(jobs[i].ports) {
+                    if(   url = jobs[i].ports[0].routes){
+                        url = jobs[i].ports[0].routes[0].endpoint;
+                    }
+                }
+            }
+        }
+
+        res.write(defaultHTML);
+
+        if(uuid.length < 10) {
+            res.end("Error, Application not found!");
+        } else {
+         var options = {  uri: 'http://127.0.0.1:' + port + '/hardtag?uuid=' + uuid + '&fqn=' + fqn + '&tag=' + tag};
+         var start_app = request.get(options, function(error, response, body) {
+             console.log('Migration request complete');
+         });
+     }
+ });
+    });
 });
 
 app.get('/viewjob', function(req, res){
@@ -433,11 +436,11 @@ app.get('/viewjob', function(req, res){
         response.on('end', function(data){
             var jobs = JSON.parse(responseString);
             for (var i = 0; i < jobs.length; i++){
-               if(jobs[i].name == app) {
-                   uuid = jobs[i].uuid;
-                   fqn = jobs[i].fqn;
-                   state = jobs[i].state;
-                   if(jobs[i].ports) {
+             if(jobs[i].name == app) {
+                 uuid = jobs[i].uuid;
+                 fqn = jobs[i].fqn;
+                 state = jobs[i].state;
+                 if(jobs[i].ports) {
                     if(   url = jobs[i].ports[0].routes){
                         url = jobs[i].ports[0].routes[0].endpoint;
                     }
@@ -533,8 +536,8 @@ app.get('/oauth2', function(req,res){
     }
     var request = http.get(options, function(response){
         response.on('data', function(data){
-         responseString += data;
-     });
+           responseString += data;
+       });
         response.on('end', function(data){
           var authResponse = JSON.parse(responseString);
           res.write(defaultHTML);
@@ -594,82 +597,96 @@ app.get('/transfertoken', function(req, res) {
     });
 });
 
-app.get('/runsandbox', function(req, res){
-   var type = req.query['type'];
-   var endpoint = req.query['endpoint'];
-   var path = req.query['path']
-   var payload = req.query['payload'];
-   var responseString = "";
-   var options = {
-    host: endpoint,
-    path: path,
-    headers: {
-        'Authorization': 'Bearer ' + accesstoken
-    }
-};
-
-if(type == "GET") {
-  var request = http.get(options, function(response){
-    response.on('data', function(data) {
-        responseString += data;
-    });
-    response.on('end', function(data){
-       res.end(responseString);
-   });
-});
-}
-
-if(type == "POST") {
-
-}
-
-if(type == "DELETE"){
+app.post('/runsandbox', function(req, res){
+    var type = req.body.type;
+    var endpoint = req.body.endpoint;
+    var path = req.body.path;
+    var payload = req.body.payload;
+    var responseString = "";
     var options = {
         host: endpoint,
-        port: 80,
-        method: 'DELETE',
         path: path,
-        headers: {  'Authorization': 'Bearer ' + accesstoken }
+        headers: {
+            'Authorization': 'Bearer ' + accesstoken
+        }
+    };
+
+    if(type == "GET") {
+        var request = http.get(options, function(response){
+            response.on('data', function(data) {
+                responseString += data;
+            });
+            response.on('end', function(data){
+             res.end(responseString);
+         });
+        });
     }
 
-    var request = http.request(options, function(response){
-        response.on('data', function(data) {
+    if(type == "PUT") {
+        var parse_payload = JSON.parse(payload);
+        var options = {
+            host: endpoint,
+            port: 80,
+            method: 'PUT',
+            path: path,
+            headers: {  'Authorization': 'Bearer ' + accesstoken },
+            body: parse_payload
+        }
+        console.log('Debug 1:' + JSON.stringify(options));
+        var request = http.request(options, function(response){
+           response.on('data', function(data) {
             responseString += data;
         });
-        response.on('end', function(data){
-         res.end(responseString);
-     });
-    });
-    request.end();
-} 
+           response.on('end', function(data){
+               res.end(responseString);
+           });
+       });
+        request.end();
+    }
 
+    if(type == "DELETE"){
+        var options = {
+            host: endpoint,
+            port: 80,
+            method: 'DELETE',
+            path: path,
+            headers: {  'Authorization': 'Bearer ' + accesstoken }
+        }
 
-if(type == "PUT") {
-}
+        var request = http.request(options, function(response){
+            response.on('data', function(data) {
+                responseString += data;
+            });
+            response.on('end', function(data){
+               res.end(responseString);
+           });
+        });
+        request.end();
+    } 
 
 });
 
 app.get('/sandbox', function(req, res){
-   res.end('<html>'
-    + '<title>Apcera Platform API Demonstration</title>'
-    + '<head>'
-    + '<link rel="icon"' 
-    + 'type="image/png"'
-    + 'href="https://www.apcera.com/sites/default/files/favicon-32x32.png">'
-    + '<style type="text/css">.myinput { width:200px; height:50px; } </style>'
-    + '</head>'
-    + '<body>'
-    + '<p align=center>'
-    + '<b>API Playground<b><br><br>'
-    + '<table style="width:10%">'
-    + '<tr>'
-    + '<td><form action="/runsandbox">'
-    + '<b>API Endpoint:</b><br><input type="text" size="50" name="endpoint" value="api.demo.apcera.net"><br>'
-    + '<b>Request Path:</b><br><input type="text" size="50" name="path" value="/v1/packages"><br>'
-    + '<b>Request Type:</b><br><input type="text" size="50" name="type" value="GET"><br><br>'
-    + '<b>JSON Payload:</b><br><textarea rows="30" cols="100" name="payload" form="usrform"></textarea><br><br>'
-    + '<input type="submit" value="Submit"/>'
-    + '</form></td></tr></table></html>');
+    res.end('<html>'
+        + '<title>Apcera Platform API Demonstration</title>'
+        + '<head>'
+        + '<link rel="icon"' 
+        + 'type="image/png"'
+        + 'href="https://www.apcera.com/sites/default/files/favicon-32x32.png">'
+        + '<style type="text/css">.myinput { width:200px; height:50px; } </style>'
+        + '</head>'
+        + '<body>'
+        + '<p align=center>'
+        + '<b>API Playground<b><br><br>'
+        + '<table style="width:10%">'
+        + '<tr>'
+        + '<td><form action="/runsandbox" method="POST">'
+        + '<b>API Endpoint:</b><br><input type="text" size="50" name="endpoint" value="api.demo.apcera.net"><br>'
+        + '<b>Request Path:</b><br><input type="text" size="50" name="path" value="/v1/jobs/2ded98c2-2476-42f1-81af-f9ac7bdcd185"><br>'
+        + '<b>Request Type:</b><br><input type="text" size="50" name="type" value="PUT"><br><br>'
+        + '<b>JSON Payload:</b><br><textarea rows="30" cols="100" name="payload" enctype="application/json"></textarea><br><br>'
+        + '<input type="submit" value="Submit"/>'
+        + '</form></td></tr></table></html>');
 });
 
 
@@ -719,15 +736,15 @@ app.get('/login', function(req, res){
             + '<body><p align=center> Invalid Login!</p></body</html>');
     }
 } else {
- res.end('<html>'
-    + '<title>Access Denied</title>'
-    + '<head>'
-    + '<link rel="icon"' 
-    + 'type="image/png"'
-    + 'href="https://www.apcera.com/sites/default/files/favicon-32x32.png">'
-    + '<p align=center><a href="/"><img src="/logo.png"></a></p>'
-    + '</head>'
-    + '<body><p align=center> Invalid Login!</p></body</html>');
+    res.end('<html>'
+        + '<title>Access Denied</title>'
+        + '<head>'
+        + '<link rel="icon"' 
+        + 'type="image/png"'
+        + 'href="https://www.apcera.com/sites/default/files/favicon-32x32.png">'
+        + '<p align=center><a href="/"><img src="/logo.png"></a></p>'
+        + '</head>'
+        + '<body><p align=center> Invalid Login!</p></body</html>');
 }
 });
 
@@ -742,23 +759,23 @@ app.get('/docker', function(req, res){
         + '<input type="text" name="dockername" value="mysqltest">'
         + '<br><br>'
         + 'Sandbox to run Application: '
-       // + '<input type="text" name="sandbox" value="/sandbox/demo" readonly>'
-       + '<input type="text" name="sandbox" value="/sandbox/demo">'
-       + '<br><br>'
-       + 'Docker Hub image to run: '
-       + '<input type="text" name="dockerimage" value="rusher81572/mysql">'
-       + '<br><br>'
-                //+ 'Exposed Port: '
-                //+ '<input type="text" name="exposedport" value="3306">'
-                //+ '<br><br>'
-                + 'Start Command: '
-                + '<input type="text" name="startcommand" value="/start.sh">'
-                + '<br><br>'
-                + '<input type="submit" value="Create"'
-                + '<name="Create" id="frm1_view" />'
-                + '</form>'
-                + '</body></html>'
-                );
+   // + '<input type="text" name="sandbox" value="/sandbox/demo" readonly>'
+   + '<input type="text" name="sandbox" value="/sandbox/demo">'
+   + '<br><br>'
+   + 'Docker Hub image to run: '
+   + '<input type="text" name="dockerimage" value="rusher81572/mysql">'
+   + '<br><br>'
+            //+ 'Exposed Port: '
+            //+ '<input type="text" name="exposedport" value="3306">'
+            //+ '<br><br>'
+            + 'Start Command: '
+            + '<input type="text" name="startcommand" value="/start.sh">'
+            + '<br><br>'
+            + '<input type="submit" value="Create"'
+            + '<name="Create" id="frm1_view" />'
+            + '</form>'
+            + '</body></html>'
+            );
 });
 
 app.get('/', function(req, res){
