@@ -71,9 +71,9 @@ app.get('/hardtag', function(req, res) {
 
             var options = {  uri: 'http://127.0.0.1:' + port + '/start?uuid=' + uuid + '&fqn=' + fqn};
             var start_app = request.get(options, function(error, response, body) {
-             console.log('Response:' + error + '\n' + response + '\n\n' + body);
-             res.end('<br>Started Job');
-         });
+               console.log('Response:' + error + '\n' + response + '\n\n' + body);
+               res.end('<br>Started Job');
+           });
 
 
         });
@@ -106,8 +106,8 @@ app.get('/stop', function(req, res) {
             }
 
             var stop = request.put(options, function(error, response, body) {
-             res.end('Stopped Job');
-         });
+               res.end('Stopped Job');
+           });
         });
     });
 });
@@ -340,9 +340,9 @@ app.get('/getjobs', function(req, res) {
             responseString += data;
         });
         response.on('end', function(data){
-         var jobs = JSON.parse(responseString);
-         res.write('<ul>');
-         for (var i = 0; i < jobs.length; i++){
+           var jobs = JSON.parse(responseString);
+           res.write('<ul>');
+           for (var i = 0; i < jobs.length; i++){
             res.write(
                 '<li><b>Job Name: </b><a href="/viewjob?app='
                 + jobs[i].name
@@ -358,14 +358,14 @@ app.get('/getjobs', function(req, res) {
 });
 
 app.get('/migrate', function(req, res){
- var app = req.query['app'];
- var tag = req.query['tag'];
- var responseString = "";
- var uuid = "";
- var url = "";
- var fqn = "";
+   var app = req.query['app'];
+   var tag = req.query['tag'];
+   var responseString = "";
+   var uuid = "";
+   var url = "";
+   var fqn = "";
 
- var options = {
+   var options = {
     host: address,
     port: 80,
     path: '/v1/jobs',
@@ -382,11 +382,11 @@ var get_request = http.get(options, function(response){
     response.on('end', function(data){
         var jobs = JSON.parse(responseString);
         for (var i = 0; i < jobs.length; i++){
-           if(jobs[i].name == app) {
-               uuid = jobs[i].uuid;
-               fqn = jobs[i].fqn;
-               state = jobs[i].state;
-               if(jobs[i].ports) {
+         if(jobs[i].name == app) {
+             uuid = jobs[i].uuid;
+             fqn = jobs[i].fqn;
+             state = jobs[i].state;
+             if(jobs[i].ports) {
                 if(   url = jobs[i].ports[0].routes){
                     url = jobs[i].ports[0].routes[0].endpoint;
                 }
@@ -399,11 +399,11 @@ var get_request = http.get(options, function(response){
     if(uuid.length < 10) {
         res.end("Error, Application not found!");
     } else {
-       var options = {  uri: 'http://127.0.0.1:' + port + '/hardtag?uuid=' + uuid + '&fqn=' + fqn + '&tag=' + tag};
-       var start_app = request.get(options, function(error, response, body) {
-           console.log('Migration request complete');
-       });
-   }
+     var options = {  uri: 'http://127.0.0.1:' + port + '/hardtag?uuid=' + uuid + '&fqn=' + fqn + '&tag=' + tag};
+     var start_app = request.get(options, function(error, response, body) {
+         console.log('Migration request complete');
+     });
+ }
 });
 });
 });
@@ -433,11 +433,11 @@ app.get('/viewjob', function(req, res){
         response.on('end', function(data){
             var jobs = JSON.parse(responseString);
             for (var i = 0; i < jobs.length; i++){
-               if(jobs[i].name == app) {
-                   uuid = jobs[i].uuid;
-                   fqn = jobs[i].fqn;
-                   state = jobs[i].state;
-                   if(jobs[i].ports) {
+             if(jobs[i].name == app) {
+                 uuid = jobs[i].uuid;
+                 fqn = jobs[i].fqn;
+                 state = jobs[i].state;
+                 if(jobs[i].ports) {
                     if(   url = jobs[i].ports[0].routes){
                         url = jobs[i].ports[0].routes[0].endpoint;
                     }
@@ -533,8 +533,8 @@ app.get('/oauth2', function(req,res){
     }
     var request = http.get(options, function(response){
         response.on('data', function(data){
-         responseString += data;
-     });
+           responseString += data;
+       });
         response.on('end', function(data){
           var authResponse = JSON.parse(responseString);
           res.write(defaultHTML);
@@ -595,10 +595,10 @@ app.get('/transfertoken', function(req, res) {
 });
 
 app.get('/runsandbox', function(req, res){
-   var type = req.query['type'];
-   var endpoint = req.query['endpoint'];
-   var path = req.query['path']
-   var payload = req.query['payload'];
+ var type = req.query['type'];
+ var endpoint = req.query['endpoint'];
+ var path = req.query['path']
+ var payload = req.query['payload'];
 // var api_port = req.query['port'];
 var responseString = "";
 var options = {
@@ -616,8 +616,8 @@ if(type == "GET") {
         responseString += data;
     });
     response.on('end', function(data){
-       res.end(responseString);
-   });
+     res.end(responseString);
+ });
 });
 }
 
@@ -626,27 +626,24 @@ if(type == "POST") {
 }
 
 if(type == "DELETE"){
-    var options = {
-        uri: 'http://' + address + path,
-        headers: {
-
-        }
+    var opts = {
+        host: endpoint,
+        port: 80,
+        method: 'DELETE',
+        path: path,
+        headers: {  'Authorization': 'Bearer ' + accesstoken }
     }
-    request({
-        url: 'http://' + address + path,
-    method: 'DELETE', 
-    headers: { 
-     'Authorization': 'Bearer ' + accesstoken
- }
-}, function(error, response, body){
-    if(error) {
-        res.end(error);
-   } else {
-       res.end(response.statusCode, body);
-   }
-});
 
-}
+    var request = http.request(options, function(response){
+        response.on('data', function(data) {
+            responseString += data;
+        });
+        response.on('end', function(data){
+           res.end(responseString);
+       });
+    });
+} 
+
 
 if(type == "PUT") {
 }
@@ -654,12 +651,13 @@ if(type == "PUT") {
 });
 
 app.get('/sandbox', function(req, res){
-   res.end('<html>'
+ res.end('<html>'
     + '<title>Apcera Platform API Demonstration</title>'
     + '<head>'
     + '<link rel="icon"' 
     + 'type="image/png"'
     + 'href="https://www.apcera.com/sites/default/files/favicon-32x32.png">'
+    + '<style type="text/css">.myinput { width:200px; height:50px; } </style>'
     + '</head>'
     + '<body>'
     + '<p align=center>'
@@ -667,10 +665,10 @@ app.get('/sandbox', function(req, res){
     + '<table style="width:10%">'
     + '<tr>'
     + '<td><form action="/runsandbox">'
-    + '<b>API Endpoint:</b><br><input type="text" name="endpoint" value="http://api.demo.apcera.net"><br>'
+    + '<b>API Endpoint:</b><br><input type="text" size="50" name="endpoint" value="http://api.demo.apcera.net"><br>'
   //  + 'API Port:<br><input type="text" name="port" value="80"><br>'
-  + '<b>Request Path:</b><br><input type="text" name="path" value="/v1/version"><br>'
-  + '<b>Request Type:</b><br><input type="text" name="type" value="GET"><br><br>'
+  + '<b>Request Path:</b><br><input type="text" size="50" name="path" value="/v1/packages/55f13893-5b28-4072-9a4c-0198151679db"><br>'
+  + '<b>Request Type:</b><br><input type="text" size="50" name="type" value="DELETE"><br><br>'
   + '<b>JSON Payload:</b><br><textarea rows="30" cols="100" name="payload" form="usrform"></textarea><br><br>'
   + '<input type="submit" value="Submit"/>'
   + '</form></td></tr></table></html>');
@@ -723,7 +721,7 @@ app.get('/login', function(req, res){
             + '<body><p align=center> Invalid Login!</p></body</html>');
     }
 } else {
- res.end('<html>'
+   res.end('<html>'
     + '<title>Access Denied</title>'
     + '<head>'
     + '<link rel="icon"' 
