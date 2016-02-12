@@ -542,10 +542,7 @@ app.get('/oauth2', function(req,res){
           var authResponse = JSON.parse(responseString);
           res.write(defaultHTML);
           res.end(
-            'Please enter code: <b>' + authResponse.user_code
-            + '</b> to authenticate with <a target="_blank" href="'
-            + authResponse.verification_url + '">Google</a>'
-            + '<br><br>'
+            'Please click here: <a target="_blank" href="'+ authResponse.verification_url + '">Google</a> and enter code: <b>' + authResponse.user_code + '</b> when prompted. Continue to follow the prompts on your screen. <br><br>When authentication is finished with Google, click the finish button below.'
             + '<form action="/transfertoken">'
             + '<input type="hidden" name="devicecode" value="' + authResponse.device_code + '">'
             + '<br><br>'
