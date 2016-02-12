@@ -623,6 +623,9 @@ app.post('/runsandbox', function(req, res){
     }
 
     if(type == "PUT") {
+        if(payload.length <1 ){
+         res.end('Error, empty or incomplete payload.');
+     } else {
        var options = {
         hostname: endpoint,
         port    : '80',
@@ -635,42 +638,46 @@ app.post('/runsandbox', function(req, res){
             'Authorization': 'Bearer ' + accesstoken
         }
     };
-
-    var request = http.request(options, function(response){
-        response.on('data', function(data) {
-            responseString += data;
-        });
-        response.on('end', function(data){
-         res.end(responseString);
-     });
+}
+var request = http.request(options, function(response){
+    response.on('data', function(data) {
+        responseString += data;
     });
-    request.write(payload);
-    req.end;
+    response.on('end', function(data){
+     res.end(responseString);
+ });
+});
+request.write(payload);
+req.end;
 }
 
- if(type == "POST") {
-       var options = {
-        hostname: endpoint,
-        port    : '80',
-        path    : path,
-        method  : 'POST',
-        headers : {
-         'Content-Type': 'application/json',
-            'Content-Length': payload.length,
-            'Authorization': 'Bearer ' + accesstoken
-        }
-    };
+if(type == "POST") {
+    if(payload.length <1 ){
+     res.end('Error, empty or incomplete payload.');
+ } else {
+   var options = {
+    hostname: endpoint,
+    port    : '80',
+    path    : path,
+    method  : 'POST',
+    headers : {
+     'Content-Type': 'application/json',
+     'Content-Length': payload.length,
+     'Authorization': 'Bearer ' + accesstoken
+ }
+};
 
-    var request = http.request(options, function(response){
-        response.on('data', function(data) {
-            responseString += data;
-        });
-        response.on('end', function(data){
-         res.end(responseString);
-     });
+var request = http.request(options, function(response){
+    response.on('data', function(data) {
+        responseString += data;
     });
-    request.write(payload);
-    req.end;
+    response.on('end', function(data){
+     res.end(responseString);
+ });
+});
+request.write(payload);
+req.end;
+}
 }
 
 
