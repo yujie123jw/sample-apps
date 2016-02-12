@@ -719,8 +719,8 @@ app.get('/sandbox', function(req, res){
         + '<tr>'
         + '<td><form action="/runsandbox" method="POST">'
         + '<b>API Endpoint:</b><br><input type="text" size="50" name="endpoint" value="api.demo.apcera.net"><br>'
-        + '<b>Request Path:</b><br><input type="text" size="50" name="path" value="/v1/bindings"><br>'
-        + '<b>Request Type:</b><br><input type="text" size="50" name="type" value="POST"><br><br>'
+        + '<b>Request Path:</b><br><input type="text" size="50" name="path" value="/v1/jobs"><br>'
+        + '<b>Request Type:</b><br><input type="text" size="50" name="type" value="GET"><br><br>'
         + '<b>JSON Payload:</b><br><textarea rows="30" cols="100" name="payload" enctype="application/json"></textarea><br><br>'
         + '<input type="submit" value="Submit"/>'
         + '</form></td></tr></table></html>');
