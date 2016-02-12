@@ -648,6 +648,32 @@ app.post('/runsandbox', function(req, res){
     req.end;
 }
 
+ if(type == "POST") {
+       var options = {
+        hostname: endpoint,
+        port    : '80',
+        path    : path,
+        method  : 'POST',
+        headers : {
+         'Content-Type': 'application/json',
+            'Content-Length': payload.length,
+            'Authorization': 'Bearer ' + accesstoken
+        }
+    };
+
+    var request = http.request(options, function(response){
+        response.on('data', function(data) {
+            responseString += data;
+        });
+        response.on('end', function(data){
+         res.end(responseString);
+     });
+    });
+    request.write(payload);
+    req.end;
+}
+
+
 if(type == "DELETE"){
     var options = {
         host: endpoint,
@@ -686,8 +712,8 @@ app.get('/sandbox', function(req, res){
         + '<tr>'
         + '<td><form action="/runsandbox" method="POST">'
         + '<b>API Endpoint:</b><br><input type="text" size="50" name="endpoint" value="api.demo.apcera.net"><br>'
-        + '<b>Request Path:</b><br><input type="text" size="50" name="path" value="/v1/jobs/2ded98c2-2476-42f1-81af-f9ac7bdcd185"><br>'
-        + '<b>Request Type:</b><br><input type="text" size="50" name="type" value="PUT"><br><br>'
+        + '<b>Request Path:</b><br><input type="text" size="50" name="path" value="/v1/bindings"><br>'
+        + '<b>Request Type:</b><br><input type="text" size="50" name="type" value="POST"><br><br>'
         + '<b>JSON Payload:</b><br><textarea rows="30" cols="100" name="payload" enctype="application/json"></textarea><br><br>'
         + '<input type="submit" value="Submit"/>'
         + '</form></td></tr></table></html>');
