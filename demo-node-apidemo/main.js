@@ -74,9 +74,9 @@ app.get('/hardtag', function(req, res) {
 
             var options = {  uri: 'http://127.0.0.1:' + port + '/start?uuid=' + uuid + '&fqn=' + fqn};
             var start_app = request.get(options, function(error, response, body) {
-             console.log('Response:' + error + '\n' + response + '\n\n' + body);
-             res.end('<br>Started Job');
-         });
+               console.log('Response:' + error + '\n' + response + '\n\n' + body);
+               res.end('<br>Started Job');
+           });
 
 
         });
@@ -109,8 +109,8 @@ app.get('/stop', function(req, res) {
             }
 
             var stop = request.put(options, function(error, response, body) {
-             res.end('Stopped Job');
-         });
+               res.end('Stopped Job');
+           });
         });
     });
 });
@@ -343,9 +343,9 @@ app.get('/getjobs', function(req, res) {
             responseString += data;
         });
         response.on('end', function(data){
-         var jobs = JSON.parse(responseString);
-         res.write('<ul>');
-         for (var i = 0; i < jobs.length; i++){
+           var jobs = JSON.parse(responseString);
+           res.write('<ul>');
+           for (var i = 0; i < jobs.length; i++){
             res.write(
                 '<li><b>Job Name: </b><a href="/viewjob?app='
                 + jobs[i].name
@@ -385,11 +385,11 @@ app.get('/migrate', function(req, res){
         response.on('end', function(data){
             var jobs = JSON.parse(responseString);
             for (var i = 0; i < jobs.length; i++){
-               if(jobs[i].name == app) {
-                   uuid = jobs[i].uuid;
-                   fqn = jobs[i].fqn;
-                   state = jobs[i].state;
-                   if(jobs[i].ports) {
+             if(jobs[i].name == app) {
+                 uuid = jobs[i].uuid;
+                 fqn = jobs[i].fqn;
+                 state = jobs[i].state;
+                 if(jobs[i].ports) {
                     if(   url = jobs[i].ports[0].routes){
                         url = jobs[i].ports[0].routes[0].endpoint;
                     }
@@ -402,12 +402,12 @@ app.get('/migrate', function(req, res){
         if(uuid.length < 10) {
             res.end("Error, Application not found!");
         } else {
-           var options = {  uri: 'http://127.0.0.1:' + port + '/hardtag?uuid=' + uuid + '&fqn=' + fqn + '&tag=' + tag};
-           var start_app = request.get(options, function(error, response, body) {
-               console.log('Migration request complete');
-           });
-       }
-   });
+         var options = {  uri: 'http://127.0.0.1:' + port + '/hardtag?uuid=' + uuid + '&fqn=' + fqn + '&tag=' + tag};
+         var start_app = request.get(options, function(error, response, body) {
+             console.log('Migration request complete');
+         });
+     }
+ });
     });
 });
 
@@ -436,11 +436,11 @@ app.get('/viewjob', function(req, res){
         response.on('end', function(data){
             var jobs = JSON.parse(responseString);
             for (var i = 0; i < jobs.length; i++){
-               if(jobs[i].name == app) {
-                   uuid = jobs[i].uuid;
-                   fqn = jobs[i].fqn;
-                   state = jobs[i].state;
-                   if(jobs[i].ports) {
+             if(jobs[i].name == app) {
+                 uuid = jobs[i].uuid;
+                 fqn = jobs[i].fqn;
+                 state = jobs[i].state;
+                 if(jobs[i].ports) {
                     if(   url = jobs[i].ports[0].routes){
                         url = jobs[i].ports[0].routes[0].endpoint;
                     }
@@ -536,8 +536,8 @@ app.get('/oauth2', function(req,res){
     }
     var request = http.get(options, function(response){
         response.on('data', function(data){
-         responseString += data;
-     });
+           responseString += data;
+       });
         response.on('end', function(data){
           var authResponse = JSON.parse(responseString);
           res.write(defaultHTML);
@@ -617,13 +617,13 @@ app.post('/runsandbox', function(req, res){
                 responseString += data;
             });
             response.on('end', function(data){
-               res.end(responseString);
-           });
+             res.end(responseString);
+         });
         });
     }
 
     if(type == "PUT") {
-     var post_options = {
+       var options = {
         hostname: endpoint,
         port    : '80',
         path    : path,
@@ -636,22 +636,16 @@ app.post('/runsandbox', function(req, res){
         }
     };
 
-    post_req = http.request(post_options, function (res) {
-        console.log('STATUS: ' + res.statusCode);
-        console.log('HEADERS: ' + JSON.stringify(res.headers));
-        res.setEncoding('utf8');
-        res.on('data', function (chunk) {
-            console.log('Response: ', chunk);
+    var request = http.request(options, function(response){
+        response.on('data', function(data) {
+            responseString += data;
         });
+        response.on('end', function(data){
+         res.end(responseString);
+     });
     });
-
-    post_req.on('error', function(e) {
-      res.end('problem with request: ' + e.message);
-    });
-
-    post_req.write(payload);
-    post_req.end();
-    res.end('Done');
+    request.write(payload);
+    req.end;
 }
 
 if(type == "DELETE"){
@@ -668,8 +662,8 @@ if(type == "DELETE"){
             responseString += data;
         });
         response.on('end', function(data){
-         res.end(responseString);
-     });
+           res.end(responseString);
+       });
     });
     request.end();
 } 
