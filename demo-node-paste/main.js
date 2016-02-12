@@ -184,6 +184,32 @@ app.get('/paste/edit', function(req, res){
 });
 });
 
+app.post('/paste/search', function(req, res){
+    var what = '%' + req.body.what + '%';
+    var safe_search = mysql.escape(what);
+    var responseString = "";
+    res.write('<html><p align=center><img src=/paste/whats.png></p>'
+        + '<p align=left>'
+        );
+    
+    mysql_connection.getConnection(function(err,connection) {
+        mysql_connection.query("select * from paste where item like " + safe_search +  ";", function(err, rows) { 
+            if (!err)  {
+                data = rows;
+            }else {
+                data =  "An error has occurred.";
+                console.log(err);
+            }
+            connection.release();
+            
+            for (var i in data){
+                res.write(mini_begin_share_message + '<h3 class="ui-widget-header">Paste: <a href="' + site_name + '/show?id=' + data[i].id + '&Submit=View">' + data[i].id + '</a><a href="' + site_name + '/delete?id=' + data[i].id + '&Submit=View"><img src="/paste/delete.png" height="10" width="10"></a> <a href="' + site_name + '/edit?id=' + data[i].id + '&Submit=View"><img src="/paste/edit.png" height="10" width="10"></a></h3>' +  data[i].item + end_share_mesage);
+            }
+            res.end('</html>');
+        });
+    });
+
+});
 
 app.get('/paste/show', function(req, res){
     var id = req.query['id'];
@@ -287,6 +313,10 @@ app.get('/paste/caring.png', function(req, res){
 
 app.get('/paste/edit.png', function(req, res){
     res.sendFile(__dirname + '/edit.png');
+});
+
+app.get('/paste/search.html', function(req, res){
+    res.sendFile(__dirname + '/search.html');
 });
 
 app.get('/paste/logo', function(req, res){

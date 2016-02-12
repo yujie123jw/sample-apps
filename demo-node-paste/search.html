@@ -1,0 +1,27 @@
+<html>
+<title>Linux-toys Paste - Admin</title>
+<head>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/cupertino/jquery-ui.css">
+	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<link rel="stylesheet" href="/resources/demos/style.css">
+	<script>
+		$(function() {
+			$( "#dialog" ).dialog();
+		});
+	</script>
+</head>
+<body>
+	<div id="resizable" class="ui-widget-content">
+		<h3 class="ui-widget-header">Search for:</h3>
+		<form action="/paste/search" method="POST" id="usrform">
+			<p align=center>
+		 <input type="text" name="what">
+				<p align=center>
+					<input type="submit">
+				</form>
+			</div>
+
+		</p>
+	</body>
+	</html>
