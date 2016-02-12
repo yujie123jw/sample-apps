@@ -542,11 +542,11 @@ app.get('/oauth2', function(req,res){
           var authResponse = JSON.parse(responseString);
           res.write(defaultHTML);
           res.end(
-            'Please click here: <a target="_blank" href="'+ authResponse.verification_url + '">Google</a> and enter code: <b>' + authResponse.user_code + '</b> when prompted. Continue to follow the prompts on your screen. <br><br>When authentication is finished with Google, click the finish button below.'
+            'Please click here: <a target="_blank" href="'+ authResponse.verification_url + '">Google</a> and enter code: <b>' + authResponse.user_code + '</b> when prompted. Continue to follow the prompts on your screen. <br><br>When authentication is completed with Google, click the "Authentication Completed" button below'
             + '<form action="/transfertoken">'
             + '<input type="hidden" name="devicecode" value="' + authResponse.device_code + '">'
             + '<br><br>'
-            + '<input type="submit" value="Finish"/>'
+            + '<input type="submit" value="Authentication Completed"/>'
             + '</form>'
             );
       });
