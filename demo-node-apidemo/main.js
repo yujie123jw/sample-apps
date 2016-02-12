@@ -38,6 +38,7 @@ function getVersion(){
 
 var defaultHTML = (
     '<html>'
+    +'<body background="/paste/background.png">'
     );
 
 app.get('/hardtag', function(req, res) {
@@ -541,8 +542,8 @@ app.get('/oauth2', function(req,res){
         response.on('end', function(data){
           var authResponse = JSON.parse(responseString);
           res.write(defaultHTML);
-          res.end(
-            'Please click here: <a target="_blank" href="'+ authResponse.verification_url + '">Google</a> and enter code: <b>' + authResponse.user_code + '</b> when prompted. Continue to follow the prompts on your screen. <br><br>When authentication is completed with Google, click the "Authentication Completed" button below'
+          res.end('<html><body background="/paste/background.png">'
+            + 'Please click here: <a target="_blank" href="'+ authResponse.verification_url + '">Google</a> and enter code: <b>' + authResponse.user_code + '</b> when prompted. Continue to follow the prompts on your screen. <br><br>When authentication is completed with Google, click the "Authentication Completed" button below'
             + '<form action="/transfertoken">'
             + '<input type="hidden" name="devicecode" value="' + authResponse.device_code + '">'
             + '<br><br>'
@@ -709,7 +710,7 @@ app.get('/sandbox', function(req, res){
         + 'href="https://www.apcera.com/sites/default/files/favicon-32x32.png">'
         + '<style type="text/css">.myinput { width:200px; height:50px; } </style>'
         + '</head>'
-        + '<body>'
+        + '<body background="/paste/background.png">'
         + '<p align=center>'
         + '<b>API Playground<b><br><br>'
         + '<table style="width:10%">'
@@ -737,7 +738,7 @@ app.get('/login', function(req, res){
             + 'href="https://www.apcera.com/sites/default/files/favicon-32x32.png">'
             + '<p align=center><a href="/"><img src="/logo.png"></a></p>'
             + '</head>'
-            + '<body>'
+            + '<body background="/paste/background.png">'
             + '<p align=center>'
             + '<b>The Apcera Platform API Demonstration in Node.js<b><br><br>'
             + '<table style="width:10%">'
@@ -815,6 +816,10 @@ app.get('/docker', function(req, res){
 app.get('/', function(req, res){
     var responseString = "";
     res.sendFile(__dirname + '/index.html');
+});
+
+app.get('/paste/background.png', function(req, res){
+    res.sendFile(__dirname + '/background.png');
 });
 
 app.get('/body', function(req, res){
