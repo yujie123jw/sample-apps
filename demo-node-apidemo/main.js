@@ -740,7 +740,7 @@ app.get('/login', function(req, res){
             + '</head>'
             + '<body background="/paste/background.png">'
             + '<p align=center>'
-            + '<b>The Apcera Platform API Demonstration in Node.js<b><br><br>'
+            + '<b><font size="6">API Demonstration in Node.js<b><br><br></font>'
             + '<table style="width:10%">'
             + '<tr>'
             + '<td><form action="/getjobs" method="get" target="iframe_a">'
