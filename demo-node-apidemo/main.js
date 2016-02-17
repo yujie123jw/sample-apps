@@ -615,7 +615,7 @@ app.post('/runsandbox', function(req, res){
                 responseString += data;
             });
             response.on('end', function(data){
-             res.end(responseString);
+             res.end(JSON.stringify(JSON.parse(responseString),null,2));
          });
         });
     }
@@ -642,7 +642,7 @@ var request = http.request(options, function(response){
         responseString += data;
     });
     response.on('end', function(data){
-     res.end(responseString);
+    res.end(JSON.stringify(JSON.parse(responseString),null,2));
  });
 });
 request.write(payload);
@@ -670,7 +670,7 @@ var request = http.request(options, function(response){
         responseString += data;
     });
     response.on('end', function(data){
-     res.end(responseString);
+     res.end(JSON.stringify(JSON.parse(responseString),null,2));
  });
 });
 request.write(payload);
