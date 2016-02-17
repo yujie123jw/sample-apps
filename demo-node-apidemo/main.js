@@ -639,7 +639,7 @@ app.post('/runsandbox', function(req, res){
             });
             response.on('end', function(data){
                 res.write(sandbox_html);
-                res.end(JSON.stringify(JSON.parse(responseString),null,2));
+                res.end('<p align=center><textarea rows="30" cols="100" name="results">' + JSON.stringify(JSON.parse(responseString),null,2) + '</textarea>' );
             });
         });
     }
