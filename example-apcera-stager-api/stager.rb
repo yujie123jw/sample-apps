@@ -41,7 +41,7 @@ puts "Extracting Package..."
 stager.extract()
 
 # Move files into a new, app folder to assure isolation.
-stager.execute_app("mkdir app && cp -r * app || true >/dev/null 2>&1")
+stager.execute_app("mkdir app && mv -r * app || true >/dev/null 2>&1")
 
 # Set the start path.
 start_path = "/app"

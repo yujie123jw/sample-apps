@@ -40,7 +40,7 @@ stager.download
 # Just ignore it.
 puts "Extracting package..."
 stager.extract()
-stager.execute_app("mkdir app && cp -r * app || true")
+stager.execute_app("mkdir app && mv -r * app || true")
 
 # Make sure ENV vars for meteor commands are set correctly
 meteor_env = "HOME=/stagerfs PATH=/stagerfs/.meteor:$PATH"
