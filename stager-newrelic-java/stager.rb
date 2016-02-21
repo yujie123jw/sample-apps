@@ -58,11 +58,6 @@ $stager.download
 $stager.output('Extracting package...')
 $stager.extract('app')
 
-# Since this is chained to the Java stager, we need to
-# make sure the the app is in "/app" not "/app/app"
-$stager.execute_app('sudo cp -R app/* .')
-$stager.execute_app('sudo rm -rf app')
-
 # Make sure all files are owned by runner.
 $stager.execute_app('sudo chown -R runner:runner .')
 
