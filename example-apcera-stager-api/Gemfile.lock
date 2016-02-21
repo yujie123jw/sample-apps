@@ -1,7 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    apcera-stager-api (0.2.5)
+    apcera-stager-api (0.3.0)
       json
       rest-client
     json (1.8.1)

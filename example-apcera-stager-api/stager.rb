@@ -28,11 +28,6 @@ start_cmd = "bundle exec rackup config.ru -p $PORT"
 puts "Setting start command to '#{start_cmd}'"
 stager.start_command = start_cmd
 
-# Set the start path.
-start_path = "/app"
-puts "Setting start path to '#{start_path}'"
-stager.start_path = start_path
-
 # Make sure we're running in production mode.
 puts "Setting RACK_ENV to production"
 stager.environment_add("RACK_ENV", "production")
@@ -41,9 +36,17 @@ stager.environment_add("RACK_ENV", "production")
 puts "Downloading Package..."
 stager.download
 
-# Extract the package to the "app" directory.
+# Extract the package.
 puts "Extracting Package..."
-stager.extract("app")
+stager.extract()
+
+# Move files into a new, app folder to assure isolation.
+stager.execute_app("mkdir app && cp * app")
+
+# Set the start path.
+start_path = "/app"
+puts "Setting start path to '#{start_path}'"
+stager.start_path = start_path
 
 # Run bundler for my app in the extracted directory.
 puts "Running Bundler..."
