@@ -1,3 +1,3 @@
 source "https://rubygems.org"
 
-gem "apcera-stager-api"
+gem "apcera-stager-api", :git => 'git://github.com/apcera/stager-api-ruby.git', :branch => 'tarContentsNotDir'\

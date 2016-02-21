@@ -37,9 +37,9 @@ end
 puts "Downloading Package..."
 stager.download
 
-# Extract the package to the "app" directory.
+# Extract the package to the directory.
 puts "Extracting Package..."
-stager.extract("app")
+stager.extract()
 
 # Run bundler for my app in the extracted directory.
 puts "Running Bundler..."
@@ -75,6 +75,7 @@ stager.start_command = start_cmd
 start_path = "/app"
 puts "Setting start path to '#{start_path}'"
 stager.start_path = start_path
+stager.execute_app("mkdir app && cp -r * app || true >/dev/null 2>&1")
 
 # Make sure we're running in production mode.
 puts "Setting RAILS_ENV to production"
