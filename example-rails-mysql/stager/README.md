@@ -5,7 +5,7 @@ This is a sample rails stager using Apcera Platform Stager API.
 ## Loading the Stager
 
 ```console
-$ apc stager create /example/stagers::rails --start-command="./stager.rb" --staging=/apcera::ruby --pipeline -ae
+$ apc stager create rails --start-command="./stager.rb" --staging=/apcera::ruby --pipeline -ae
 ```
 
 ## Deploying with the Stager
