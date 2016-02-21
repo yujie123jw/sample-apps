@@ -56,7 +56,7 @@ $stager.output('Downloading package...')
 $stager.download
 
 $stager.output('Extracting package...')
-$stager.extract('app')
+$stager.extract()
 
 # Make sure all files are owned by runner.
 $stager.execute_app('sudo chown -R runner:runner .')

@@ -37,7 +37,7 @@ stager.download
 
 # Extract the package to the "app" directory.
 puts "Extracting package..."
-stager.extract("app")
+stager.extract()
 
 # Make sure ENV vars for meteor commands are set correctly
 meteor_env = "HOME=/stagerfs PATH=/stagerfs/.meteor:$PATH"
