@@ -35,9 +35,12 @@ stager.start_path = start_path
 puts "Downloading package..."
 stager.download
 
-# Extract the package to the "app" directory.
+# Extract the package to the "app" directory.  When copying files there will be
+# an expected error about copying the directory into itself due to the wildcard.
+# Just ignore it.
 puts "Extracting package..."
 stager.extract()
+stager.execute_app("mkdir app && cp -r * app || true")
 
 # Make sure ENV vars for meteor commands are set correctly
 meteor_env = "HOME=/stagerfs PATH=/stagerfs/.meteor:$PATH"
