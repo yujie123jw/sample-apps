@@ -16,8 +16,7 @@ class App < Sinatra::Base
   end
 
   get "/template" do
-    %q(
-scalars:<br>
+    "scalars:<br>
 uuid: {{uuid}}<br>
 name: {{name}}<br>
 num_instances: {{num_instances}}<br>
@@ -58,7 +57,6 @@ bindings:<br>
     port={{.URI.Port}}<br>
     path={{.URI.Path}}<br>
     raw_query={{.URI.RawQuery}}<br>
-{{end}}
-)
+{{end}}"
   end
 end
