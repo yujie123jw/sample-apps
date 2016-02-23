@@ -1,0 +1,4 @@
+# These sample apps are written with the appropriate line endings for their
+# uses.  By default, on checkout line endings should be preserved rather than
+# converted by git.
+* -text
