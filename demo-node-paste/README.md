@@ -14,7 +14,8 @@ apc docker run mysqldatabase -i rusher81572/mysql --port 3306 --batch
 apc provider register mysqldatabase-provider -j mysqldatabase --u mysql://root:sql@mysqldatabase --batch
 ```
 After this repository is cloned, create the application and bind it to a MySQL service. 
-The $SITE_NAME envrionment variable must be appended with /paste.
+The $SITE_NAME envrionment variable is the HTTP route to the paste application.  The URL must be appended with /paste.
+This is required for the pastes to be displayed properly.
 ```
 cd demo-node-paste
 apc app create paste -e SITE_NAME='http://paste.demo.apcera.net/paste' -r http://paste.demo.apcera.net --batch
