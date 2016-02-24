@@ -83,7 +83,7 @@ var mini_begin_share_message = ( '<html> <head> <link rel="stylesheet" href="//c
        + '  });'
 + ' </script>'
 + '</head>'
-+ '<body background="/paste/background.png">'
++ '<body bgcolor="#f5f5f5">'
 + ' <div id="resizable" class="ui-widget-content">'
 );
 
@@ -97,7 +97,7 @@ var begin_share_message = ( '<html> <head> <link rel="stylesheet" href="//code.j
        + '  });'
 + ' </script>'
 + '</head>'
- + '<body background="/paste/background.png">'
+ + '<body bgcolor="#f5f5f5">'
 + '<p align=center><a href="/"><img src="/paste/from.png"></a></p>'
 + '<p align=center><a href="https://github.com/rusher81572/paste"><img src="/paste/caring.png"></a></p>'
 + ' <div id="resizable" class="ui-widget-content">'
@@ -264,7 +264,7 @@ app.get('/', function(req, res){
 app.get('/paste/body', function(req, res){
     var data = "";
     var responseString = "";
-     res.write('<html><body background="/paste/background.png"><p align=center><img src=/paste/whats.png></p>'
+     res.write('<html><body bgcolor="#f5f5f5"><p align=center><img src=/paste/whats.png></p>'
         + '<p align=left>'
         );
     mysql_connection.getConnection(function(err,connection) {
