@@ -7,19 +7,19 @@ Include New Relic in your java apps.
 First clone your java stager.
 
 ```console
-$ apc staging pipeline clone /apcera::java --name /apcera::java-newrelic
+$ apc staging pipeline clone /apcera::java ‐n /apcera::java‐newrelic
 ```
 
 Then create the New Relic java stager.
 
 ```console
-$ apc stager create /example/stagers::newrelic-java --start-command="./stager.rb" --staging=/apcera::ruby
+$ apc stager create newrelic‐java ‐‐start‐command=" ./stager.rb" ‐‐staging=/apcera::ruby
 ```
 
 Last, append the New Relic stager.
 
 ```console
-$ apc staging pipeline append /apcera::java-newrelic /example/stagers::java-newrelic
+$ apc staging pipeline append /apcera::java‐newrelic /apcera/stagers::newrelic‐java
 ```
 
 ## Staging an app
