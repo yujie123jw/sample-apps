@@ -13,6 +13,7 @@ $ apc staging pipeline clone /apcera::java --name java‐newrelic-pipeline
 Then create the New Relic java stager.
 
 ```console
+$ cd sample-apps/stager-newrelic-java/
 $ apc stager create newrelic‐java-stager --start-cmd "./stager.rb" --staging=/apcera::ruby
 ```
 
