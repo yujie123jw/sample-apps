@@ -24,8 +24,8 @@ $ apc staging pipeline append java‐newrelic-pipeline newrelic‐java-stager
 
 ## Staging an app
 
-To stage a java application with New Relic support just pass it to the newrelic-java staging pipeline
-and provide your NEW_RELIC_LICENSE_KEY as an ENV var.
+To stage a java application with New Relic support, pass it to the New Relic staging pipeline and provide your 
+NEW_RELIC_LICENSE_KEY as an ENV var.
 
 ```console
 $  apc app create myapp -sp java‐newrelic-pipeline -e NEW_RELIC_LICENSE_KEY='xxxxxxxxx' -ae --start
