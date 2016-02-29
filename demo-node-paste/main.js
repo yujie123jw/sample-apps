@@ -134,6 +134,9 @@ app.post('/paste/newpaste', function(req, res){
     id += possible.charAt(Math.floor(Math.random() * possible.length));
 }
 
+
+paste_data = paste_data.replace(/(?:\r\n|\r|\n)/g, '<br />');
+
 mysql_connection.getConnection(function(err,connection) {
     var safe_paste_data = mysql.escape(paste_data);
     mysql_connection.query("insert into paste (id,item) values('" + id + "'," + safe_paste_data + ");", function(err,rows) {
