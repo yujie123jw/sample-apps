@@ -38,7 +38,7 @@ function getVersion(){
 
 var defaultHTML = (
     '<html>'
-    +'<body background="/paste/background.png">'
+    +'<body bgcolor="#f5f5f5">'
     );
 
 app.get('/hardtag', function(req, res) {
@@ -542,7 +542,7 @@ app.get('/oauth2', function(req,res){
         response.on('end', function(data){
           var authResponse = JSON.parse(responseString);
           res.write(defaultHTML);
-          res.end('<html><body background="/paste/background.png">'
+          res.end('<html><body bgcolor="#f5f5f5">'
             + 'Please click here: <a target="_blank" href="'+ authResponse.verification_url + '">Google</a> and enter code: <b>' + authResponse.user_code + '</b> when prompted. Continue to follow the prompts on your screen. <br><br>When authentication is completed with Google, click the "Authentication Completed" button below'
             + '<form action="/transfertoken">'
             + '<input type="hidden" name="devicecode" value="' + authResponse.device_code + '">'
@@ -603,7 +603,7 @@ var sandbox_html = ('<html>'
     + 'href="https://www.apcera.com/sites/default/files/favicon-32x32.png">'
     + '<style type="text/css">.myinput { width:200px; height:50px; } </style>'
     + '</head>'
-    + '<body background="/paste/background.png">'
+    + '<body bgcolor="#f5f5f5">'
     + '<p align=center>'
     + '<b>API Playground</b><br><br>'
     + '<table style="width:10%">'
@@ -748,7 +748,7 @@ app.get('/login', function(req, res){
             + 'href="https://www.apcera.com/sites/default/files/favicon-32x32.png">'
             + '<p align=center><a href="/"><img src="/logo.png"></a></p>'
             + '</head>'
-            + '<body background="/paste/background.png">'
+            + '<body bgcolor="#f5f5f5">'
             + '<p align=center>'
             + '<b><font size="6">API Demonstration in Node.js<b><br><br></font>'
             + '<table style="width:10%">'
