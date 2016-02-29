@@ -3,7 +3,7 @@ A simple pastebin clone written in Node.js. It requires a MySQL backend.
 
 # Screenshot
 
-![Graph](http://i.imgur.com/ozPHWxP.png)
+![Graph](http://i.imgur.com/qryh6TZ.png)
 
 # How to run 
 
