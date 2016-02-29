@@ -110,6 +110,8 @@ app.get('/paste/submitedit', function(req, res){
   var paste_data = req.query['text'];
   var id = req.query['id'];
 
+paste_data = paste_data.replace(/(?:\r\n|\r|\n)/g, '<br />');
+
   mysql_connection.getConnection(function(err,connection) {
     var safe_paste_data = mysql.escape(paste_data);
     mysql_connection.query("update paste set item=" + safe_paste_data + " where id='" + id + "';", function(err,rows) {
