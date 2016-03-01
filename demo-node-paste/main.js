@@ -36,7 +36,7 @@ function createtable_async(data) {
 
 function createdb(callback){
     mysql_connection_create.getConnection(function(err,connection) {
-       mysql_connection_create.query("create database " + database + ";", function(err, rows) {
+     mysql_connection_create.query("create database " + database + ";", function(err, rows) {
         if(err) {
             console.log('Error creating database', err);
         }
@@ -44,7 +44,7 @@ function createdb(callback){
         createtable(createtable_async);
         callback('Creating Database.....');
     });
-   });
+ });
 }
 
 function createtable(callback){
@@ -79,13 +79,13 @@ var mini_begin_share_message = ( '<html> <head> <link rel="stylesheet" href="//c
     + '<link rel="stylesheet" href="/resources/demos/style.css">'
     + '<script>'
     + ' $(function() {'
-       + '      $( "#dialog" ).dialog();'
-       + '  });'
-+ ' </script>'
-+ '</head>'
-+ '<body bgcolor="#f5f5f5">'
-+ ' <div id="resizable" class="ui-widget-content">'
-);
+    + '      $( "#dialog" ).dialog();'
+    + '  });'
+    + ' </script>'
+    + '</head>'
+    + '<body bgcolor="#f5f5f5">'
+    + ' <div id="resizable" class="ui-widget-content">'
+    );
 
 var begin_share_message = ( '<html> <head> <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/cupertino/jquery-ui.css">'
     + '<script src="//code.jquery.com/jquery-1.10.2.js"></script>'
@@ -93,15 +93,15 @@ var begin_share_message = ( '<html> <head> <link rel="stylesheet" href="//code.j
     + '<link rel="stylesheet" href="/resources/demos/style.css">'
     + '<script>'
     + ' $(function() {'
-       + '      $( "#dialog" ).dialog();'
-       + '  });'
-+ ' </script>'
-+ '</head>'
- + '<body bgcolor="#f5f5f5">'
-+ '<p align=center><a href="/"><img src="/paste/from.png"></a></p>'
-+ '<p align=center></p>'
-+ ' <div id="resizable" class="ui-widget-content">'
-);
+    + '      $( "#dialog" ).dialog();'
+    + '  });'
+    + ' </script>'
+    + '</head>'
+    + '<body bgcolor="#f5f5f5">'
+    + '<p align=center><a href="/"><img src="/paste/from.png"></a></p>'
+    + '<p align=center></p>'
+    + ' <div id="resizable" class="ui-widget-content">'
+    );
 
 var end_share_mesage = ( '</div></p></body></html>'
     );
@@ -110,13 +110,14 @@ app.get('/paste/submitedit', function(req, res){
   var paste_data = req.query['text'];
   var id = req.query['id'];
 
-paste_data = paste_data.replace(/(?:\r\n|\r|\n)/g, '<br />');
+  paste_data = paste_data.replace(/(?:\r\n|\r|\n)/g, '<br />');
 
   mysql_connection.getConnection(function(err,connection) {
     var safe_paste_data = mysql.escape(paste_data);
     mysql_connection.query("update paste set item=" + safe_paste_data + " where id='" + id + "';", function(err,rows) {
         if(err) {
-            console.log('Error sending paste data', err);
+            data =  "An error has occurred while trying to update the paste or request has been denied by policy.";
+            res.end(JSON.stringify(data));
         }
         connection.release();
     });
@@ -178,15 +179,15 @@ app.get('/paste/edit', function(req, res){
                         + '<input type="submit"></form>'
                         + end_share_mesage);
                 } else {
-                   res.end(begin_share_message + '<h3 class="ui-widget-header">Error, paste does not exist!</h3>'+  end_share_mesage);
-               }
-           }else {
+                 res.end(begin_share_message + '<h3 class="ui-widget-header">Error, paste does not exist!</h3>'+  end_share_mesage);
+             }
+         }else {
             data =  "An error has occurred.";
             console.log(err);
         }
         connection.release();
     });
-});
+    });
 });
 
 app.post('/paste/search', function(req, res){
@@ -227,9 +228,9 @@ app.get('/paste/show', function(req, res){
                     res.end(begin_share_message + '<h3 class="ui-widget-header">Viewing Paste: <a href="' + site_name + '/show?id=' + rows[0].id + '&Submit=View">' + rows[0].id + '</a><a href="' + site_name + '/delete?id=' + rows[0].id + '&Submit=View"><img src="/paste/delete.png" height="10" width="10"></a> <a href="' + site_name + '/edit?id=' + rows[0].id + '&Submit=View"><img src="/paste/edit.png" height="10" width="10"></a></h3>' +  rows[0].item + end_share_mesage);
 
                 } else {
-                   res.end(begin_share_message + '<h3 class="ui-widget-header">Error, paste does not exist!</h3>'+  end_share_mesage);
-               }
-           }else {
+                 res.end(begin_share_message + '<h3 class="ui-widget-header">Error, paste does not exist!</h3>'+  end_share_mesage);
+             }
+         }else {
             data =  "An error has occurred.";
             console.log(err);
         }
@@ -269,7 +270,7 @@ app.get('/', function(req, res){
 app.get('/paste/body', function(req, res){
     var data = "";
     var responseString = "";
-     res.write('<html><body bgcolor="#f5f5f5">'
+    res.write('<html><body bgcolor="#f5f5f5">'
         + '<p align=left>'
         );
     mysql_connection.getConnection(function(err,connection) {
