@@ -24,6 +24,14 @@ apc app start paste
 ```
 When complete, you can login with your browser to the application location.
 
+# Apply service gateway rules to prevent deletion of pastes.
+
+To prevent these buttons from working with a service gateway, run the following commands:
+
+```
+apc rule create SimpleDenyDelete --service mysqldatabase-paste -t hook --commands delete
+```
+
 # Pasting with curl 
 ```
 curl -X POST "http://docker-machine-ip/paste/newpaste" --data-urlencode "text=hello world"
