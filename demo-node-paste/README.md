@@ -34,7 +34,7 @@ apc rule create SimpleDenyDelete --service mysqldatabase-paste -t hook --command
 
 # Pasting with curl 
 ```
-curl -X POST "http://docker-machine-ip/paste/newpaste" --data-urlencode "text=hello world"
+curl -X POST "http://paste.demo.apcera.net/paste/newpaste" --data-urlencode "text=hello world"
 ```
 
 # View a paste with curl using a paste id
