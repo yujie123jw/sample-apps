@@ -247,8 +247,8 @@ app.get('/paste/delete', function(req, res){
                 data = rows;
                 res.end(mini_begin_share_message + '<h3 class="ui-widget-header">Deleted paste:' + id + '</h3>'+  end_share_mesage);
             }else {
-                data =  "An error has occurred.";
-                console.log(err);
+                data =  "An error has occurred while trying to delete the paste or request has been denied by policy.";
+                res.end(JSON.stringify(data));
             }
             connection.release();
         });
