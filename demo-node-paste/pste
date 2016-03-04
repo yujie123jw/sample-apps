@@ -1,5 +1,5 @@
 #!/bin/bash
-endpoint='http://my-docker-machine-ip/paste'
+endpoint='http://paste.demo.apcera.net/paste'
 data=$1
 clear
 
