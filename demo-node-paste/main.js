@@ -37,7 +37,7 @@ function createtable_async(data) {
 
 function createdb(callback){
     mysql_connection_create.getConnection(function(err,connection) {
-     mysql_connection_create.query("create database " + database + ";", function(err, rows) {
+     mysql_connection_create.query("create database " + database + " CHARACTER SET utf8 COLLATE utf8_general_ci;", function(err, rows) {
         if(err) {
             console.log('Error creating database', err);
         }
