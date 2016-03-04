@@ -1,0 +1,38 @@
+#!/bin/bash
+endpoint='http://my-docker-machine-ip/paste'
+data=$1
+clear
+
+if [ -n "$1" ]; then
+	echo "Pasting....."
+	if [[ $1 == *"-f"* ]]
+		then
+		echo "Pasting File: $2";echo	
+		curl -s -X POST --data-urlencode text@$2 $endpoint/newpaste | cut -d ":" -f4  
+		echo;echo
+	fi	
+
+	if [[ $1 == *"-c"* ]]
+		then
+		echo "Pasting Command Output: $2";echo
+		eval $2 > log.txt	
+		curl -s -X POST --data-urlencode text@log.txt $endpoint/newpaste | cut -d ":" -f4
+		rm -f log.txt
+		echo;echo
+	fi
+
+	if [[ $1 == *"-t"* ]]
+		then
+		echo "Pasting text: $2";echo
+		curl -s -X POST --data-urlencode "text=$2" $endpoint/newpaste | cut -d ":" -f4
+		echo;echo
+	fi
+
+else 
+	echo "Error: no arguments specified."
+	echo;echo "Usage:"
+	echo "		-t - pastes text specified in double quotes."
+	echo "		-f - pastes a file."
+	echo "		-c - pastes output of a command specified in double quotes."
+	echo
+fi
