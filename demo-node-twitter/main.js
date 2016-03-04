@@ -1,3 +1,4 @@
+var app = require('newrelic')();
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -147,6 +148,10 @@ app.get('/logo.png', function(req, res){
 
 app.get('/twitter.png', function(req, res){
 	res.sendFile(__dirname + '/twitter.png');
+});
+
+app.get('/newrelic.png', function(req, res){
+	res.sendFile(__dirname + '/newrelic.png');
 });
 
 app.get('/socket.io.js', function(req, res){
