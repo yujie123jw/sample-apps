@@ -74,7 +74,7 @@ var defaultHTML = (
     );
 
 
-var mini_begin_share_message = ( '<html> <head> <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/cupertino/jquery-ui.css">'
+var mini_begin_share_message = ( '<html> <head> <meta charset="utf-8"/> <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/cupertino/jquery-ui.css">'
     + '<script src="//code.jquery.com/jquery-1.10.2.js"></script>'
     + ' <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>'
     + '<link rel="stylesheet" href="/resources/demos/style.css">'
@@ -88,7 +88,7 @@ var mini_begin_share_message = ( '<html> <head> <link rel="stylesheet" href="//c
     + ' <div id="resizable" class="ui-widget-content">'
     );
 
-var begin_share_message = ( '<html> <head> <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/cupertino/jquery-ui.css">'
+var begin_share_message = ( '<html> <head><meta charset="utf-8"/> <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/cupertino/jquery-ui.css">'
     + '<script src="//code.jquery.com/jquery-1.10.2.js"></script>'
     + ' <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>'
     + '<link rel="stylesheet" href="/resources/demos/style.css">'
@@ -170,7 +170,7 @@ app.get('/paste/edit', function(req, res){
             if (!err)  {
                 data = rows;
                 if(data.length > 0) {
-                    res.end('<head><meta charset="utf-8"/></head>' + mini_begin_share_message + '<h3 class="ui-widget-header"> Edit Paste: ' + rows[0].id
+                    res.end(mini_begin_share_message + '<h3 class="ui-widget-header"> Edit Paste: ' + rows[0].id
                         + '<form action="/paste/submitedit" id="usrform">'
                         + '<p align=center>'
                         + '<b>Paste here: </b><br><br>'
@@ -226,7 +226,7 @@ app.get('/paste/show', function(req, res){
             if (!err)  {
                 data = rows;
                 if(data.length > 0) {
-                    res.end(begin_share_message + '<head><meta charset="utf-8"/></head><h3 class="ui-widget-header">Viewing Paste: <a href="' + site_name + '/show?id=' + rows[0].id + '&Submit=View">' + rows[0].id + '</a><a href="' + site_name + '/delete?id=' + rows[0].id + '&Submit=View"><img src="/paste/delete.png" height="10" width="10"></a> <a href="' + site_name + '/edit?id=' + rows[0].id + '&Submit=View"><img src="/paste/edit.png" height="10" width="10"></a></h3>' +  rows[0].item + end_share_mesage);
+                    res.end(begin_share_message + '<h3 class="ui-widget-header">Viewing Paste: <a href="' + site_name + '/show?id=' + rows[0].id + '&Submit=View">' + rows[0].id + '</a><a href="' + site_name + '/delete?id=' + rows[0].id + '&Submit=View"><img src="/paste/delete.png" height="10" width="10"></a> <a href="' + site_name + '/edit?id=' + rows[0].id + '&Submit=View"><img src="/paste/edit.png" height="10" width="10"></a></h3>' +  rows[0].item + end_share_mesage);
 
                 } else {
                  res.end(begin_share_message + '<h3 class="ui-widget-header">Error, paste does not exist!</h3>'+  end_share_mesage);
