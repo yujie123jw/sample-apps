@@ -545,13 +545,11 @@ app.get('/resetdemo', function(req, res){
 
         var options = {  uri: 'http://127.0.0.1:' + port + '/stop?uuid=' + uuid + '&fqn=' + fqn};
         var stop_app = request.get(options, function(error, response, body) {
-           console.log('Response:' + error + '\n' + response + '\n\n' + body);
-           res.end('<br>Started Job');
+           res.end('<br>stopped Job');
 
            var options = {  uri: 'http://127.0.0.1:' + port + '/delete?uuid=' + uuid + '&fqn=' + fqn};
            var delete_app = request.get(options, function(error, response, body) {
-               console.log('Response:' + error + '\n' + response + '\n\n' + body);
-               res.end('<br>Started Job');
+               res.end('<br>deleted Job');
            });
        });
     }
