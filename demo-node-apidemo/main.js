@@ -558,6 +558,93 @@ app.get('/resetdemo', function(req, res){
     });
 });
 
+app.get('/getcomposition', function(req, res){
+    var app = req.query['app'];
+    var responseString = "";
+    var uuid = "";
+    var package_array = [];
+
+    var options = {
+        host: address,
+        port: 80,
+        path: '/v1/jobs',
+        headers: {
+            'Authorization': 'Bearer ' + accesstoken
+        }
+    }
+    var info_request = http.get(options, function(response){
+        response.on('data', function(data) {
+            responseString += data;
+        });
+        response.on('end', function(data){
+
+         var jobs = JSON.parse(responseString);
+         for (var i = 0; i < jobs.length; i++){
+             if(jobs[i].name == app) {
+                 //uuid = jobs[i].packages[0].uuid;
+                 uuid = jobs[i].uuid;
+             }
+         }
+
+       //  if(!uuid) {
+        //    res.end("Error, Application not found!");
+        //} else {
+
+            var options = {
+                host: address,
+                port: 80,
+                path: '/v1/jobs/' +  uuid,
+                headers: {
+                    'Authorization': 'Bearer ' + accesstoken
+                }
+            }
+
+            responseString = "";
+            var package_request = http.get(options, function(response){
+                response.on('data', function(data) {
+                    responseString += data;
+                });
+                response.on('end', function(data){
+                    var packages = JSON.parse(responseString);
+                    for (var i = 0; i < packages.packages.length; i++){
+                        package_array.push(packages.packages[i].uuid);
+                    }
+
+                    responseString = "";
+
+                    for (var i = 0; i < package_array.length; i++){
+                      var options = {
+                        host: address,
+                        port: 80,
+                        path: '/v1/packages/' +  package_array[i],
+                        headers: {
+                            'Authorization': 'Bearer ' + accesstoken
+                        }
+                    }
+
+                    var package_request = http.get(options, function(response){
+                        response.on('data', function(data) {
+                            responseString = data;
+                        });
+                        response.on('end', function(data){
+                           // console.log('Debug:' + responseString);
+                         // var list_packages =  JSON.parse(responseString);
+                           console.log('Debug:' + responseString.name);
+                         res.write("<br>" + responseString.name);
+                        //}
+                    });
+                    });
+
+                }
+            });
+            });
+      //  }
+
+  });
+        res.end('');
+    });
+});
+
 app.get('/viewjob', function(req, res){
     var app = req.query['app'];
     var responseString = "";
