@@ -15,10 +15,11 @@ var port = process.env.PORT;
 var accesstoken = process.env.TOKEN;
 var lineReader = require('line-reader');
 var package_array = [];
+var route_array = [];
+var network_array = [];
 var previous_path = "";
 var previous_endpoint = "";
 var previous_type = "";
-
 var server = require("http").createServer(app);
 var version = '0';
 
@@ -126,73 +127,73 @@ app.get('/createdocker', function(req, res) {
     var dockerimage = req.query['dockerimage'];
     var sandbox = req.query['sandbox'];
     var uuid = "";
-    //var exposedport = req.query['exposedport'];
-    var startcommand = req.query['startcommand'];
-    var body =  {
-        "allow_egress": true,
-        "env": {},
-        "exposed_ports": [],
-        "image_url":"https://index.docker.io/" + dockerimage + ":latest",
-        "job_fqn": "job::" + sandbox + "::" + dockername,
-        "resources": {
-            "cpu":0,
-            "disk":1073741824,
-            "memory":268435456,
-            "netmax":0,
-            "network":5000000
-        },
-        "restart_config":{
-            "maximum_attempts":0,
-            "restart_mode":"no"
-        },
-        "routes": {},
-        "start":true,
-        "start_command":[
-        startcommand
-        ]
-    };
+//var exposedport = req.query['exposedport'];
+var startcommand = req.query['startcommand'];
+var body =  {
+    "allow_egress": true,
+    "env": {},
+    "exposed_ports": [],
+    "image_url":"https://index.docker.io/" + dockerimage + ":latest",
+    "job_fqn": "job::" + sandbox + "::" + dockername,
+    "resources": {
+        "cpu":0,
+        "disk":1073741824,
+        "memory":268435456,
+        "netmax":0,
+        "network":5000000
+    },
+    "restart_config":{
+        "maximum_attempts":0,
+        "restart_mode":"no"
+    },
+    "routes": {},
+    "start":true,
+    "start_command":[
+    startcommand
+    ]
+};
 
-    res.write(defaultHTML);
-    res.write('Creating Docker Job.............');
+res.write(defaultHTML);
+res.write('Creating Docker Job.............');
 
-    var options = {
-        url: 'http://' + address + '/v1/jobs/docker',
-        method: 'POST',
-        headers: {
-            'Authorization': 'Bearer ' + accesstoken,
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(body)
+var options = {
+    url: 'http://' + address + '/v1/jobs/docker',
+    method: 'POST',
+    headers: {
+        'Authorization': 'Bearer ' + accesstoken,
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+}
+
+request(options, function(error, response, body) {
+    if (response.statusCode != "200") {
+        res.end("<br><br>An error has occurred. ");
+    } else {
+        var location = JSON.parse(body);
+        if (!location.location) {
+            res.end("<br><br>An error has occurred.");
+        } else {
+            var parse1 = location.location;
+            uuid = parse1.replace("http://" + address, "");
+
+            res.end(
+                '<form action="/viewtask" method="get">'
+                + '<input type="hidden" name="app" value="' + dockername + '">'
+                + '<input type="hidden" name="uuid" value="' + uuid + '">'
+                + '<br><br>'
+                + 'Click View to check application status. '
+                + '<br><br>'
+                + '<input type="submit" value="View"'
+                + ' name="Submit" id="frm1_view" />'
+                + '</form>'
+                );
+        }
     }
 
-    request(options, function(error, response, body) {
-        if (response.statusCode != "200") {
-            res.end("<br><br>An error has occurred. ");
-        } else {
-            var location = JSON.parse(body);
-            if (!location.location) {
-                res.end("<br><br>An error has occurred.");
-            } else {
-                var parse1 = location.location;
-                uuid = parse1.replace("http://" + address, "");
-
-                res.end(
-                    '<form action="/viewtask" method="get">'
-                    + '<input type="hidden" name="app" value="' + dockername + '">'
-                    + '<input type="hidden" name="uuid" value="' + uuid + '">'
-                    + '<br><br>'
-                    + 'Click View to check application status. '
-                    + '<br><br>'
-                    + '<input type="submit" value="View"'
-                    + ' name="Submit" id="frm1_view" />'
-                    + '</form>'
-                    );
-            }
-        }
-
-    }).on('error', function(e) {
-        console.log("Got error 2 : " + e.message);
-    });
+}).on('error', function(e) {
+    console.log("Got error 2 : " + e.message);
+});
 });
 
 app.get('/viewtask', function(req, res){
@@ -418,57 +419,57 @@ app.get('/migrate', function(req, res){
 });
 
 app.get('/getquotapolicy', function(req, res){
- var responseString = "";
- var policy_output = [];
- var options = {
-    host: auth_address,
-    port: 80,
-    path: '/v1/policy/' + policydocument,
-    headers: {
-        'Authorization': 'Bearer ' + accesstoken
-    }
-}
-
-var request = http.get(options, function(response){
-    response.on('data', function(data) {
-        responseString += data;
-    });
-    response.on('end', function(data){
-     var rules = JSON.parse(responseString);
-     console.log('Debug:' + JSON.stringify(rules));
-     if(!rules.name) {
-        res.end('<html>Quota Document not found. Did you set the ENVAR for POLICYDOCUMENT? </html>' );
-    } else {
-        var parse_data = rules.text.split('{');
-        for (var i = 0; i < parse_data.length; i++) {
-            if(parse_data[i].indexOf('max.job.cpu') > -1) {
-                parse_data[i] =  parse_data[i].replace('max.job.cpu','');
-            }
-            if(parse_data[i].indexOf('max.job.memory') > -1) {
-                parse_data[i] =  parse_data[i].replace('max.job.memory','');
-            }
-            if(parse_data[i].indexOf('max.job.disk') > -1) {
-                parse_data[i] =  parse_data[i].replace('max.job.disk','');
-            }
-            if(parse_data[i].indexOf('max.job.network') > -1) {
-                parse_data[i] =  parse_data[i].replace('max.job.network','');
-            }
-            if(parse_data[i].indexOf('}') > -1) {
-                parse_data[i] =  parse_data[i].replace('}','');
-            }
+    var responseString = "";
+    var policy_output = [];
+    var options = {
+        host: auth_address,
+        port: 80,
+        path: '/v1/policy/' + policydocument,
+        headers: {
+            'Authorization': 'Bearer ' + accesstoken
         }
-        for (var i = 2; i < parse_data.length; i++) {
-         parse_data[i] =  parse_data[i].replace(/\s/g, '');
-         if(parse_data[i].indexOf('}') > -1) {
-          parse_data[i] =  parse_data[i].replace('}','');
-      }
-      policy_output.push(parse_data[i]);
-  }
+    }
 
-  res.end(JSON.stringify(policy_output)); 
-}
+    var request = http.get(options, function(response){
+        response.on('data', function(data) {
+            responseString += data;
+        });
+        response.on('end', function(data){
+         var rules = JSON.parse(responseString);
+         console.log('Debug:' + JSON.stringify(rules));
+         if(!rules.name) {
+            res.end('<html>Quota Document not found. Did you set the ENVAR for POLICYDOCUMENT? </html>' );
+        } else {
+            var parse_data = rules.text.split('{');
+            for (var i = 0; i < parse_data.length; i++) {
+                if(parse_data[i].indexOf('max.job.cpu') > -1) {
+                    parse_data[i] =  parse_data[i].replace('max.job.cpu','');
+                }
+                if(parse_data[i].indexOf('max.job.memory') > -1) {
+                    parse_data[i] =  parse_data[i].replace('max.job.memory','');
+                }
+                if(parse_data[i].indexOf('max.job.disk') > -1) {
+                    parse_data[i] =  parse_data[i].replace('max.job.disk','');
+                }
+                if(parse_data[i].indexOf('max.job.network') > -1) {
+                    parse_data[i] =  parse_data[i].replace('max.job.network','');
+                }
+                if(parse_data[i].indexOf('}') > -1) {
+                    parse_data[i] =  parse_data[i].replace('}','');
+                }
+            }
+            for (var i = 2; i < parse_data.length; i++) {
+             parse_data[i] =  parse_data[i].replace(/\s/g, '');
+             if(parse_data[i].indexOf('}') > -1) {
+              parse_data[i] =  parse_data[i].replace('}','');
+          }
+          policy_output.push(parse_data[i]);
+      }
+
+      res.end(JSON.stringify(policy_output)); 
+  }
 });
-});
+    });
 });
 
 
@@ -476,7 +477,7 @@ app.get('/getroutes', function(req, res){
     var app = req.query['app'];
     var responseString = "";
     var uuid = "";
-    var route_array = [];
+    route_array = [];
     var options = {
         host: address,
         port: 80,
@@ -512,7 +513,7 @@ app.get('/getnetwork', function(req, res){
     var app = req.query['app'];
     var responseString = "";
     var uuid = "";
-    var network_array = [];
+    network_array = [];
     var options = {
         host: address,
         port: 80,
@@ -778,6 +779,7 @@ app.get('/viewjob', function(req, res){
     var url = "";
     var fqn = "";
     var state = "";
+    route_array = [];
     var options = {
         host: address,
         port: 80,
@@ -786,7 +788,7 @@ app.get('/viewjob', function(req, res){
             'Authorization': 'Bearer ' + accesstoken
         }
     }
-    var request = http.get(options, function(response){
+    var job_request = http.get(options, function(response){
         response.on('data', function(data) {
             responseString += data;
         });
@@ -808,50 +810,110 @@ app.get('/viewjob', function(req, res){
             }
         }
 
+        var options = {
+            host: '127.0.0.1',
+            port: port,
+            path: '/getcomposition?app=' + app,
+            headers: {
+                'Authorization': 'Bearer ' + accesstoken
+            }
+        }
+
+        var composition_request = http.get(options, function(response){
+            response.on('data', function(data) {
+                responseString += data;
+            });
+            response.on('end', function(data){
+            });
+        });
+
+        var options = {
+            host: '127.0.0.1',
+            port: port,
+            path: '/getroutes?app=' + app,
+            headers: {
+                'Authorization': 'Bearer ' + accesstoken
+            }
+        }
+        var route_request = http.get(options, function(response){
+         response.on('data', function(data) {
+           responseString += data;
+       });
+         response.on('end', function(data){
+         });
+     });  
+
+        var options = {
+            host: '127.0.0.1',
+            port: port,
+            path: '/getnetwork?app=' + app,
+            headers: {
+                'Authorization': 'Bearer ' + accesstoken
+            }
+        }
+        var network_request = http.get(options, function(response){
+         response.on('data', function(data) {
+           responseString += data;
+       });
+         response.on('end', function(data){
+         });
+     });  
+        
         res.write(defaultHTML);
 
         if(uuid.length < 10) {
             res.end("Error, Application not found!");
         } else {
-            res.end(
-                '<b>Application Details:</b>'
-                + '<br><br>Job Name: ' + app
-                + ' <br><br>Job UUID: ' + uuid
-                + '<br><br>FQN: ' + fqn
-                + '<br><br>Application State: ' + state
-                + '<br><br>URL: <a href="http://' + url + '" target="_blank">Connect </a>'
-                + '<br><br>Tag: ' + tag
-                + '<p align=left>'
-                + '<br><b>Application Options</b><br><br>'
-                + '<form action="/start">'
+          setTimeout(function() {
+            res.end(  
+                '<p align=left>'
+                + '<table style="width:10%">'
+                + '<tr>'
+                + '<b>Application Options</b><br><br>'
+                + '<td><form action="/start">'
                 + '<input type="hidden" name="uuid" value="' + uuid + '"/>'
                 + '<input type="hidden" name="fqn" value="' + fqn + '"/>'
                 + '<input type="submit" value="Start Job"/>'
-                + '</form>'
-                + '<form action="/stop">'
+                + '</form></td>'
+                + '<td><form action="/stop">'
                 + '<input type="hidden" name="uuid" value="' + uuid + '"/>'
                 + '<input type="hidden" name="fqn" value="' + fqn + '"/>'
                 + '<input type="submit" value="Stop Job"/>'
-                + '</form>'
-                + '<form action="/delete">'
+                + '</form></td>'
+                + '<td><form action="/delete">'
                 + '<input type="hidden" name="uuid" value="' + uuid + '"/>'
                 + '<input type="hidden" name="app" value="' + app + '"/>'
                 + '<input type="hidden" name="fqn" value="' + fqn + '"/>'
                 + '<input type="submit" value="Delete Job"/>'
-                + '</form>'
-                + 'Set a hard tag: ' 
+                + '</form></td>'
+                + '<td>Set a hard tag: ' 
                 + '<form action="/hardtag">'
                 + '<input type="hidden" name="uuid" value="' + uuid + '"/>'
                 + '<input type="hidden" name="fqn" value="' + fqn + '"/>'
                 + '<input type="text" name="tag" value=""/>'
                 + '<input type="submit" value="Set Hard Tag"/>'
-                + '</form>'
-
+                + '</form></td>'
+                + '</tr></table>'
+                + '<table style="width:10%">'
+                + '<tr>'
+                + '<br><b>Application Details:</b>'
+                + '<br><br>Job Name: ' + app
+                + '<br><br>Job UUID: ' + uuid
+                + '<br><br>FQN: ' + fqn
+                + '<br><br>Application State: ' + state
+                + '<br><br>URL: <a href="http://' + url + '" target="_blank">Connect </a>'
+                + '<br><br>Tag: ' + tag
+                + '<br><br>Packages: ' + JSON.stringify(package_array)
+                + '<br><br>Routes: ' + JSON.stringify(route_array)
+                + '<br><br>Networks: ' + JSON.stringify(network_array)
+                + '</tr>'
+                + '</table>'
                 + '</body></html>'
                 );
-        }
-    });
-    });
+        }, 3000);
+      }
+  });
+});
 });
 
 
@@ -1208,23 +1270,23 @@ app.get('/docker', function(req, res){
         + '<input type="text" name="dockername" value="mysqltest">'
         + '<br><br>'
         + 'Sandbox to run Application: '
-   // + '<input type="text" name="sandbox" value="/sandbox/demo" readonly>'
-   + '<input type="text" name="sandbox" value="/sandbox/demo">'
-   + '<br><br>'
-   + 'Docker Hub image to run: '
-   + '<input type="text" name="dockerimage" value="rusher81572/mysql">'
-   + '<br><br>'
-            //+ 'Exposed Port: '
-            //+ '<input type="text" name="exposedport" value="3306">'
-            //+ '<br><br>'
-            + 'Start Command: '
-            + '<input type="text" name="startcommand" value="/start.sh">'
-            + '<br><br>'
-            + '<input type="submit" value="Create"'
-            + '<name="Create" id="frm1_view" />'
-            + '</form>'
-            + '</body></html>'
-            );
+// + '<input type="text" name="sandbox" value="/sandbox/demo" readonly>'
++ '<input type="text" name="sandbox" value="/sandbox/demo">'
++ '<br><br>'
++ 'Docker Hub image to run: '
++ '<input type="text" name="dockerimage" value="rusher81572/mysql">'
++ '<br><br>'
+        //+ 'Exposed Port: '
+        //+ '<input type="text" name="exposedport" value="3306">'
+        //+ '<br><br>'
+        + 'Start Command: '
+        + '<input type="text" name="startcommand" value="/start.sh">'
+        + '<br><br>'
+        + '<input type="submit" value="Create"'
+        + '<name="Create" id="frm1_view" />'
+        + '</form>'
+        + '</body></html>'
+        );
 });
 
 app.get('/', function(req, res){
