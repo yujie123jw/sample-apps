@@ -526,18 +526,52 @@ app.get('/getnetwork', function(req, res){
             var jobs = JSON.parse(responseString);
             for (var i = 0; i < jobs.length; i++){
              if(jobs[i].name == app) {  
-                console.log(jobs[i].bindings);
-             //  if(jobs[i].bindings[0]) {
-              //   if(jobs[i].bindings[0].name){
-               //     var len =   jobs[i].bindings[0].length;
-                //    for(var h=0;h < len; h++ ) {
-                 //    network_array.push(jobs[i].bindings[h].name);
-                 }
-             }
- res.end(JSON.stringify(network_array));
+                console.log(jobs[i].bindings[0]);
+                for (var binding in jobs[i].bindings) {
+                  if (jobs[i].bindings.hasOwnProperty(binding)) {
+                    network_array.push(jobs[i].bindings[binding].name);
+                }
+            }
+        }
+    }
+    res.end(JSON.stringify(network_array));
 });
     });
 });
+
+app.get('/gettags', function(req, res){
+    var app = req.query['app'];
+    var responseString = "";
+    var uuid = "";
+    var tag_array = [];
+    var options = {
+        host: address,
+        port: 80,
+        path: '/v1/jobs',
+        headers: {
+            'Authorization': 'Bearer ' + accesstoken
+        }
+    }
+    var request = http.get(options, function(response){
+        response.on('data', function(data) {
+            responseString += data;
+        });
+        response.on('end', function(data){
+            var jobs = JSON.parse(responseString);
+            for (var i = 0; i < jobs.length; i++){
+             if(jobs[i].name == app) {  
+                if(jobs[i].scheduling_tags) {
+                   for(var h=0; h < jobs[i].scheduling_tags.length; h++){
+                    tag_array.push( jobs[i].scheduling_tags[h].tag);
+                }
+            }
+        }
+    }
+    res.end(JSON.stringify(tag_array));
+});
+    });
+});
+
 
 
 
