@@ -439,16 +439,16 @@ var request = http.get(options, function(response){
         var parse_data = rules.text.split('{');
         for (var i = 0; i < parse_data.length; i++) {
             if(parse_data[i].indexOf('max.job.cpu') > -1) {
-                parse_data[i] =  parse_data[i].replace('max.job.cpu','CPU: ');
+                parse_data[i] =  parse_data[i].replace('max.job.cpu','');
             }
             if(parse_data[i].indexOf('max.job.memory') > -1) {
-                parse_data[i] =  parse_data[i].replace('max.job.memory','Memory: ');
+                parse_data[i] =  parse_data[i].replace('max.job.memory','');
             }
             if(parse_data[i].indexOf('max.job.disk') > -1) {
-                parse_data[i] =  parse_data[i].replace('max.job.disk','Disk: ');
+                parse_data[i] =  parse_data[i].replace('max.job.disk','');
             }
             if(parse_data[i].indexOf('max.job.network') > -1) {
-                parse_data[i] =  parse_data[i].replace('max.job.network','Network: ');
+                parse_data[i] =  parse_data[i].replace('max.job.network','');
             }
             if(parse_data[i].indexOf('}') > -1) {
                 parse_data[i] =  parse_data[i].replace('}','');
@@ -504,6 +504,41 @@ app.get('/getroutes', function(req, res){
 });
     });
 });
+
+app.get('/getnetwork', function(req, res){
+    var app = req.query['app'];
+    var responseString = "";
+    var uuid = "";
+    var network_array = [];
+    var options = {
+        host: address,
+        port: 80,
+        path: '/v1/jobs',
+        headers: {
+            'Authorization': 'Bearer ' + accesstoken
+        }
+    }
+    var request = http.get(options, function(response){
+        response.on('data', function(data) {
+            responseString += data;
+        });
+        response.on('end', function(data){
+            var jobs = JSON.parse(responseString);
+            for (var i = 0; i < jobs.length; i++){
+             if(jobs[i].name == app) {  
+                console.log(jobs[i].bindings);
+             //  if(jobs[i].bindings[0]) {
+              //   if(jobs[i].bindings[0].name){
+               //     var len =   jobs[i].bindings[0].length;
+                //    for(var h=0;h < len; h++ ) {
+                 //    network_array.push(jobs[i].bindings[h].name);
+                 }
+             }
+ res.end(JSON.stringify(network_array));
+});
+    });
+});
+
 
 
 app.get('/getquota', function(req, res){
