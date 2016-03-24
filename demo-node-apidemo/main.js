@@ -77,9 +77,9 @@ app.get('/hardtag', function(req, res) {
 
             var options = {  uri: 'http://127.0.0.1:' + port + '/start?uuid=' + uuid + '&fqn=' + fqn};
             var start_app = request.get(options, function(error, response, body) {
-             console.log('Response:' + error + '\n' + response + '\n\n' + body);
-             res.end('<br>Started Job');
-         });
+               console.log('Response:' + error + '\n' + response + '\n\n' + body);
+               res.end('<br>Started Job');
+           });
 
 
         });
@@ -112,8 +112,8 @@ app.get('/stop', function(req, res) {
             }
 
             var stop = request.put(options, function(error, response, body) {
-             res.end('Stopped Job');
-         });
+               res.end('Stopped Job');
+           });
         });
     });
 });
@@ -346,9 +346,9 @@ app.get('/getjobs', function(req, res) {
             responseString += data;
         });
         response.on('end', function(data){
-         var jobs = JSON.parse(responseString);
-         res.write('<ul>');
-         for (var i = 0; i < jobs.length; i++){
+           var jobs = JSON.parse(responseString);
+           res.write('<ul>');
+           for (var i = 0; i < jobs.length; i++){
             res.write(
                 '<li><b>Job Name: </b><a href="/viewjob?app='
                 + jobs[i].name
@@ -388,11 +388,11 @@ app.get('/migrate', function(req, res){
         response.on('end', function(data){
             var jobs = JSON.parse(responseString);
             for (var i = 0; i < jobs.length; i++){
-               if(jobs[i].name == app) {
-                   uuid = jobs[i].uuid;
-                   fqn = jobs[i].fqn;
-                   state = jobs[i].state;
-                   if(jobs[i].ports) {
+             if(jobs[i].name == app) {
+                 uuid = jobs[i].uuid;
+                 fqn = jobs[i].fqn;
+                 state = jobs[i].state;
+                 if(jobs[i].ports) {
                     if(   url = jobs[i].ports[0].routes){
                         url = jobs[i].ports[0].routes[0].endpoint;
                     }
@@ -405,19 +405,19 @@ app.get('/migrate', function(req, res){
         if(uuid.length < 10) {
             res.end("Error, Application not found!");
         } else {
-           var options = {  uri: 'http://127.0.0.1:' + port + '/hardtag?uuid=' + uuid + '&fqn=' + fqn + '&tag=' + tag};
-           var start_app = request.get(options, function(error, response, body) {
-               console.log('Migration request complete');
-           });
-       }
-   });
+         var options = {  uri: 'http://127.0.0.1:' + port + '/hardtag?uuid=' + uuid + '&fqn=' + fqn + '&tag=' + tag};
+         var start_app = request.get(options, function(error, response, body) {
+             console.log('Migration request complete');
+         });
+     }
+ });
     });
 });
 
 app.get('/getquotapolicy', function(req, res){
-   var responseString = "";
-   var policy_output = [];
-   var options = {
+ var responseString = "";
+ var policy_output = [];
+ var options = {
     host: auth_address,
     port: 80,
     path: '/v1/policy/' + policydocument,
@@ -431,9 +431,9 @@ var request = http.get(options, function(response){
         responseString += data;
     });
     response.on('end', function(data){
-       var rules = JSON.parse(responseString);
-       console.log('Debug:' + JSON.stringify(rules));
-       if(!rules.name) {
+     var rules = JSON.parse(responseString);
+     console.log('Debug:' + JSON.stringify(rules));
+     if(!rules.name) {
         res.end('<html>Quota Document not found. Did you set the ENVAR for POLICYDOCUMENT? </html>' );
     } else {
         var parse_data = rules.text.split('{');
@@ -455,17 +455,54 @@ var request = http.get(options, function(response){
             }
         }
         for (var i = 2; i < parse_data.length; i++) {
-           parse_data[i] =  parse_data[i].replace(/\s/g, '');
-           if(parse_data[i].indexOf('}') > -1) {
-              parse_data[i] =  parse_data[i].replace('}','');
-          }
-          policy_output.push(parse_data[i]);
+         parse_data[i] =  parse_data[i].replace(/\s/g, '');
+         if(parse_data[i].indexOf('}') > -1) {
+          parse_data[i] =  parse_data[i].replace('}','');
       }
-
-      res.end(JSON.stringify(policy_output)); 
+      policy_output.push(parse_data[i]);
   }
+
+  res.end(JSON.stringify(policy_output)); 
+}
 });
 });
+});
+
+
+app.get('/getroutes', function(req, res){
+    var app = req.query['app'];
+    var responseString = "";
+    var uuid = "";
+    var route_array = [];
+    var options = {
+        host: address,
+        port: 80,
+        path: '/v1/jobs',
+        headers: {
+            'Authorization': 'Bearer ' + accesstoken
+        }
+    }
+    var request = http.get(options, function(response){
+        response.on('data', function(data) {
+            responseString += data;
+        });
+        response.on('end', function(data){
+            var jobs = JSON.parse(responseString);
+            for (var i = 0; i < jobs.length; i++){
+             if(jobs[i].name == app) {  
+               if(jobs[i].ports[0]) {
+                 if(jobs[i].ports[0].routes){
+                    var len =   jobs[i].ports[0].routes.length;
+                    for(var h=0;h < len; h++ ) {
+                     route_array.push(jobs[i].ports[0].routes[h].endpoint);
+                 }
+               }
+           }
+       }
+   }
+   res.end(JSON.stringify(route_array));
+});
+    });
 });
 
 
@@ -488,18 +525,18 @@ app.get('/getquota', function(req, res){
             responseString += data;
         });
         response.on('end', function(data){
-         var jobs = JSON.parse(responseString);
-         if(!jobs.resources) {
+           var jobs = JSON.parse(responseString);
+           if(!jobs.resources) {
             res.end('<html>Application not found!</html>' );
         } else {
-           quota_output.push(jobs.resources.cpu);
-           quota_output.push(jobs.resources.memory);
-           quota_output.push(jobs.resources.disk);
-           quota_output.push(jobs.resources.network);
-           quota_output.push(jobs.resources.netmax);
-           res.end(JSON.stringify(quota_output));
-       }
-   });
+         quota_output.push(jobs.resources.cpu);
+         quota_output.push(jobs.resources.memory);
+         quota_output.push(jobs.resources.disk);
+         quota_output.push(jobs.resources.network);
+         quota_output.push(jobs.resources.netmax);
+         res.end(JSON.stringify(quota_output));
+     }
+ });
     });
 });
 
@@ -526,19 +563,19 @@ app.get('/resetdemo', function(req, res){
         response.on('end', function(data){
             var jobs = JSON.parse(responseString);
             for (var i = 0; i < jobs.length; i++){
-               if(jobs[i].name == app) {
-                   uuid = jobs[i].uuid;
-                   fqn = jobs[i].fqn;
-               }
-           }
+             if(jobs[i].name == app) {
+                 uuid = jobs[i].uuid;
+                 fqn = jobs[i].fqn;
+             }
+         }
 
-           res.write(defaultHTML);
+         res.write(defaultHTML);
 
-           if(uuid.length < 10) {
+         if(uuid.length < 10) {
             res.end("Error, Application not found!");
         } else {
 
-           var options = {
+         var options = {
             host: 'http://127.0.0.1:' + port,
             path: '/v1/jobs/' + uuid,
             headers: {
@@ -549,13 +586,13 @@ app.get('/resetdemo', function(req, res){
 
         var options = {  uri: 'http://127.0.0.1:' + port + '/stop?uuid=' + uuid + '&fqn=' + fqn};
         var stop_app = request.get(options, function(error, response, body) {
-         res.end('<br>stopped Job');
+           res.end('<br>stopped Job');
 
-         var options = {  uri: 'http://127.0.0.1:' + port + '/delete?uuid=' + uuid + '&fqn=' + fqn};
-         var delete_app = request.get(options, function(error, response, body) {
-             res.end('<br>deleted Job');
-         });
-     });
+           var options = {  uri: 'http://127.0.0.1:' + port + '/delete?uuid=' + uuid + '&fqn=' + fqn};
+           var delete_app = request.get(options, function(error, response, body) {
+               res.end('<br>deleted Job');
+           });
+       });
     }
 
 });
@@ -584,14 +621,14 @@ app.get('/getcomposition', function(req, res){
         });
         response.on('end', function(data){
 
-           var jobs = JSON.parse(responseString);
-           for (var i = 0; i < jobs.length; i++){
-               if(jobs[i].name == app) {
-                   uuid = jobs[i].uuid;
-               }
-           }
+         var jobs = JSON.parse(responseString);
+         for (var i = 0; i < jobs.length; i++){
+             if(jobs[i].name == app) {
+                 uuid = jobs[i].uuid;
+             }
+         }
 
-           if(!uuid) {
+         if(!uuid) {
             res.end("Error, Application not found!");
         } else {
 
@@ -651,8 +688,8 @@ app.get('/packagecomposition', function(req, res){
     var app = req.query['app'];
     getpackagecomponents(app);
     setTimeout(function() {
-       res.end(JSON.stringify(package_array));
-   }, 2000);
+     res.end(JSON.stringify(package_array));
+ }, 2000);
 });
 
 
@@ -679,11 +716,11 @@ app.get('/viewjob', function(req, res){
         response.on('end', function(data){
             var jobs = JSON.parse(responseString);
             for (var i = 0; i < jobs.length; i++){
-               if(jobs[i].name == app) {
-                   uuid = jobs[i].uuid;
-                   fqn = jobs[i].fqn;
-                   state = jobs[i].state;
-                   if(jobs[i].ports) {
+             if(jobs[i].name == app) {
+                 uuid = jobs[i].uuid;
+                 fqn = jobs[i].fqn;
+                 state = jobs[i].state;
+                 if(jobs[i].ports) {
                     if(   url = jobs[i].ports[0].routes){
                         url = jobs[i].ports[0].routes[0].endpoint;
                     }
@@ -779,8 +816,8 @@ app.get('/oauth2', function(req,res){
     }
     var request = http.get(options, function(response){
         response.on('data', function(data){
-         responseString += data;
-     });
+           responseString += data;
+       });
         response.on('end', function(data){
           var authResponse = JSON.parse(responseString);
           res.write(defaultHTML);
@@ -888,51 +925,22 @@ app.post('/runsandbox', function(req, res){
 
     if(type == "PUT") {
         if(payload.length <1 ){
-           res.end('Error, empty or incomplete payload.');
-       } else {
-         var options = {
-            hostname: endpoint,
-            port    : '80',
-            path    : path,
-            method  : 'PUT',
-            headers : {
-                'Content-Type': 'application/json',
-                'Cache-Control': 'no-cache',
-                'Content-Length': payload.length,
-                'Authorization': 'Bearer ' + accesstoken
-            }
-        };
-    }
-    var request = http.request(options, function(response){
-        response.on('data', function(data) {
-            responseString += data;
-        });
-        response.on('end', function(data){
-          res.write(sandbox_html);
-          res.end('<p align=center><textarea rows="30" cols="100" name="results">' + JSON.stringify(JSON.parse(responseString),null,2) + '</textarea>' );
-      });
-    });
-    request.write(payload);
-    req.end;
-}
-
-if(type == "POST") {
-    if(payload.length <1 ){
-       res.end('Error, empty or incomplete payload.');
-   } else {
-     var options = {
+         res.end('Error, empty or incomplete payload.');
+     } else {
+       var options = {
         hostname: endpoint,
         port    : '80',
         path    : path,
-        method  : 'POST',
+        method  : 'PUT',
         headers : {
-           'Content-Type': 'application/json',
-           'Content-Length': payload.length,
-           'Authorization': 'Bearer ' + accesstoken
-       }
-   };
-
-   var request = http.request(options, function(response){
+            'Content-Type': 'application/json',
+            'Cache-Control': 'no-cache',
+            'Content-Length': payload.length,
+            'Authorization': 'Bearer ' + accesstoken
+        }
+    };
+}
+var request = http.request(options, function(response){
     response.on('data', function(data) {
         responseString += data;
     });
@@ -941,8 +949,37 @@ if(type == "POST") {
       res.end('<p align=center><textarea rows="30" cols="100" name="results">' + JSON.stringify(JSON.parse(responseString),null,2) + '</textarea>' );
   });
 });
-   request.write(payload);
-   req.end;
+request.write(payload);
+req.end;
+}
+
+if(type == "POST") {
+    if(payload.length <1 ){
+     res.end('Error, empty or incomplete payload.');
+ } else {
+   var options = {
+    hostname: endpoint,
+    port    : '80',
+    path    : path,
+    method  : 'POST',
+    headers : {
+     'Content-Type': 'application/json',
+     'Content-Length': payload.length,
+     'Authorization': 'Bearer ' + accesstoken
+ }
+};
+
+var request = http.request(options, function(response){
+    response.on('data', function(data) {
+        responseString += data;
+    });
+    response.on('end', function(data){
+      res.write(sandbox_html);
+      res.end('<p align=center><textarea rows="30" cols="100" name="results">' + JSON.stringify(JSON.parse(responseString),null,2) + '</textarea>' );
+  });
+});
+request.write(payload);
+req.end;
 }
 }
 
