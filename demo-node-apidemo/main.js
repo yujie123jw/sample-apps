@@ -1036,6 +1036,7 @@ app.post('/runsandbox', function(req, res){
 
     if(type == "PUT") {
         if(payload.length <1 ){
+         res.write(sandbox_html_response(previous_endpoint, previous_path, previous_type));
          res.end('Error, empty or incomplete payload.');
      } else {
        var options = {
@@ -1057,7 +1058,7 @@ var request = http.request(options, function(response){
     });
     response.on('end', function(data){
       res.write(sandbox_html_response(previous_endpoint, previous_path, previous_type));
-      if(responseString.indexOf('Bad Request') > -1) {
+      if((responseString.indexOf('Bad Request') > -1) || (responseString.indexOf('Not Found') > -1)) {
          res.end('An error has occurred with your request.');
      } else {
       res.end('<p align=center><textarea rows="30" cols="100" name="results">' + JSON.stringify(JSON.parse(responseString),null,2) + '</textarea>' );         
@@ -1070,6 +1071,7 @@ req.end;
 
 if(type == "POST") {
     if(payload.length <1 ){
+     res.write(sandbox_html_response(previous_endpoint, previous_path, previous_type));
      res.end('Error, empty or incomplete payload.');
  } else {
    var options = {
