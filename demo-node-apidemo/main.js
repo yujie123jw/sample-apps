@@ -496,49 +496,54 @@ app.get('/getroutes', function(req, res){
                     for(var h=0;h < len; h++ ) {
                      route_array.push(jobs[i].ports[0].routes[h].endpoint);
                  }
-               }
-           }
-       }
-   }
-   res.end(JSON.stringify(route_array));
+             }
+         }
+     }
+ }
+ res.end(JSON.stringify(route_array));
 });
     });
 });
 
 
 app.get('/getquota', function(req, res){
-    var uuid = req.query['uuid'];
+    var app = req.query['app'];
     var responseString = "";
-    var quota_output = [];
-
+    var uuid = "";
+    var quota_array = [];
     var options = {
         host: address,
         port: 80,
-        path: '/v1/jobs/' + uuid,
+        path: '/v1/jobs',
         headers: {
             'Authorization': 'Bearer ' + accesstoken
         }
     }
-
     var request = http.get(options, function(response){
         response.on('data', function(data) {
             responseString += data;
         });
         response.on('end', function(data){
-           var jobs = JSON.parse(responseString);
-           if(!jobs.resources) {
-            res.end('<html>Application not found!</html>' );
-        } else {
-         quota_output.push(jobs.resources.cpu);
-         quota_output.push(jobs.resources.memory);
-         quota_output.push(jobs.resources.disk);
-         quota_output.push(jobs.resources.network);
-         quota_output.push(jobs.resources.netmax);
-         res.end(JSON.stringify(quota_output));
+            var jobs = JSON.parse(responseString);
+            for (var i = 0; i < jobs.length; i++){
+             if(jobs[i].name == app) {  
+              if(!jobs[i].resources) {
+                res.end('Application not found' );
+            } else {
+             quota_array.push(jobs[i].resources.cpu);
+             quota_array.push(jobs[i].resources.memory);
+             quota_array.push(jobs[i].resources.disk);
+             quota_array.push(jobs[i].resources.network);
+             quota_array.push(jobs[i].resources.netmax);
+         }
      }
- });
+ }
+ res.end(JSON.stringify(quota_array));
+});
     });
 });
+
+
 
 app.get('/resetdemo', function(req, res){
     var app = req.query['app'];
