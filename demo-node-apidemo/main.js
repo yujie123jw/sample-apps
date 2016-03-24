@@ -434,7 +434,7 @@ var request = http.get(options, function(response){
      var rules = JSON.parse(responseString);
      console.log('Debug:' + JSON.stringify(rules));
      if(!rules.name) {
-        res.end('<html>Application not found!</html>' );
+        res.end('<html>Quota Document not found. Did you set the ENVAR for POLICYDOCUMENT? </html>' );
     } else {
         var parse_data = rules.text.split('{');
         for (var i = 0; i < parse_data.length; i++) {
