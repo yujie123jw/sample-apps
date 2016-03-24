@@ -432,7 +432,8 @@ var request = http.get(options, function(response){
     });
     response.on('end', function(data){
      var rules = JSON.parse(responseString);
-     if(!rules) {
+     console.log('Debug:' + JSON.stringify(rules));
+     if(!rules.name) {
         res.end('<html>Application not found!</html>' );
     } else {
         var parse_data = rules.text.split('{');
@@ -458,11 +459,11 @@ var request = http.get(options, function(response){
          if(parse_data[i].indexOf('}') > -1) {
           parse_data[i] =  parse_data[i].replace('}','');
       }
-         policy_output.push(parse_data[i]);
-     }
+      policy_output.push(parse_data[i]);
+  }
 
-     res.end(JSON.stringify(policy_output)); 
- }
+  res.end(JSON.stringify(policy_output)); 
+}
 });
 });
 });
