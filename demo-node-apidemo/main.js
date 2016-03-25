@@ -492,37 +492,50 @@ app.get('/getroutes', function(req, res){
     var responseString = "";
     var uuid = "";
     route_array = [];
-    var options = {
-        host: address,
-        port: 80,
-        path: '/v1/jobs',
-        headers: {
-            'Authorization': 'Bearer ' + accesstoken
-        }
-    }
-    var request = http.get(options, function(response){
-        response.on('data', function(data) {
-            responseString += data;
-        });
-        response.on('end', function(data){
-            var jobs = JSON.parse(responseString);
-            for (var i = 0; i < jobs.length; i++){
-               if(jobs[i].name == app) {  
-                   if(jobs[i].ports) {
-                     if(jobs[i].ports[0]) {
-                       if(jobs[i].ports[0].routes){
-                        var len =   jobs[i].ports[0].routes.length;
-                        for(var h=0;h < len; h++ ) {
-                           route_array.push(jobs[i].ports[0].routes[h].endpoint);
+
+    var options = {  uri: 'http://' + address + ':80/v1/jobs',headers: {
+        'Authorization': 'Bearer ' + accesstoken
+    }};
+
+
+    var get_job_list = request.get(options, function(error, response, body) {
+        var results = JSON.parse(body);
+        for (var i = 0; i < results.length; i++){
+           if(results[i].name == app) {  
+             if(results[i].ports[0]) {
+                var len =   results[i].ports.length;
+                console.log('Foo Len= ' + len);
+                for(var h=0;h < len; h++ ) {
+                    if(results[i].ports[h].routes) {
+                      var analyze = JSON.stringify(results[i].ports[h].routes);
+                      var split_analyze = analyze.split("endpoint")
+                      for(var z=0;z < split_analyze.length; z++ ) {
+                          var split_again = split_analyze[z].split(",");
+                          split_again[0] = split_again[0].replace(/[\\\"{\[]/gi, '')
+                          if(split_again[0].indexOf('tcp') > -1){
+                           split_again[0] = split_again[0].replace('tcp','');
                        }
+                       if(split_again[0].indexOf('http') > -1){
+                           split_again[0] = split_again[0].replace('http','');
+                       }
+                       if(split_again[0].indexOf('type') > -1){
+                           split_again[0] = split_again[0].replace('type','');
+                       }
+                        if(split_again[0].substring(0,1) == ':') {
+                            split_again[0] = split_again[0].replace(':','');
+                        }
+
+                       route_array.push(split_again[0]);
+
                    }
                }
-           }
+           }   
        }
    }
-   res.end(JSON.stringify(route_array));
+}
+res.end(JSON.stringify(route_array));
 });
-    });
+
 });
 
 app.get('/getnetwork', function(req, res){
@@ -543,12 +556,13 @@ app.get('/getnetwork', function(req, res){
             responseString += data;
         });
         response.on('end', function(data){
-            var jobs = JSON.parse(responseString);
-            for (var i = 0; i < jobs.length; i++){
-               if(jobs[i].name == app) {  
-                for (var binding in jobs[i].bindings) {
-                  if (jobs[i].bindings.hasOwnProperty(binding)) {
-                    network_array.push(jobs[i].bindings[binding].name);
+            var network_list = JSON.parse(responseString);
+           // console.log('Debug:' + JSON.stringify(network_list));
+           for (var i = 0; i < network_list.length; i++){
+               if(network_list[i].name == app) {  
+                for (var binding in network_list[i].bindings) {
+                  if (network_list[i].bindings.hasOwnProperty(binding)) {
+                    network_array.push(network_list[i].bindings[binding].name);
                 }
             }
         }
@@ -690,8 +704,6 @@ app.get('/resetdemo', function(req, res){
     });
 });
 
-
-
 app.get('/getcomposition', function(req, res){
     var app = req.query['app'];
     var responseString = ""; 
@@ -724,63 +736,31 @@ app.get('/getcomposition', function(req, res){
             res.end("Error, Application not found!");
         } else {
 
-            var options = {
-                host: address,
-                port: 80,
-                path: '/v1/jobs/' +  uuid,
-                headers: {
-                    'Authorization': 'Bearer ' + accesstoken
-                }
-            }
 
-            responseString = "";
-            var package_request = http.get(options, function(response){
-                response.on('data', function(data) {
-                    responseString += data;
-                });
-                response.on('end', function(data){
-                    var packages = JSON.parse(responseString);
-                    for (var i = 0; i < packages.packages.length - 1; i++){
-                      console.log(packages.packages[i].uuid);
-                      var options = {
-                        host: address,
-                        port: 80,
-                        path: '/v1/packages/' + packages.packages[i].uuid,
-                        headers: {
-                            'Authorization': 'Bearer ' + accesstoken
-                        }
-                    };
-                    packageResponseString = "";
-                    var fin_request = http.get(options, function(response){
-                        response.on('data', function(data) {
-                            packageResponseString = data;
-                        });
-                        response.on('end', function(data){   
-                            var results = JSON.parse(packageResponseString);
-                            package_array.push(results.name);      
-                        });
+
+            var options = {  uri: 'http://' + address + ':80/v1/jobs/' + uuid,headers: {
+                'Authorization': 'Bearer ' + accesstoken
+            }};
+
+            var get_job_details = request.get(options, function(error, response, body) {
+                var packages = JSON.parse(body);
+                for (var i = 0; i < packages.packages.length - 1; i++){
+
+
+                    var options = {  uri: 'http://' + address + ':80/v1/packages/' + packages.packages[i].uuid,headers: {
+                        'Authorization': 'Bearer ' + accesstoken
+                    }};
+                    var get_package_details = request.get(options, function(error, response, body) {
+                        var results = JSON.parse(body);
+                        package_array.push(results.name);   
+                        res.end(JSON.stringify(package_array));
                     });
-                } 
-            }); 
-            }); 
+                }
+
+            });
         }
     });
     });
-});
-
-function getpackagecomponents(app){
-    var options = {  uri: 'http://127.0.0.1:' + port + '/getcomposition?app=' + app};
-    var getcomposition = request.get(options, function(error, response, body) {
-    });
-}
-
-
-app.get('/packagecomposition', function(req, res){
-    var app = req.query['app'];
-    getpackagecomponents(app);
-    setTimeout(function() {
-       res.end(JSON.stringify(package_array));
-   }, 5000);
 });
 
 
@@ -823,54 +803,22 @@ app.get('/viewjob', function(req, res){
             }
         }
 
-        var options = {
-            host: '127.0.0.1',
-            port: port,
-            path: '/packagecomposition?app=' + app,
-            headers: {
-                'Authorization': 'Bearer ' + accesstoken
-            }
-        }
 
-        var composition_request = http.get(options, function(response){
-            response.on('data', function(data) {
-                responseString += data;
-            });
-            response.on('end', function(data){
-            });
+        var options = {  uri: 'http://127.0.0.1:' + port + '/getcomposition?app=' + app};
+        var get_routes = request.get(options, function(error, response, body) {
+            console.log('Get Package  Composition Complete');
         });
 
-        var options = {
-            host: '127.0.0.1',
-            port: port,
-            path: '/getroutes?app=' + app,
-            headers: {
-                'Authorization': 'Bearer ' + accesstoken
-            }
-        }
-        var route_request = http.get(options, function(response){
-           response.on('data', function(data) {
-             responseString += data;
-         });
-           response.on('end', function(data){
-           });
-       });  
 
-        var options = {
-            host: '127.0.0.1',
-            port: port,
-            path: '/getnetwork?app=' + app,
-            headers: {
-                'Authorization': 'Bearer ' + accesstoken
-            }
-        }
-        var network_request = http.get(options, function(response){
-           response.on('data', function(data) {
-             responseString += data;
-         });
-           response.on('end', function(data){
-           });
-       });  
+        var options = {  uri: 'http://127.0.0.1:' + port + '/getroutes?app=' + app};
+        var get_routes = request.get(options, function(error, response, body) {
+           console.log('Get Routes Complete');
+       });
+
+        var options = {  uri: 'http://127.0.0.1:' + port + '/getnetwork?app=' + app};
+        var get_routes = request.get(options, function(error, response, body) {
+           console.log('Get Networks complete');
+       });
 
         res.write(defaultHTML);
 
@@ -926,7 +874,7 @@ app.get('/viewjob', function(req, res){
                 + '</table>'
                 + '</body></html>'
                 );
-        }, 3000);
+        }, 5000);
       }
   });
 });
