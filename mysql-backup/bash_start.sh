@@ -3,7 +3,6 @@
 # Create cron job to backup the MySQL database
 
 set -e
-set -x
 
 DB_BACKUP_DIR=/backups/mysql-service
 
