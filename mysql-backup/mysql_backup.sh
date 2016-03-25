@@ -5,7 +5,6 @@
 # Usage: /root/mysql_backup.sh $MYSQL_URI $DB_BACKUP_DIR
 
 set -e
-set -x
 
 DUMP_PRG=/usr/bin/mysqldump
 if ! [ -x $DUMP_PRG ]; then
