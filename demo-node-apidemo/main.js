@@ -694,7 +694,8 @@ app.get('/resetdemo', function(req, res){
 
 app.get('/getcomposition', function(req, res){
     var app = req.query['app'];
-    var responseString = "";
+    var responseString = ""; 
+    var packageResponseString = "";
     var uuid = "";
     package_array = [];
 
@@ -740,36 +741,33 @@ app.get('/getcomposition', function(req, res){
                 response.on('end', function(data){
                     var packages = JSON.parse(responseString);
                     for (var i = 0; i < packages.packages.length - 1; i++){
-                        get_package_name(packages.packages[i].uuid);
-                    } 
-                    res.end(JSON.stringify(package_array));
-                }); 
+                      console.log(packages.packages[i].uuid);
+                      var options = {
+                        host: address,
+                        port: 80,
+                        path: '/v1/packages/' + packages.packages[i].uuid,
+                        headers: {
+                            'Authorization': 'Bearer ' + accesstoken
+                        }
+                    };
+                    packageResponseString = "";
+                    var fin_request = http.get(options, function(response){
+                        response.on('data', function(data) {
+                            packageResponseString = data;
+                        });
+                        response.on('end', function(data){   
+                       console.log('Debug:' + packageResponseString.length + '\n' + packageResponseString);     
+                        var results = JSON.parse(packageResponseString);
+                         package_array.push(results.name);      
+                     });
+                    });
+                } 
+            }); 
             }); 
         }
     });
     });
 });
-
-function get_package_name(uuid){
-   var options = {
-    host: address,
-    port: 80,
-    path: '/v1/packages/' + uuid,
-    headers: {
-        'Authorization': 'Bearer ' + accesstoken
-    }
-};
-var request = http.get(options, function(response){
-    response.on('data', function(data) {
-        responseString = data;
-    });
-    response.on('end', function(data){   
-      var results = JSON.parse(responseString);
-      console.log('Debug:' + responseString);     
-      package_array.push(results.name);      
-  });
-});
-}
 
 function getpackagecomponents(app){
     var options = {  uri: 'http://127.0.0.1:' + port + '/getcomposition?app=' + app};
@@ -783,7 +781,7 @@ app.get('/packagecomposition', function(req, res){
     getpackagecomponents(app);
     setTimeout(function() {
      res.end(JSON.stringify(package_array));
- }, 3000);
+ }, 5000);
 });
 
 
@@ -829,7 +827,7 @@ app.get('/viewjob', function(req, res){
         var options = {
             host: '127.0.0.1',
             port: port,
-            path: '/getcomposition?app=' + app,
+            path: '/packagecomposition?app=' + app,
             headers: {
                 'Authorization': 'Bearer ' + accesstoken
             }
