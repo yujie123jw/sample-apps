@@ -77,18 +77,18 @@ app.get('/hardtag', function(req, res) {
         }
 
         var stop = request.put(options, function(error, response, body) {
-            //res.write('Stopped Job');
+        //res.write('Stopped Job');
 
-            var options = {  uri: 'http://127.0.0.1:' + port + '/start?uuid=' + uuid + '&fqn=' + fqn};
-            var start_app = request.get(options, function(error, response, body) {
-             var options = {  uri: 'http://127.0.0.1:' + port + '/viewjob?app=' + app};
-             var display_app = request.get(options, function(error, response, body) {
-                res.end(body);
-            });
-         });
-
-
+        var options = {  uri: 'http://127.0.0.1:' + port + '/start?uuid=' + uuid + '&fqn=' + fqn};
+        var start_app = request.get(options, function(error, response, body) {
+         var options = {  uri: 'http://127.0.0.1:' + port + '/viewjob?app=' + app};
+         var display_app = request.get(options, function(error, response, body) {
+            res.end(body);
         });
+     });
+
+
+    });
     });
   });
 
@@ -311,6 +311,7 @@ app.get('/delete', function(req, res) {
             'Authorization': 'Bearer ' + accesstoken
         }
     }
+
     var package_request = http.get(options, function(response){
         response.on('data', function(data) {
             responseString += data;
@@ -322,30 +323,28 @@ app.get('/delete', function(req, res) {
                     package_uuid = packageuuidparse[i].uuid;
                 }
             }
-            options = {
-                uri: 'http://' + address + '/v1/packages/' + package_uuid,
-                headers: {
-                    'Authorization': 'Bearer ' + accesstoken
-                }
-            }
-            var deletePackage = request.del(options, function(error, response, body) {});
-        });
-    });
 
-    options = {
-        uri: 'http://' + address + '/v1/jobs/' + uuid,
-        headers: {
-            'Authorization': 'Bearer ' + accesstoken
-        }
-    }
-    var deleteJob = request.del(options, function(error, response, body) {
-      setTimeout(function() {
-         var options = {  uri: 'http://127.0.0.1:' + port + '/getjobs'};
-         var display_app = request.get(options, function(error, response, body) {
-            res.end(body);
-        }, 2000);
-     });  
-  }); 
+            var options = {  uri: 'http://127.0.0.1:' + port + '/stop?uuid=' + uuid};
+            var stop_first = request.get(options, function(error, response, body) {
+
+             var options = {  uri: 'http://' + address + ':80/v1/packages/' + package_uuid, headers: {
+                'Authorization': 'Bearer ' + accesstoken}};
+                var deletePackage = request.del(options, function(error, response, body) {});
+
+                var options = {  uri: 'http://' + address + ':80/v1/jobs/' + uuid,headers: {
+                    'Authorization': 'Bearer ' + accesstoken}};           
+                    var deleteJob = request.del(options, function(error, response, body) {
+                      setTimeout(function() {
+                         var options = {  uri: 'http://127.0.0.1:' + port + '/getjobs'};
+                         var display_app = request.get(options, function(error, response, body) {
+                            res.end(body);
+                        }, 2000);
+                     });  
+                  }); 
+                });
+        });
+
+    });
 });
 
 app.get('/getjobs', function(req, res) {
@@ -1232,17 +1231,17 @@ app.get('/docker', function(req, res){
 + 'Docker Hub image to run: '
 + '<input type="text" name="dockerimage" value="apcerademos/empty">'
 + '<br><br>'
-        //+ 'Exposed Port: '
-        //+ '<input type="text" name="exposedport" value="3306">'
-        //+ '<br><br>'
-        + 'Start Command: '
-        + '<input type="text" name="startcommand" value="/start.sh">'
-        + '<br><br>'
-        + '<input type="submit" value="Create"'
-        + '<name="Create" id="frm1_view" />'
-        + '</form>'
-        + '</body></html>'
-        );
+    //+ 'Exposed Port: '
+    //+ '<input type="text" name="exposedport" value="3306">'
+    //+ '<br><br>'
+    + 'Start Command: '
+    + '<input type="text" name="startcommand" value="/start.sh">'
+    + '<br><br>'
+    + '<input type="submit" value="Create"'
+    + '<name="Create" id="frm1_view" />'
+    + '</form>'
+    + '</body></html>'
+    );
 });
 
 app.get('/', function(req, res){
