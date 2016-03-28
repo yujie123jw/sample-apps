@@ -12,7 +12,7 @@ GEM
       netrc (~> 0.7)
 
 PLATFORMS
-  ruby
+  ruby_20
 
 DEPENDENCIES
   apcera-stager-api

@@ -1,6 +1,6 @@
 class Location < ActiveRecord::Base
-  validate :city, :presence => true
-  validate :state, :presence => true
+  validates :city, :presence => true
+  validates :state, :presence => true
 
   def self.seed
     seed_data = [ {city: "New York", state: "NY"},
