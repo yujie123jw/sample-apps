@@ -256,7 +256,6 @@ app.get('/start', function(req, res) {
     var responseString = "";
     var uuid = req.query['uuid'];
     var app = req.query['app'];
-    var fqn = req.query['fqn'];
     var options = {
         host: address,
         port: 80,
@@ -284,10 +283,12 @@ app.get('/start', function(req, res) {
             }
 
             var stop = request.put(options, function(error, response, body) {
-                var options = {  uri: 'http://127.0.0.1:' + port + '/viewjob?app=' + app};
-                var display_app = request.get(options, function(error, response, body) {
-                    res.end(body);
-                });
+                if(app) {
+                    var options = {  uri: 'http://127.0.0.1:' + port + '/viewjob?app=' + app};
+                    var display_app = request.get(options, function(error, response, body) {
+                        res.end(body);
+                    }); 
+                }
             });
         });
     });
@@ -756,6 +757,91 @@ app.get('/getcomposition', function(req, res){
     });
     });
 });
+
+app.get('/appfrompackage', function(req, res){
+ var appname = req.query['app'];
+ var packagename = req.query['package'];
+ var namespace = req.query['ns'];
+ var appfrompackage = 'package::' + packagename;
+ var PackageresponseString = "";
+ var package_uuid = "";
+ var fqn = 'job::' + namespace + '::' + appname;
+ var responseString = "";
+ var instances = "1";
+
+ var options = {  uri: 'http://' + address + ':80/v1/packages?fqn=' + appfrompackage, headers: {
+    'Authorization': 'Bearer ' + accesstoken}};
+
+    var getPackage = request.get(options, function(error, response, body) { 
+        var get_uuid =  body.split(":");
+        var split_uuid =  get_uuid[1].split(",");
+        package_uuid = split_uuid[0];
+        package_uuid =package_uuid.replace('\"','');
+        package_uuid =package_uuid.replace('\"','');
+
+        if(package_uuid.length > 15) {
+
+          var request_body =  {
+            "name": appname,
+            "fqn": fqn,
+            "num_instances":  1,
+            "tags": { "app": appname },
+            "packages": [{ "uuid": package_uuid 
+        }],
+        "processes": { "app": { 
+            "start_command_raw": [],
+            "start_command": "node /app/main",
+            "start_command_timeout": 30,
+            "stop_command_raw": [],
+            "stop_command": "",
+            "stop_timeout": 5
+        },
+    },
+    "resources": {
+        "cpu": 0,
+        "memory": 268435456,
+        "disk": 104857600,
+        "network": 5000000,
+        "netmax": 0
+    },
+    "ports": [
+    {
+      "number": 0,
+      "optional": false,
+      "routes": [
+      {
+          "type": "http",
+          "endpoint": appname + ".demo.apcera.net",
+          "weight": 0
+      }
+      ]
+  }
+  ],
+};
+
+var options = {
+    url: 'http://' + address + '/v1/jobs',
+    method: 'POST',
+    headers: {
+        'Authorization': 'Bearer ' + accesstoken,
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(request_body)
+}
+
+request(options, function(error, response, body) {
+    if (response.statusCode != "200") {
+        res.end("An error has occurred.");
+    } else {
+       res.send('Successful!');
+    }
+})
+} else {
+    res.end('Error: UUID parsing error!');    
+}
+});
+});
+
 
 
 app.get('/viewjob', function(req, res){
@@ -1265,3 +1351,4 @@ app.get('/logo.png', function(req, res){
 server.listen(port, function() {
     console.log('Listening on port %d', server.address().port);
 });
+
