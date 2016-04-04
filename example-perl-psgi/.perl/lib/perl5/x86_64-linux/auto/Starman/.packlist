@@ -1,5 +1,0 @@
-/app/.perl/bin/starman
-/app/.perl/lib/perl5/HTTP/Server/PSGI/Net/Server/PreFork.pm
-/app/.perl/lib/perl5/Plack/Handler/Starman.pm
-/app/.perl/lib/perl5/Starman.pm
-/app/.perl/lib/perl5/Starman/Server.pm

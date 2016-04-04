@@ -1,9 +1,0 @@
-do{ my $x = {
-  'requires' => {},
-  'conflicts' => {},
-  'build_requires' => {
-    'ExtUtils::CBuilder' => 0
-  },
-  'recommends' => {}
-};
-$x; }
