@@ -1,4 +1,0 @@
-#!/opt/apcera/perl-5.18.2/bin/perl
-
-use Module::Build::Tiny;
-Build();
