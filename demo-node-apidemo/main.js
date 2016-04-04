@@ -1,4 +1,5 @@
 var http = require('http');
+var randomstring = require("randomstring");
 var express = require('express');
 var request = require('request');
 var app = express();
@@ -1313,11 +1314,12 @@ app.get('/login', function(req, res){
 app.get('/docker', function(req, res){
     var responseString = "";
     res.write(defaultHTML);
+    var randomdata = randomstring.generate(7);
     res.end(
         '<p><b>Docker Container Wizard</b></p><br>'
         + '<form action="/createdocker" method="get">'
         + 'Name for Application: '
-        + '<input type="text" name="dockername" value="mysqltest">'
+        + '<input type="text" name="dockername" value="myapp_' + randomdata + '">'
         + '<br><br>'
         + 'Sandbox to run Application: '
 // + '<input type="text" name="sandbox" value="/sandbox/demo" readonly>'
