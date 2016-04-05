@@ -1,7 +1,0 @@
-do{ my $x = {
-       'recommends' => {},
-       'conflicts' => {},
-       'build_requires' => {},
-       'requires' => {}
-     };
-$x; }

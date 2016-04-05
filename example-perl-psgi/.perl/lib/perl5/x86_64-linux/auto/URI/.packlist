@@ -41,6 +41,7 @@
 /app/.perl/lib/perl5/URI/rsync.pm
 /app/.perl/lib/perl5/URI/rtsp.pm
 /app/.perl/lib/perl5/URI/rtspu.pm
+/app/.perl/lib/perl5/URI/sftp.pm
 /app/.perl/lib/perl5/URI/sip.pm
 /app/.perl/lib/perl5/URI/sips.pm
 /app/.perl/lib/perl5/URI/snews.pm

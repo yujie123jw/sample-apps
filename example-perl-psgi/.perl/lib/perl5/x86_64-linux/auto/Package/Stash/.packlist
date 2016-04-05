@@ -1,8 +1,0 @@
-/app/.perl/bin/package-stash-conflicts
-/app/.perl/lib/perl5/Package/Stash.pm
-/app/.perl/lib/perl5/Package/Stash/Conflicts.pm
-/app/.perl/lib/perl5/Package/Stash/PP.pm
-/app/.perl/man/man1/package-stash-conflicts.0
-/app/.perl/man/man3/Package::Stash.0
-/app/.perl/man/man3/Package::Stash::Conflicts.0
-/app/.perl/man/man3/Package::Stash::PP.0

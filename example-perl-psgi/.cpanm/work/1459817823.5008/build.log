@@ -1,0 +1,417 @@
+cpanm (App::cpanminus) 1.6002 on perl 5.022001 built for x86_64-linux
+Work directory is /app/.cpanm/work/1459817823.5008
+You have make /usr/bin/make
+You have /usr/bin/wget
+You have /bin/tar: tar (GNU tar) 1.26
+Copyright (C) 2011 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+Written by John Gilmore and Jay Fenlason.
+You have /usr/bin/unzip
+Searching Starman on cpanmetadb ...
+Checking if you have ExtUtils::MakeMaker 6.31 ... Yes (7.04_01)
+Checking if you have ExtUtils::Install 1.46 ... Yes (2.04)
+--> Working on Starman
+Fetching http://www.cpan.org/authors/id/M/MI/MIYAGAWA/Starman-0.4014.tar.gz
+-> OK
+Unpacking Starman-0.4014.tar.gz
+Entering Starman-0.4014
+Checking configure dependencies from META.json
+Checking if you have Module::Build::Tiny 0.039 ... No
+==> Found dependencies: Module::Build::Tiny
+Searching Module::Build::Tiny on cpanmetadb ...
+--> Working on Module::Build::Tiny
+Fetching http://www.cpan.org/authors/id/L/LE/LEONT/Module-Build-Tiny-0.039.tar.gz
+-> OK
+Unpacking Module-Build-Tiny-0.039.tar.gz
+Entering Module-Build-Tiny-0.039
+Checking configure dependencies from META.json
+Checking if you have Exporter 5.57 ... Yes (5.72)
+Checking if you have File::Find 0 ... Yes (1.29)
+Checking if you have CPAN::Meta 0 ... Yes (2.150001)
+Checking if you have JSON::PP 2 ... Yes (2.27300)
+Checking if you have Pod::Man 0 ... Yes (2.28)
+Checking if you have ExtUtils::ParseXS 0 ... Yes (3.28)
+Checking if you have TAP::Harness::Env 0 ... Yes (3.35)
+Checking if you have File::Path 0 ... Yes (2.09)
+Checking if you have ExtUtils::Config 0.003 ... No
+Checking if you have ExtUtils::Helpers 0.020 ... No
+Checking if you have File::Spec::Functions 0 ... Yes (3.56)
+Checking if you have File::Basename 0 ... Yes (2.85)
+Checking if you have DynaLoader 0 ... Yes (1.32)
+Checking if you have warnings 0 ... Yes (1.34)
+Checking if you have strict 0 ... Yes (1.09)
+Checking if you have ExtUtils::InstallPaths 0.002 ... No
+Checking if you have ExtUtils::Install 0 ... Yes (2.04)
+Checking if you have ExtUtils::CBuilder 0 ... Yes (0.280221)
+Checking if you have Getopt::Long 2.36 ... Yes (2.45)
+==> Found dependencies: ExtUtils::Config, ExtUtils::Helpers, ExtUtils::InstallPaths
+Searching ExtUtils::Config on cpanmetadb ...
+--> Working on ExtUtils::Config
+Fetching http://www.cpan.org/authors/id/L/LE/LEONT/ExtUtils-Config-0.008.tar.gz
+-> OK
+Unpacking ExtUtils-Config-0.008.tar.gz
+Entering ExtUtils-Config-0.008
+Checking configure dependencies from META.json
+Checking if you have ExtUtils::MakeMaker 6.30 ... Yes (7.04_01)
+Configuring ExtUtils-Config-0.008
+Running Makefile.PL
+Checking if your kit is complete...
+Looks good
+Generating a Unix-style Makefile
+Writing Makefile for ExtUtils::Config
+Writing MYMETA.yml and MYMETA.json
+-> OK
+Checking dependencies from MYMETA.json ...
+Checking if you have ExtUtils::MakeMaker 0 ... Yes (7.04_01)
+Checking if you have warnings 0 ... Yes (1.34)
+Checking if you have strict 0 ... Yes (1.09)
+Checking if you have Data::Dumper 0 ... Yes (2.158)
+Building ExtUtils-Config-0.008
+cp lib/ExtUtils/Config.pm blib/lib/ExtUtils/Config.pm
+Manifying 1 pod document
+Manifying 1 pod document
+Installing /app/.perl/lib/perl5/ExtUtils/Config.pm
+Installing /app/.perl/man/man3/ExtUtils::Config.0
+Appending installation info to /app/.perl/lib/perl5/x86_64-linux/perllocal.pod
+-> OK
+Successfully installed ExtUtils-Config-0.008
+Installing /app/.perl/lib/perl5/x86_64-linux/.meta/ExtUtils-Config-0.008/install.json
+Installing /app/.perl/lib/perl5/x86_64-linux/.meta/ExtUtils-Config-0.008/MYMETA.json
+Searching ExtUtils::Helpers on cpanmetadb ...
+--> Working on ExtUtils::Helpers
+Fetching http://www.cpan.org/authors/id/L/LE/LEONT/ExtUtils-Helpers-0.022.tar.gz
+-> OK
+Unpacking ExtUtils-Helpers-0.022.tar.gz
+Entering ExtUtils-Helpers-0.022
+Checking configure dependencies from META.json
+Checking if you have ExtUtils::MakeMaker 6.30 ... Yes (7.04_01)
+Configuring ExtUtils-Helpers-0.022
+Running Makefile.PL
+Checking if your kit is complete...
+Looks good
+Generating a Unix-style Makefile
+Writing Makefile for ExtUtils::Helpers
+Writing MYMETA.yml and MYMETA.json
+-> OK
+Checking dependencies from MYMETA.json ...
+Checking if you have Carp 0 ... Yes (1.36)
+Checking if you have Text::ParseWords 3.24 ... Yes (3.30)
+Checking if you have File::Spec::Functions 0 ... Yes (3.56)
+Checking if you have File::Basename 0 ... Yes (2.85)
+Checking if you have Module::Load 0 ... Yes (0.32)
+Checking if you have strict 0 ... Yes (1.09)
+Checking if you have warnings 0 ... Yes (1.34)
+Checking if you have File::Copy 0 ... Yes (2.30)
+Checking if you have Exporter 5.57 ... Yes (5.72)
+Building ExtUtils-Helpers-0.022
+cp lib/ExtUtils/Helpers/Unix.pm blib/lib/ExtUtils/Helpers/Unix.pm
+cp lib/ExtUtils/Helpers.pm blib/lib/ExtUtils/Helpers.pm
+cp lib/ExtUtils/Helpers/Windows.pm blib/lib/ExtUtils/Helpers/Windows.pm
+cp lib/ExtUtils/Helpers/VMS.pm blib/lib/ExtUtils/Helpers/VMS.pm
+Manifying 4 pod documents
+Manifying 4 pod documents
+Installing /app/.perl/lib/perl5/ExtUtils/Helpers.pm
+Installing /app/.perl/lib/perl5/ExtUtils/Helpers/Windows.pm
+Installing /app/.perl/lib/perl5/ExtUtils/Helpers/VMS.pm
+Installing /app/.perl/lib/perl5/ExtUtils/Helpers/Unix.pm
+Installing /app/.perl/man/man3/ExtUtils::Helpers::VMS.0
+Installing /app/.perl/man/man3/ExtUtils::Helpers::Windows.0
+Installing /app/.perl/man/man3/ExtUtils::Helpers.0
+Installing /app/.perl/man/man3/ExtUtils::Helpers::Unix.0
+Appending installation info to /app/.perl/lib/perl5/x86_64-linux/perllocal.pod
+-> OK
+Successfully installed ExtUtils-Helpers-0.022
+Installing /app/.perl/lib/perl5/x86_64-linux/.meta/ExtUtils-Helpers-0.022/install.json
+Installing /app/.perl/lib/perl5/x86_64-linux/.meta/ExtUtils-Helpers-0.022/MYMETA.json
+Searching ExtUtils::InstallPaths on cpanmetadb ...
+--> Working on ExtUtils::InstallPaths
+Fetching http://www.cpan.org/authors/id/L/LE/LEONT/ExtUtils-InstallPaths-0.011.tar.gz
+-> OK
+Unpacking ExtUtils-InstallPaths-0.011.tar.gz
+Entering ExtUtils-InstallPaths-0.011
+Checking configure dependencies from META.json
+Checking if you have ExtUtils::MakeMaker 0 ... Yes (7.04_01)
+Configuring ExtUtils-InstallPaths-0.011
+Running Makefile.PL
+Checking if your kit is complete...
+Looks good
+Generating a Unix-style Makefile
+Writing Makefile for ExtUtils::InstallPaths
+Writing MYMETA.yml and MYMETA.json
+-> OK
+Checking dependencies from MYMETA.json ...
+Checking if you have ExtUtils::MakeMaker 0 ... Yes (7.04_01)
+Checking if you have File::Spec 0 ... Yes (3.56)
+Checking if you have strict 0 ... Yes (1.09)
+Checking if you have warnings 0 ... Yes (1.34)
+Checking if you have Carp 0 ... Yes (1.36)
+Checking if you have ExtUtils::Config 0.002 ... Yes (0.008)
+Building ExtUtils-InstallPaths-0.011
+cp lib/ExtUtils/InstallPaths.pm blib/lib/ExtUtils/InstallPaths.pm
+Manifying 1 pod document
+Manifying 1 pod document
+Installing /app/.perl/lib/perl5/ExtUtils/InstallPaths.pm
+Installing /app/.perl/man/man3/ExtUtils::InstallPaths.0
+Appending installation info to /app/.perl/lib/perl5/x86_64-linux/perllocal.pod
+-> OK
+Successfully installed ExtUtils-InstallPaths-0.011
+Installing /app/.perl/lib/perl5/x86_64-linux/.meta/ExtUtils-InstallPaths-0.011/install.json
+Installing /app/.perl/lib/perl5/x86_64-linux/.meta/ExtUtils-InstallPaths-0.011/MYMETA.json
+Configuring Module-Build-Tiny-0.039
+Running Build.PL
+Creating new 'Build' script for 'Module-Build-Tiny' version '0.039'
+-> OK
+Checking dependencies from MYMETA.json ...
+Checking if you have Getopt::Long 2.36 ... Yes (2.45)
+Checking if you have ExtUtils::CBuilder 0 ... Yes (0.280221)
+Checking if you have ExtUtils::Install 0 ... Yes (2.04)
+Checking if you have ExtUtils::InstallPaths 0.002 ... Yes (0.011)
+Checking if you have strict 0 ... Yes (1.09)
+Checking if you have warnings 0 ... Yes (1.34)
+Checking if you have DynaLoader 0 ... Yes (1.32)
+Checking if you have File::Spec::Functions 0 ... Yes (3.56)
+Checking if you have ExtUtils::Helpers 0.020 ... Yes (0.022)
+Checking if you have File::Basename 0 ... Yes (2.85)
+Checking if you have ExtUtils::Config 0.003 ... Yes (0.008)
+Checking if you have File::Path 0 ... Yes (2.09)
+Checking if you have TAP::Harness::Env 0 ... Yes (3.35)
+Checking if you have ExtUtils::ParseXS 0 ... Yes (3.28)
+Checking if you have Pod::Man 0 ... Yes (2.28)
+Checking if you have JSON::PP 2 ... Yes (2.27300)
+Checking if you have CPAN::Meta 0 ... Yes (2.150001)
+Checking if you have File::Find 0 ... Yes (1.29)
+Checking if you have Exporter 5.57 ... Yes (5.72)
+Building Module-Build-Tiny-0.039
+cp lib/Module/Build/Tiny.pm blib/lib/Module/Build/Tiny.pm
+Installing /app/.perl/lib/perl5/Module/Build/Tiny.pm
+-> OK
+Successfully installed Module-Build-Tiny-0.039
+Installing /app/.perl/lib/perl5/x86_64-linux/.meta/Module-Build-Tiny-0.039/install.json
+Installing /app/.perl/lib/perl5/x86_64-linux/.meta/Module-Build-Tiny-0.039/MYMETA.json
+Configuring Starman-0.4014
+Running Build.PL
+Creating new 'Build' script for 'Starman' version '0.4014'
+-> OK
+Checking dependencies from MYMETA.json ...
+Checking if you have HTTP::Parser::XS 0 ... No
+Checking if you have Net::Server 2.007 ... No
+Checking if you have HTTP::Date 0 ... Yes (6.02)
+Checking if you have Test::TCP 2.00 ... Yes (2.15)
+Checking if you have HTTP::Status 0 ... Yes (6.11)
+Checking if you have Plack 0.9971 ... Yes (1.0039)
+Checking if you have Data::Dump 0 ... No
+Checking if you have parent 0 ... Yes (0.232)
+==> Found dependencies: HTTP::Parser::XS, Net::Server, Data::Dump
+Searching HTTP::Parser::XS on cpanmetadb ...
+--> Working on HTTP::Parser::XS
+Fetching http://www.cpan.org/authors/id/K/KA/KAZUHO/HTTP-Parser-XS-0.17.tar.gz
+-> OK
+Unpacking HTTP-Parser-XS-0.17.tar.gz
+Entering HTTP-Parser-XS-0.17
+Checking configure dependencies from META.yml
+Checking if you have ExtUtils::MakeMaker 6.36 ... Yes (7.04_01)
+Configuring HTTP-Parser-XS-0.17
+Running Makefile.PL
+Subroutine readme_from redefined at inc/Module/Install/ReadmeFromPod.pm line 11.
+Subroutine _readme_txt redefined at inc/Module/Install/ReadmeFromPod.pm line 64.
+Subroutine _readme_htm redefined at inc/Module/Install/ReadmeFromPod.pm line 77.
+Subroutine _readme_man redefined at inc/Module/Install/ReadmeFromPod.pm line 96.
+Subroutine _readme_pdf redefined at inc/Module/Install/ReadmeFromPod.pm line 106.
+Subroutine _all_from redefined at inc/Module/Install/ReadmeFromPod.pm line 122.
+Cannot determine perl version info from lib/HTTP/Parser/XS.pm
+Checking if your kit is complete...
+Looks good
+Generating a Unix-style Makefile
+Writing Makefile for HTTP::Parser::XS
+Writing MYMETA.yml and MYMETA.json
+-> OK
+Checking dependencies from MYMETA.json ...
+Checking if you have Test::More 0.96 ... Yes (1.001014)
+Checking if you have ExtUtils::MakeMaker 6.36 ... Yes (7.04_01)
+Building HTTP-Parser-XS-0.17
+cp lib/HTTP/Parser/XS/PP.pm blib/lib/HTTP/Parser/XS/PP.pm
+cp lib/HTTP/Parser/XS.pm blib/lib/HTTP/Parser/XS.pm
+Running Mkbootstrap for HTTP::Parser::XS ()
+chmod 644 "XS.bs"
+"/opt/apcera/perl-5.22.1/bin/perl" "-Iinc" "/opt/apcera/perl-5.22.1/lib/5.22.1/ExtUtils/xsubpp"  -typemap "/opt/apcera/perl-5.22.1/lib/5.22.1/ExtUtils/typemap"  XS.xs > XS.xsc && mv XS.xsc XS.c
+cc -c   -fwrapv -fno-strict-aliasing -pipe -fstack-protector -I/usr/local/include -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -O2   -DVERSION=\"0.17\" -DXS_VERSION=\"0.17\" -fPIC "-I/opt/apcera/perl-5.22.1/lib/5.22.1/x86_64-linux/CORE"   XS.c
+rm -f blib/arch/auto/HTTP/Parser/XS/XS.so
+cc  -shared -O2 -L/usr/local/lib -fstack-protector XS.o  -o blib/arch/auto/HTTP/Parser/XS/XS.so 	\
+	     	\
+	  
+chmod 755 blib/arch/auto/HTTP/Parser/XS/XS.so
+"/opt/apcera/perl-5.22.1/bin/perl" "-Iinc" -MExtUtils::Command::MM -e 'cp_nonempty' -- XS.bs blib/arch/auto/HTTP/Parser/XS/XS.bs 644
+Manifying 1 pod document
+Running Mkbootstrap for HTTP::Parser::XS ()
+chmod 644 "XS.bs"
+Manifying 1 pod document
+Files found in blib/arch: installing files in blib/lib into architecture dependent library tree
+Installing /app/.perl/lib/perl5/x86_64-linux/auto/HTTP/Parser/XS/XS.so
+Installing /app/.perl/lib/perl5/x86_64-linux/HTTP/Parser/XS.pm
+Installing /app/.perl/lib/perl5/x86_64-linux/HTTP/Parser/XS/PP.pm
+Installing /app/.perl/man/man3/HTTP::Parser::XS.0
+Appending installation info to /app/.perl/lib/perl5/x86_64-linux/perllocal.pod
+-> OK
+Successfully installed HTTP-Parser-XS-0.17
+Installing /app/.perl/lib/perl5/x86_64-linux/.meta/HTTP-Parser-XS-0.17/install.json
+Installing /app/.perl/lib/perl5/x86_64-linux/.meta/HTTP-Parser-XS-0.17/MYMETA.json
+Searching Net::Server on cpanmetadb ...
+--> Working on Net::Server
+Fetching http://www.cpan.org/authors/id/R/RH/RHANDOM/Net-Server-2.008.tar.gz
+-> OK
+Unpacking Net-Server-2.008.tar.gz
+Entering Net-Server-2.008
+Checking configure dependencies from META.json
+Checking if you have ExtUtils::MakeMaker 0 ... Yes (7.04_01)
+Configuring Net-Server-2.008
+Running Makefile.PL
+Checking if your kit is complete...
+Warning: the following files are missing in your kit:
+	MANIFEST.SKIP
+Please inform the author.
+Generating a Unix-style Makefile
+Writing Makefile for Net::Server
+Writing MYMETA.yml and MYMETA.json
+-> OK
+Checking dependencies from MYMETA.json ...
+Checking if you have ExtUtils::MakeMaker 0 ... Yes (7.04_01)
+Checking if you have POSIX 0 ... Yes (1.53_01)
+Checking if you have Socket 0 ... Yes (2.018)
+Checking if you have IO::Socket 0 ... Yes (1.38)
+Checking if you have Time::HiRes 0 ... Yes (1.9726)
+Building Net-Server-2.008
+cp lib/Net/Server/Proto/SSLEAY.pm blib/lib/Net/Server/Proto/SSLEAY.pm
+cp lib/Net/Server/MultiType.pm blib/lib/Net/Server/MultiType.pm
+cp lib/Net/Server/INET.pm blib/lib/Net/Server/INET.pm
+cp lib/Net/Server/Fork.pm blib/lib/Net/Server/Fork.pm
+cp lib/Net/Server/PSGI.pm blib/lib/Net/Server/PSGI.pm
+cp lib/Net/Server.pod blib/lib/Net/Server.pod
+cp lib/Net/Server/SIG.pm blib/lib/Net/Server/SIG.pm
+cp lib/Net/Server/HTTP.pm blib/lib/Net/Server/HTTP.pm
+cp lib/Net/Server/Proto/UDP.pm blib/lib/Net/Server/Proto/UDP.pm
+cp lib/Net/Server/Proto/UNIX.pm blib/lib/Net/Server/Proto/UNIX.pm
+cp lib/Net/Server/Multiplex.pm blib/lib/Net/Server/Multiplex.pm
+cp lib/Net/Server/Proto/TCP.pm blib/lib/Net/Server/Proto/TCP.pm
+cp lib/Net/Server.pm blib/lib/Net/Server.pm
+cp lib/Net/Server/Single.pm blib/lib/Net/Server/Single.pm
+cp lib/Net/Server/Proto/SSL.pm blib/lib/Net/Server/Proto/SSL.pm
+cp lib/Net/Server/Log/Sys/Syslog.pm blib/lib/Net/Server/Log/Sys/Syslog.pm
+cp lib/Net/Server/Log/Log/Log4perl.pm blib/lib/Net/Server/Log/Log/Log4perl.pm
+cp lib/Net/Server/Proto.pm blib/lib/Net/Server/Proto.pm
+cp lib/Net/Server/PreForkSimple.pm blib/lib/Net/Server/PreForkSimple.pm
+cp lib/Net/Server/Daemonize.pm blib/lib/Net/Server/Daemonize.pm
+cp lib/Net/Server/PreFork.pm blib/lib/Net/Server/PreFork.pm
+cp lib/Net/Server/Proto/UNIXDGRAM.pm blib/lib/Net/Server/Proto/UNIXDGRAM.pm
+cp bin/net-server blib/script/net-server
+"/opt/apcera/perl-5.22.1/bin/perl" -MExtUtils::MY -e 'MY->fixin(shift)' -- blib/script/net-server
+Manifying 1 pod document
+Manifying 21 pod documents
+Manifying 1 pod document
+Manifying 21 pod documents
+Installing /app/.perl/lib/perl5/Net/Server.pod
+Installing /app/.perl/lib/perl5/Net/Server.pm
+Installing /app/.perl/lib/perl5/Net/Server/MultiType.pm
+Installing /app/.perl/lib/perl5/Net/Server/Single.pm
+Installing /app/.perl/lib/perl5/Net/Server/Fork.pm
+Installing /app/.perl/lib/perl5/Net/Server/SIG.pm
+Installing /app/.perl/lib/perl5/Net/Server/PreForkSimple.pm
+Installing /app/.perl/lib/perl5/Net/Server/Multiplex.pm
+Installing /app/.perl/lib/perl5/Net/Server/PreFork.pm
+Installing /app/.perl/lib/perl5/Net/Server/INET.pm
+Installing /app/.perl/lib/perl5/Net/Server/Daemonize.pm
+Installing /app/.perl/lib/perl5/Net/Server/HTTP.pm
+Installing /app/.perl/lib/perl5/Net/Server/PSGI.pm
+Installing /app/.perl/lib/perl5/Net/Server/Proto.pm
+Installing /app/.perl/lib/perl5/Net/Server/Log/Sys/Syslog.pm
+Installing /app/.perl/lib/perl5/Net/Server/Log/Log/Log4perl.pm
+Installing /app/.perl/lib/perl5/Net/Server/Proto/UNIX.pm
+Installing /app/.perl/lib/perl5/Net/Server/Proto/SSLEAY.pm
+Installing /app/.perl/lib/perl5/Net/Server/Proto/UNIXDGRAM.pm
+Installing /app/.perl/lib/perl5/Net/Server/Proto/SSL.pm
+Installing /app/.perl/lib/perl5/Net/Server/Proto/UDP.pm
+Installing /app/.perl/lib/perl5/Net/Server/Proto/TCP.pm
+Installing /app/.perl/man/man1/net-server.0
+Installing /app/.perl/man/man3/Net::Server::Proto::UDP.0
+Installing /app/.perl/man/man3/Net::Server::Multiplex.0
+Installing /app/.perl/man/man3/Net::Server::PreFork.0
+Installing /app/.perl/man/man3/Net::Server::Proto::UNIXDGRAM.0
+Installing /app/.perl/man/man3/Net::Server::PreForkSimple.0
+Installing /app/.perl/man/man3/Net::Server::Daemonize.0
+Installing /app/.perl/man/man3/Net::Server::Proto.0
+Installing /app/.perl/man/man3/Net::Server::Proto::TCP.0
+Installing /app/.perl/man/man3/Net::Server::Fork.0
+Installing /app/.perl/man/man3/Net::Server::Proto::SSLEAY.0
+Installing /app/.perl/man/man3/Net::Server::MultiType.0
+Installing /app/.perl/man/man3/Net::Server::INET.0
+Installing /app/.perl/man/man3/Net::Server::SIG.0
+Installing /app/.perl/man/man3/Net::Server.0
+Installing /app/.perl/man/man3/Net::Server::Single.0
+Installing /app/.perl/man/man3/Net::Server::Log::Sys::Syslog.0
+Installing /app/.perl/man/man3/Net::Server::Log::Log::Log4perl.0
+Installing /app/.perl/man/man3/Net::Server::HTTP.0
+Installing /app/.perl/man/man3/Net::Server::Proto::SSL.0
+Installing /app/.perl/man/man3/Net::Server::PSGI.0
+Installing /app/.perl/man/man3/Net::Server::Proto::UNIX.0
+Installing /app/.perl/bin/net-server
+Appending installation info to /app/.perl/lib/perl5/x86_64-linux/perllocal.pod
+-> OK
+Successfully installed Net-Server-2.008
+Installing /app/.perl/lib/perl5/x86_64-linux/.meta/Net-Server-2.008/install.json
+Installing /app/.perl/lib/perl5/x86_64-linux/.meta/Net-Server-2.008/MYMETA.json
+Searching Data::Dump on cpanmetadb ...
+--> Working on Data::Dump
+Fetching http://www.cpan.org/authors/id/G/GA/GAAS/Data-Dump-1.23.tar.gz
+-> OK
+Unpacking Data-Dump-1.23.tar.gz
+Entering Data-Dump-1.23
+Checking configure dependencies from META.json
+Checking if you have ExtUtils::MakeMaker 0 ... Yes (7.04_01)
+Configuring Data-Dump-1.23
+Running Makefile.PL
+Checking if your kit is complete...
+Looks good
+Generating a Unix-style Makefile
+Writing Makefile for Data::Dump
+Writing MYMETA.yml and MYMETA.json
+-> OK
+Checking dependencies from MYMETA.json ...
+Checking if you have Test 0 ... Yes (1.26)
+Checking if you have Symbol 0 ... Yes (1.07)
+Building Data-Dump-1.23
+cp lib/Data/Dump.pm blib/lib/Data/Dump.pm
+cp lib/Data/Dump/Trace.pm blib/lib/Data/Dump/Trace.pm
+cp lib/Data/Dump/Filtered.pm blib/lib/Data/Dump/Filtered.pm
+cp lib/Data/Dump/FilterContext.pm blib/lib/Data/Dump/FilterContext.pm
+Manifying 3 pod documents
+Manifying 3 pod documents
+Installing /app/.perl/lib/perl5/Data/Dump.pm
+Installing /app/.perl/lib/perl5/Data/Dump/Trace.pm
+Installing /app/.perl/lib/perl5/Data/Dump/FilterContext.pm
+Installing /app/.perl/lib/perl5/Data/Dump/Filtered.pm
+Installing /app/.perl/man/man3/Data::Dump::Filtered.0
+Installing /app/.perl/man/man3/Data::Dump.0
+Installing /app/.perl/man/man3/Data::Dump::Trace.0
+Appending installation info to /app/.perl/lib/perl5/x86_64-linux/perllocal.pod
+-> OK
+Successfully installed Data-Dump-1.23
+Installing /app/.perl/lib/perl5/x86_64-linux/.meta/Data-Dump-1.23/install.json
+Installing /app/.perl/lib/perl5/x86_64-linux/.meta/Data-Dump-1.23/MYMETA.json
+Building Starman-0.4014
+cp lib/Starman.pm blib/lib/Starman.pm
+cp lib/HTTP/Server/PSGI/Net/Server/PreFork.pm blib/lib/HTTP/Server/PSGI/Net/Server/PreFork.pm
+cp lib/Starman/Server.pm blib/lib/Starman/Server.pm
+cp script/starman blib/script/starman
+cp lib/Plack/Handler/Starman.pm blib/lib/Plack/Handler/Starman.pm
+Installing /app/.perl/lib/perl5/Starman.pm
+Installing /app/.perl/lib/perl5/Starman/Server.pm
+Installing /app/.perl/lib/perl5/Plack/Handler/Starman.pm
+Installing /app/.perl/lib/perl5/HTTP/Server/PSGI/Net/Server/PreFork.pm
+Installing /app/.perl/bin/starman
+-> OK
+Successfully installed Starman-0.4014
+Installing /app/.perl/lib/perl5/x86_64-linux/.meta/Starman-0.4014/install.json
+Installing /app/.perl/lib/perl5/x86_64-linux/.meta/Starman-0.4014/MYMETA.json
+8 distributions installed

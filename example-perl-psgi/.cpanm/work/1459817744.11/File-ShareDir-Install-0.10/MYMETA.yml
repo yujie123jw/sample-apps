@@ -1,0 +1,22 @@
+---
+abstract: unknown
+author:
+  - unknown
+build_requires:
+  ExtUtils::MakeMaker: '0'
+configure_requires:
+  ExtUtils::MakeMaker: '0'
+dynamic_config: 0
+generated_by: 'ExtUtils::MakeMaker version 6.30, CPAN::Meta::Converter version 2.150001'
+license: unknown
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: '1.4'
+name: File-ShareDir-Install
+requires:
+  ExtUtils::MakeMaker: '6.11'
+  File::Spec: '0'
+  IO::Dir: '0'
+version: '0.10'
+x_installdirs: site
+x_version_from: lib/File/ShareDir/Install.pm

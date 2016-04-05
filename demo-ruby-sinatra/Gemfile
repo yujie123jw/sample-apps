@@ -1,14 +1,13 @@
 source "https://rubygems.org"
-# ruby "2.0.0"
+
+#ruby "2.2.4"
 
 gem "sinatra"
 #gem "thin"
 
+gem 'rspec'
+gem "rack-test", :require => "rack/test"
+
 group :development do
   gem "shotgun"
-end
-
-group :test do
-  gem "rack-test", :require => "rack/test"
-  gem "rspec"
 end
