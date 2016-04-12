@@ -149,10 +149,6 @@ var body =  {
         "netmax":0,
         "network":5000000
     },
-    "restart_config":{
-        "maximum_attempts":0,
-        "restart_mode":"no"
-    },
     "routes": {},
     "start":true,
     "start_command":[
