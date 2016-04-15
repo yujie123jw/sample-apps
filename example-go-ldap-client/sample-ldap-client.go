@@ -310,7 +310,12 @@ func main() {
 	// Start the webserver.
 	http.HandleFunc("/search", searchHandler)
 	http.HandleFunc("/", viewHandler)
-	err := http.ListenAndServe(":"+os.Getenv("HTTP_PORT"), nil)
+
+	port := os.Getenv("HTTP_PORT")
+	if port == "" {
+		log.Fatal("No HTTP_PORT defined")
+	}
+	err := http.ListenAndServe(":"+port, nil)
 	if err != nil {
 		log.Fatal("LisenAndServe:", err)
 	}

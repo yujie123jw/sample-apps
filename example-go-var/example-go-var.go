@@ -87,8 +87,11 @@ func main() {
 	http.HandleFunc("/timeout/", HandleTimeout)
 	http.HandleFunc("/echo/", HandleEcho)
 
-	err := http.ListenAndServe(":"+os.Getenv("PORT"), nil)
-	if err != nil {
+	port := os.Getenv("PORT")
+	if port == "" {
+		log.Fatal("No PORT defined")
+	}
+	if err := http.ListenAndServe(":"+port, nil); err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
 }

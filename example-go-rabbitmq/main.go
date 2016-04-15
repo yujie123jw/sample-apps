@@ -109,7 +109,11 @@ func main() {
 	http.HandleFunc("/push/", servePush)
 	http.HandleFunc("/pop", servePop)
 
-	if err := http.ListenAndServe(":"+os.Getenv("PORT"), nil); err != nil {
+	port := os.Getenv("PORT")
+	if port == "" {
+		log.Fatal("No PORT defined")
+	}
+	if err := http.ListenAndServe(":"+port, nil); err != nil {
 		log.Fatal(err)
 	}
 }
