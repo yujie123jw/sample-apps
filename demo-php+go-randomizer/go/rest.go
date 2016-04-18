@@ -1,12 +1,12 @@
 package main
 
 import (
-	"io"
-	"net/http"
-	"log"
-	"os"
-	"math/rand"
 	"encoding/json"
+	"io"
+	"log"
+	"math/rand"
+	"net/http"
+	"os"
 )
 
 // Randomizer REST API
@@ -14,14 +14,14 @@ func RandoServer(w http.ResponseWriter, req *http.Request) {
 
 	// Build response data
 	type response struct {
-		API_Instance	string
-		API_FQN		string
-		Number     int
+		API_Instance string
+		API_FQN      string
+		Number       int
 	}
-	rstruct := response {
+	rstruct := response{
 		API_Instance: os.Getenv("CNTM_INSTANCE_UUID"),
-		API_FQN: os.Getenv("CNTM_JOB_FQN"),
-		Number: rand.Intn(100),
+		API_FQN:      os.Getenv("CNTM_JOB_FQN"),
+		Number:       rand.Intn(100),
 	}
 
 	// Reformat response into JSON
@@ -37,7 +37,11 @@ func RandoServer(w http.ResponseWriter, req *http.Request) {
 
 func main() {
 	http.HandleFunc("/", RandoServer)
-	err := http.ListenAndServe(":"+os.Getenv("PORT"), nil)
+	port := os.Getenv("PORT")
+	if port == "" {
+		log.Fatal("No PORT defined")
+	}
+	err := http.ListenAndServe(":"+port, nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}

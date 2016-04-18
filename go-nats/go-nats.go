@@ -45,8 +45,11 @@ func main() {
 		fmt.Fprintf(w, string(reply.Data)+"\n")
 	})
 
-	err := http.ListenAndServe(":"+os.Getenv("PORT"), nil)
-	if err != nil {
+	port := os.Getenv("PORT")
+	if port == "" {
+		log.Fatal("No PORT defined")
+	}
+	if err := http.ListenAndServe(":"+port, nil); err != nil {
 		log.Fatal("Error starting HTTP server: ", err)
 	}
 }

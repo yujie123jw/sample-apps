@@ -2,8 +2,8 @@ package main
 
 import (
 	"io"
-	"net/http"
 	"log"
+	"net/http"
 	"os"
 )
 
@@ -14,9 +14,11 @@ func HelloServer(w http.ResponseWriter, req *http.Request) {
 
 func main() {
 	http.HandleFunc("/", HelloServer)
-	err := http.ListenAndServe(":"+os.Getenv("PORT"), nil)
-	if err != nil {
+	port := os.Getenv("PORT")
+	if port == "" {
+		log.Fatal("No PORT defined")
+	}
+	if err := http.ListenAndServe(":"+port, nil); err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
 }
-
