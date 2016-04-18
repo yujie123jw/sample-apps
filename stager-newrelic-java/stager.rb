@@ -20,7 +20,7 @@
 require 'bundler'
 Bundler.setup
 
-require 'continuum-stager-api'
+require 'apcera-stager-api'
 
 # Initialize stager
 $stdout.sync = true
