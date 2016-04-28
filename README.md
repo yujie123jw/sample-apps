@@ -2,7 +2,7 @@
 
 These sample apps show how to use a variety of different languages and frameworks with the Apcera Plaform, demonstrating its diversity of workloads and developer-friendly features.
 
-- To see more about creating your own stagers, check out [stager-jekyll](https://github.com/apcera/sample-apps/tree/master/stager-jekyll) and [stager-td-agent](https://github.com/apcera/sample-apps/tree/master/stager-td-agent).
+- To see more about creating your own stagers, check out [sample-stagers](https://github.com/apcera/sample-stagers)
 
 - To see more about creating applications with manifest files, check out [example-ruby-manifest](https://github.com/apcera/sample-apps/tree/master/example-ruby-manifest).
 
