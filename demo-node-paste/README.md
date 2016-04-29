@@ -9,7 +9,7 @@ A simple pastebin clone written in Node.js. It requires a MySQL backend.
 
 If you do not have a MySQL database, do the following:
 ```
-apc docker run mysqldatabase -i rusher81572/mysql --port 3306 --batch
+apc docker run mysqldatabase -i apcerademos/mysql --port 3306 --batch
 (Wait 30 seconds for database to initialize)
 apc provider register mysqldatabase-provider -j mysqldatabase --u mysql://root:sql@mysqldatabase --batch
 ```
