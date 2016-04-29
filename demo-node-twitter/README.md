@@ -4,7 +4,7 @@ Apcera Twitter, is a simple twitter feed program that stores tweets in a MySQL D
 # Run Apcera Twitter from the Apcera Platform with a service gateway
 ![Graph](http://i.imgur.com/qzC4xQH.png)
 ```
-apc docker run mysqldatabase -i rusher81572/mysql --port 3306 --batch
+apc docker run mysqldatabase -i apcerademos/mysql --port 3306 --batch
 (Wait 30 seconds for database to initialize)
 apc provider register mysqldatabase-provider -j mysqldatabase --u mysql://root:sql@mysqldatabase --batch
 apc app create apceratwitter -ae --batch
@@ -16,7 +16,7 @@ apc app start apceratwitter --batch
 # Run Apcera Twitter from the Apcera Platform with a job binding
 ![Graph](http://i.imgur.com/RTYUeke.png)
 ```
-apc docker run mysqldatabase -i rusher81572/mysql --port 3306
+apc docker run mysqldatabase -i apcerademos/mysql --port 3306
 (Wait 30 seconds for database to initialize)
 apc app create apceratwitter -e USERNAME="root" -e PASSWORD="sql" -ae --batch 
 apc job link apceratwitter -t mysqldatabase -n dblink -p 3306
