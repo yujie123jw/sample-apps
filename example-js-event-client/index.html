@@ -11,7 +11,7 @@
 <body>
     <div id="title">
         Stream events for FQN:
-        <input type="text" id="fqn" name="fqn" value="job::/apcera::continuum-guide" style="width:300px; height: 30px;">
+        <input type="text" id="fqn" name="fqn" value="job::/apcera::continuum-guide" style="width:300px; height: 30px;" onchange="subscribe()">
         <button onclick="subscribe()">Subscribe to events</button>
         <button onclick="clearStream()">Clear events</button>
     </div>
@@ -21,10 +21,10 @@
 <script>
 
 // `/v1/wamp` endpoint for your cluster. Replace 'example.com' with your cluster's domain.
-var wampAPIEndpoint = "api.cosmic.apcera-platform.io/v1/wamp"
+var wampAPIEndpoint = "api.<your-cluster-domain>/v1/wamp"
 
 // Replace with your API token (copy from ~./apc, for example)
- var token = "Bearer eyJ0eXAiOiIiLCJhbGciOiIifQ.eyJpc3MiOiJiYXNpY19hdXRoX3NlcnZlckBhcGNlcmEubWUiLCJhdWQiOiJhcGNlcmEubWUiLCJpYXQiOjE0NjcxNTYyNzAsImV4cCI6MTQ2NzI0MjY4MCwicHJuIjoiYWRtaW5AYXBjZXJhLm1lIiwiY2xhaW1zIjpbeyJJc3N1ZXIiOiJhdXRoX3NlcnZlckBhcGNlcmEubWUiLCJUeXBlIjoiYXV0aFR5cGUiLCJWYWx1ZSI6ImJhc2ljQXV0aCJ9XX0.MEQCIDeMdiasd3yDHc_4ZizpTt6YUU18IPlam_HiEARHeNfxAiByL7o035Egc0ZyVSbAQdqO3kVK7oF8lwlv9NIHtF64hw";
+ var token = "Bearer <your-token>";
  var url = "ws://" + wampAPIEndpoint;
  url += "?authorization=" + token;
  url = encodeURI(url);
