@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="wampyjs/wampy.js"></script>
+    <meta charset="UTF-8">
+    <title>WAMP</title>
+    <style>
+
+    </style>
+</head>
+<body>
+    <div id="title">
+        Stream events for FQN:
+        <input type="text" id="fqn" name="fqn" value="job::/apcera::continuum-guide" style="width:300px; height: 30px;">
+        <button onclick="subscribe()">Subscribe to events</button>
+        <button onclick="clearStream()">Clear events</button>
+    </div>
+    <ul id="events">
+    </ul>
+</body>
+<script>
+
+// `/v1/wamp` endpoint for your cluster. Replace 'example.com' with your cluster's domain.
+var wampAPIEndpoint = "api.cosmic.apcera-platform.io/v1/wamp"
+
+// Replace with your API token (copy from ~./apc, for example)
+ var token = "Bearer eyJ0eXAiOiIiLCJhbGciOiIifQ.eyJpc3MiOiJiYXNpY19hdXRoX3NlcnZlckBhcGNlcmEubWUiLCJhdWQiOiJhcGNlcmEubWUiLCJpYXQiOjE0NjcxNTYyNzAsImV4cCI6MTQ2NzI0MjY4MCwicHJuIjoiYWRtaW5AYXBjZXJhLm1lIiwiY2xhaW1zIjpbeyJJc3N1ZXIiOiJhdXRoX3NlcnZlckBhcGNlcmEubWUiLCJUeXBlIjoiYXV0aFR5cGUiLCJWYWx1ZSI6ImJhc2ljQXV0aCJ9XX0.MEQCIDeMdiasd3yDHc_4ZizpTt6YUU18IPlam_HiEARHeNfxAiByL7o035Egc0ZyVSbAQdqO3kVK7oF8lwlv9NIHtF64hw";
+ var url = "ws://" + wampAPIEndpoint;
+ url += "?authorization=" + token;
+ url = encodeURI(url);
+
+ var ul = document.getElementById("events");
+ var fqnInput = document.getElementById("fqn");
+ var topicFQN = "job::/apcera::continuum-guide";
+
+// Create Wampy instance and connect to WAMP router
+ var ws = new Wampy(
+   url, {
+     realm: "com.apcera.api.es",
+     onConnect: () => {
+        addToList("Connected to WAMP router!");
+     }
+   }
+ );
+
+// Subscribe to event stream for provided FQN and setup callbacks.
+ function subscribe() {
+   topicFQN = fqnInput.value;
+   if (topicFQN != "") {
+      ws.subscribe(topicFQN, {
+        onEvent: function(data) {
+          var payload = data[0];
+          // Add event to <ul>
+          addToList(JSON.stringify(payload));
+        },
+        onSuccess: function() {
+          addToList('Successfully subscribed to topic: ' + topicFQN);
+        },
+        onError: function(err) {
+          addToList('Subscription error:' + err);
+        },
+      });
+    }
+ }
+
+// Add new item to <ul>
+ function addToList(text) {
+      var li = document.createElement("li");
+      li.textContent = text;
+      ul.appendChild(li);
+  }
+
+// Clear event list
+ function clearStream() {
+   ul.innerHTML = ''
+ }
+
+</script>
+</html>
