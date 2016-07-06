@@ -4,11 +4,11 @@
 
 # Usage: /root/mysql_backup.sh $MYSQL_URI $DB_BACKUP_DIR
 
+DUMP_PRG=`which mysqldump`
 set -e
 
-DUMP_PRG=/usr/bin/mysqldump
-if ! [ -x $DUMP_PRG ]; then
-    echo "/usr/bin/mysqldump is not installed" >&2
+if ! [ -x "$DUMP_PRG" ]; then
+    echo "mysqldump is not installed" >&2
     exit 1
 fi
 
@@ -49,4 +49,4 @@ $DUMP_PRG --host=$URI_HOST --user=$URI_USER \
     --quick --routines --tz-utc --set-charset \
     $DBNAME | gzip > $DB_BACKUP_DIR/mysql-${DBNAME}-backup.$DATE.gz
 
-touch /tmp/backup.complete
+touch $BACKUP_COMPLETE

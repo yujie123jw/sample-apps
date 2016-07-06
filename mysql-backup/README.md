@@ -2,7 +2,7 @@
 
 This is a sample bash application that runs two scripts, as accepted by Apcera Platform's built-in bash stager:
 
-1. `bash_start.sh` installs the MySQL client software, creates a crontab file `/etc/cron.d/backup`, starts a monitoring loop, and starts cron.
+1. `bash_start.sh` creates a crontab file `/etc/cron.d/backup`, starts a monitoring loop, and starts cron.
 2. `mysql_backup.sh` is executed once an hour by cron. It backs up the MySQL server that's bound to the app and saves the backup onto the NFS service that's bound to the app.
 
 To create the app, perform the following:
